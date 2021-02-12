@@ -2,3 +2,4 @@ CCID    GITHUB_USERNAME
 dongchao sorafeng
 jkan JoshuaKan
 xuanrui3 xuanrui-work
+xiaole6 xiaolei1998
