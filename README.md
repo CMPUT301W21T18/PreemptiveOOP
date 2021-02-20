@@ -1,3 +1,4 @@
 # PreemptiveOOP
 
-# part 1 github setup due in Feb 12 4:00PM
+Project Part 2 -- Preparation
+Friday, 26 February 2021, 4:00 PM
