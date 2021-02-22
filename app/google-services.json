@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "260774115346",
+    "project_id": "cmput-301---preemptiveoop",
+    "storage_bucket": "cmput-301---preemptiveoop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:260774115346:android:9bf9cbc2550b8f811800cb",
+        "android_client_info": {
+          "package_name": "com.example.preemptiveoop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "260774115346-5lt332ghukhbaovsf5j9ihblbp1si3q8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2GIEzp72vJ-o65k8_OlJMyWqdGdYmpmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "260774115346-5lt332ghukhbaovsf5j9ihblbp1si3q8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
