@@ -17,12 +17,11 @@
         android:hint="Password"
         android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/Button_login"
+    <EditText
+        android:id="@+id/EditText_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="btLoginOnClick"
-        android:text="Login" />
+        android:hint="Contact Info" />
     
     <Button
         android:id="@+id/Button_register"

@@ -14,9 +14,10 @@ public class User implements Serializable {
     private ArrayList<String> partiExpIdList;
 
     public User() {}
-    public User(String username, String contact) {
+    public User(String username, String password, String contact) {
         this.username = username;
         this.contact = contact;
+        this.password = password;
 
         this.ownedExpIdList = new ArrayList<>();
         this.partiExpIdList = new ArrayList<>();
