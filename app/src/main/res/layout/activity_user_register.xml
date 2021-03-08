@@ -1,32 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/registerbg"
+    android:orientation="vertical">
+
 
     <EditText
         android:id="@+id/EditText_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username" />
+        android:hint="Username"
+        android:textColor="#fff"
+        android:textColorHint="#FFFFFF"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/EditText_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/EditText_contact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contact Info" />
-    
+        android:hint="Contact Info"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FFFFFF"
+        android:textStyle="bold" />
+
     <Button
         android:id="@+id/Button_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/round_button"
+        android:backgroundTint="#42403E"
         android:onClick="btRegisterOnClick"
-        android:text="Register" />
+        android:text="Register"
+        android:textColor="#FAF7F7"
+        android:textColorHighlight="#FFFFFF"
+        android:textStyle="bold" />
 </LinearLayout>
