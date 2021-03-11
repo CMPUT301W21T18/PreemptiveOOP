@@ -1,16 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< Updated upstream
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <EditText
-        android:id="@+id/EditText_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Username" />
-=======
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -38,7 +26,6 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
->>>>>>> Stashed changes
 
     <EditText
         android:id="@+id/EditText_password"
@@ -49,23 +36,6 @@
         android:background="@drawable/login_register_user_input"
         android:drawableLeft="@drawable/ic_action_user_loginlock"
         android:hint="Password"
-<<<<<<< Updated upstream
-        android:inputType="textPassword" />
-
-    <EditText
-        android:id="@+id/EditText_contact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Contact Info" />
-    
-    <Button
-        android:id="@+id/Button_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="btRegisterOnClick"
-        android:text="Register" />
-</LinearLayout>
-=======
         android:inputType="textPassword"
         android:padding="12dp"
         android:textColor="#4C4A4A"
@@ -91,6 +61,7 @@
         android:textColor="#434141"
         android:textColorHint="#474545"
         android:textColorLink="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/Button_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -116,4 +87,3 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditText_contact" />
 </androidx.constraintlayout.widget.ConstraintLayout>
->>>>>>> Stashed changes
