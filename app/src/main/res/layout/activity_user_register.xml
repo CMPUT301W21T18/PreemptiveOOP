@@ -61,7 +61,6 @@
         android:textColor="#434141"
         android:textColorHint="#474545"
         android:textColorLink="#FFFFFF"
-        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/Button_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
