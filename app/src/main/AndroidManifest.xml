@@ -14,6 +14,7 @@
             android:name=".ui.login.UserRegister"
             android:label="@string/title_activity_user_register" />
         <activity android:name=".user.activity.UserLogin" />
+        <activity android:name=".MainPage" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

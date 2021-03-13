@@ -1,6 +1,13 @@
 package com.example.preemptiveoop.user;
 
+import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.Experiment;
+import com.example.preemptiveoop.user.activity.UserLogin;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -36,4 +43,7 @@ public class User implements Serializable {
 
     public ArrayList<String> getOwnedExpIdList() { return ownedExpIdList; }
     public ArrayList<String> getPartiExpIdList() { return partiExpIdList; }
+
+
+
 }

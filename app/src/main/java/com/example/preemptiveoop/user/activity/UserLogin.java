@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.preemptiveoop.MainPage;
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.user.User;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -98,10 +99,13 @@ public class UserLogin extends AppCompatActivity {
                             }
 
                             // return our user object through an intent
-                            Intent intent = new Intent();
+
+                            Intent intent = new Intent(UserLogin.this, MainPage.class);
                             intent.putExtra("UserLogin.user", user);
-                            setResult(0, intent);
-                            finish();
+                            startActivity(intent);
+//                            setResult(0, intent);
+
+//                            finish();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {           // query failed!
