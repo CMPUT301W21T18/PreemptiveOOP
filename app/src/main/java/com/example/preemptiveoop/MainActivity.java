@@ -1,20 +1,59 @@
 package com.example.preemptiveoop;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.preemptiveoop.user.User;
 import com.example.preemptiveoop.user.activity.UserLogin;
+import com.example.preemptiveoop.user.activity.UserRegister;
 
 public class MainActivity extends AppCompatActivity {
+    private final int CHILD_USER_LOGIN = 1;
+
+    private TextView tvUsername;
+    private Button btProfile, btSearch, btQrcode, btPost, btLogout;
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        tvUsername  = findViewById(R.id.TextView_username);
+        btProfile   = findViewById(R.id.Button_profile);
+        btSearch    = findViewById(R.id.Button_search);
+        btQrcode    = findViewById(R.id.Button_qrcode);
+        btPost      = findViewById(R.id.Button_post);
+        btLogout    = findViewById(R.id.Button_logout);
+
         Intent intent = new Intent(this, UserLogin.class);
-        startActivity(intent);
+        startActivityForResult(intent, CHILD_USER_LOGIN);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CHILD_USER_LOGIN: {
+                if (resultCode == Activity.RESULT_OK) {
+                    user = (User) data.getSerializableExtra("UserLogin.user");
+                    tvUsername.setText(user.getUsername());
+                }
+            }
+        }
+    }
+
+    public void btProfileOnClick(View v) {}
+    public void btSearchOnBlick(View v) {}
+    public void btQrcodeOnClick(View v) {}
+    public void btPostOnClick(View v) {}
+    public void btLogoutOnClick(View v) {}
 }
