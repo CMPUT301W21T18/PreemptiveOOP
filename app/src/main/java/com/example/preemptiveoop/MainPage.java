@@ -12,6 +12,7 @@ public class MainPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_page);
 
-
+        Intent intent = new Intent(this, UserLogin.class);
+        startActivity(intent);
     }
 }
