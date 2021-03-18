@@ -1,33 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/loginbg"
+    android:orientation="vertical">
 
     <EditText
         android:id="@+id/EditText_username"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:hint="Username" />
+        android:layout_marginStart="91dp"
+
+        android:layout_marginLeft="91dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginEnd="71dp"
+        android:layout_marginRight="71dp"
+        android:layout_marginBottom="22dp"
+        android:drawableLeft="@drawable/ic_action_user_loginadp"
+        android:hint="Username"
+
+        android:textColor="#E6E3CB"
+        android:textColorHighlight="#F6F3F3"
+        android:textColorHint="#FBFAFA"
+        android:textColorLink="#F6F5F5"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/EditText_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/EditText_password"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:drawableLeft="@drawable/ic_action_user_loginlock"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:textColor="#F4F0F0"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#FBF9FB"
+        android:textColorLink="#FFFFFF"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditText_username" />
 
     <Button
         android:id="@+id/Button_login"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/round_button"
         android:onClick="btLoginOnClick"
-        android:text="Login" />
-    
+        android:text="Login"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        app:backgroundTint="#42403E"
+        app:layout_constraintBottom_toTopOf="@+id/Button_register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditText_password" />
+
     <Button
         android:id="@+id/Button_register"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="101dp"
+        android:background="@drawable/round_button"
+        android:cursorVisible="false"
         android:onClick="btRegisterOnClick"
-        android:text="Register" />
-</LinearLayout>
+        android:text="Register"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="#FAF7F7"
+        android:textColorHighlight="#FFFFFF"
+        android:textStyle="bold"
+        app:backgroundTint="#42403E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Button_login" />
+</androidx.constraintlayout.widget.ConstraintLayout>
