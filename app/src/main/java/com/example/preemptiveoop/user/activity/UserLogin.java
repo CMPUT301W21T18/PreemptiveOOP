@@ -54,6 +54,11 @@ public class UserLogin extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
     public void btLoginOnClick(View v) {
             String username = etUsername.getText().toString();
             String password = etPassword.getText().toString();
@@ -67,13 +72,8 @@ public class UserLogin extends AppCompatActivity {
                 return;
             }
 
-            // perform our database query
-            // Note: This is a guide, so every object reference is explicitly written. When writing for real, the reference can be cascaded.
-
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            CollectionReference users = db.collection("Users");
-
-            users.document(username)
+            FirebaseFirestore.getInstance().collection("Users")
+                    .document(username)
                     .get()
                     .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
@@ -100,7 +100,7 @@ public class UserLogin extends AppCompatActivity {
                             // return our user object through an intent
                             Intent intent = new Intent();
                             intent.putExtra("UserLogin.user", user);
-                            setResult(0, intent);
+                            setResult(Activity.RESULT_OK, intent);
                             finish();
                         }
                     })
