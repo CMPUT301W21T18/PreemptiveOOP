@@ -1,12 +1,13 @@
-package com.example.preemptiveoop.user;
+package com.example.preemptiveoop.user.model;
 
-import com.example.preemptiveoop.experiment.Experiment;
+import com.example.preemptiveoop.experiment.model.Experiment;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
-    private String username;
+    private String username;    // databaseId
     private String password;
     private String contact;
 
@@ -21,6 +22,11 @@ public class User implements Serializable {
 
         this.ownedExpIdList = new ArrayList<>();
         this.partiExpIdList = new ArrayList<>();
+    }
+
+    public void writeToDatabase() {
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(username).set(this);
     }
 
     public void addToOwnedExp(Experiment exp) {

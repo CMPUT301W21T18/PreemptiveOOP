@@ -10,15 +10,15 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.preemptiveoop.user.User;
-import com.example.preemptiveoop.user.activity.UserLogin;
-import com.example.preemptiveoop.user.activity.UserRegister;
+import com.example.preemptiveoop.experiment.ExperimentList;
+import com.example.preemptiveoop.user.model.User;
+import com.example.preemptiveoop.user.UserLogin;
 
 public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
 
     private TextView tvUsername;
-    private Button btProfile, btSearch, btQrcode, btPost, btLogout;
+    private Button btProfile, btExperiment, btQrcode, btPost, btLogout;
 
     private User user;
 
@@ -29,10 +29,12 @@ public class MainActivity extends AppCompatActivity {
 
         tvUsername  = findViewById(R.id.TextView_username);
         btProfile   = findViewById(R.id.Button_profile);
-        btSearch    = findViewById(R.id.Button_search);
+        btExperiment= findViewById(R.id.Button_experiment);
         btQrcode    = findViewById(R.id.Button_qrcode);
         btPost      = findViewById(R.id.Button_post);
         btLogout    = findViewById(R.id.Button_logout);
+
+        btExperiment.setOnClickListener(this::btExperimentOnClick);
 
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
@@ -52,7 +54,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void btProfileOnClick(View v) {}
-    public void btSearchOnBlick(View v) {}
+    public void btExperimentOnClick(View v) {
+        Intent intent = new Intent(this, ExperimentList.class);
+        intent.putExtra("MainActivity.user", user);
+        startActivity(intent);
+    }
     public void btQrcodeOnClick(View v) {}
     public void btPostOnClick(View v) {}
     public void btLogoutOnClick(View v) {}

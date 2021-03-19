@@ -1,4 +1,4 @@
-package com.example.preemptiveoop.post;
+package com.example.preemptiveoop.post.model;
 
 import java.util.ArrayList;
 
