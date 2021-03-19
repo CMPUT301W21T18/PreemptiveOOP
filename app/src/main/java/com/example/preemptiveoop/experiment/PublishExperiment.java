@@ -64,7 +64,7 @@ public class PublishExperiment extends DialogFragment {
                 String desc = etDescription.getText().toString();
                 String numb = etMinNumOfTrials.getText().toString();
 
-                if (desc.equals("") || numb.equals("")) {
+                if (desc.isEmpty() || numb.isEmpty()) {
                     MyDialog.errorDialog(getActivity(),
                             "Empty Fields",
                             "Please provide all the fields present in the form."
@@ -101,7 +101,7 @@ public class PublishExperiment extends DialogFragment {
                 owner.addToOwnedExp(newExp);
                 owner.writeToDatabase();
 
-                ((ExperimentList) getActivity()).displayOwnedExpList();
+                ((ExperimentList) getActivity()).updateExperimentList();
             }
         });
         return builder.create();

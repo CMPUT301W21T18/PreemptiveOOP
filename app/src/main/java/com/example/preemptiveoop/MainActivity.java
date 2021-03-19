@@ -59,12 +59,14 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(".user", user);
         startActivity(intent);
     }
+
     public void btSearchOnClick(View v) {
         Intent intent = new Intent(this, ExperimentList.class);
         intent.putExtra(".user", user);
         intent.putExtra(".searchMode", true);
         startActivity(intent);
     }
+
     public void btQrcodeOnClick(View v) {}
     public void btPostOnClick(View v) {}
     public void btLogoutOnClick(View v) {}

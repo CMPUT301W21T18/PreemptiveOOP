@@ -8,13 +8,13 @@
         android:id="@+id/Button_stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Stats" />
+        android:text="Stats for Experiment" />
 
     <Button
         android:id="@+id/Button_participate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Participate" />
+        android:text="Participate Experiment" />
 
     <Button
         android:id="@+id/Button_doTrial"
@@ -23,8 +23,14 @@
         android:text="Record a Trial"/>
 
     <Button
+        android:id="@+id/Button_endExp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="End Experiment" />
+
+    <Button
         android:id="@+id/Button_unpublish"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Unpublish" />
+        android:text="Unpublish Experiment" />
 </LinearLayout>

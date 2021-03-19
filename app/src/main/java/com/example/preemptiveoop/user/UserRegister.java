@@ -40,7 +40,7 @@ public class UserRegister extends AppCompatActivity {
         String password = etPassword.getText().toString();
         String contact = etContact.getText().toString();
 
-        if (username.equals("") || password.equals("") || contact.equals("")) {
+        if (username.isEmpty() || password.isEmpty() || contact.isEmpty()) {
             MyDialog.errorDialog(UserRegister.this,
                     "Empty Fields",
                     "Please provide username, password, and contact info."

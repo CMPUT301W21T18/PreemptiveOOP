@@ -47,7 +47,7 @@ public class ExperimentList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_list);
 
-        // get passed-in user
+        // get passed-in arguments
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra(".user");
         searchMode = intent.getBooleanExtra(".searchMode", false);
@@ -83,10 +83,19 @@ public class ExperimentList extends AppCompatActivity {
 
         etKeywords.setVisibility(View.GONE);
         btSearch.setVisibility(View.GONE);
-        displayOwnedExpList();
+        updateExperimentList();
     }
 
-    public void displayOwnedExpList() {
+    private void updateExpListFromQueryTask(Task<QuerySnapshot> task) {
+        experiments.clear();
+        for (QueryDocumentSnapshot document : task.getResult()) {
+            GenericExperiment exp = document.toObject(GenericExperiment.class);
+            experiments.add(exp.toCorrespondingExp());
+        }
+        expAdapter.notifyDataSetChanged();
+    }
+
+    private void displayOwnedExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
         expCol.whereEqualTo("owner", user.getUsername())
@@ -98,15 +107,12 @@ public class ExperimentList extends AppCompatActivity {
                             Log.d("ExperimentList.DB", "Failed to get owned experiments.", task.getException());
                             return;
                         }
-                        experiments.clear();
-                        for (QueryDocumentSnapshot document : task.getResult())
-                            experiments.add(document.toObject(GenericExperiment.class));
-                        expAdapter.notifyDataSetChanged();
+                        updateExpListFromQueryTask(task);
                     }
                 });
     }
 
-    public void displayPartiExpList() {
+    private void displayPartiExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
         expCol.whereArrayContains("experimenters", user.getUsername())
@@ -118,18 +124,15 @@ public class ExperimentList extends AppCompatActivity {
                             Log.d("ExperimentList.DB", "Failed to get participated experiments.", task.getException());
                             return;
                         }
-                        experiments.clear();
-                        for (QueryDocumentSnapshot document : task.getResult())
-                            experiments.add(document.toObject(GenericExperiment.class));
-                        expAdapter.notifyDataSetChanged();
+                        updateExpListFromQueryTask(task);
                     }
                 });
     }
 
-    public void displaySearchedExpList(String keyword) {
+    private void displaySearchedExpList(String keyword) {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereArrayContains("keywords", keyword)
+        expCol.whereArrayContains("keywords", keyword).whereEqualTo("status", Experiment.STATUS_PUBLISHED)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -138,17 +141,19 @@ public class ExperimentList extends AppCompatActivity {
                             Log.d("ExperimentList.DB", "Failed to search for experiments.", task.getException());
                             return;
                         }
-                        experiments.clear();
-                        for (QueryDocumentSnapshot document : task.getResult())
-                            experiments.add(document.toObject(GenericExperiment.class));
-                        expAdapter.notifyDataSetChanged();
+                        updateExpListFromQueryTask(task);
                     }
                 });
     }
 
+    public void updateExperimentList() {
+        int checkId = rgExpType.getCheckedRadioButtonId();
+        rgExpTypeOnCheckedChanged(rgExpType, checkId);
+    }
+
     public void btSearchOnClick(View v) {
         String keyword = etKeywords.getText().toString();
-        if (keyword.equals(""))
+        if (keyword.isEmpty())
             return;
         displaySearchedExpList(keyword);
     }
