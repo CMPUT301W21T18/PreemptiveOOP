@@ -11,11 +11,7 @@
         android:id="@+id/EditText_username"
         android:layout_width="250dp"
         android:layout_height="60dp"
-        android:layout_marginStart="91dp"
-        android:layout_marginLeft="91dp"
         android:layout_marginTop="450dp"
-        android:layout_marginEnd="71dp"
-        android:layout_marginRight="71dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/login_register_user_input"
         android:drawableLeft="@drawable/ic_action_name_loginadp"
@@ -27,7 +23,7 @@
         android:textColorLink="#F6F5F5"
         app:layout_constraintBottom_toTopOf="@+id/EditText_password"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +44,7 @@
         android:textColorLink="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/Button_login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.565"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditText_username" />
 
