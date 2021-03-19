@@ -12,17 +12,20 @@ import androidx.annotation.Nullable;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.user.model.User;
 
 import java.util.ArrayList;
 
 public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
     private Context context;
     private ArrayList<Experiment> experiments;
+    private User user;
 
-    public ExpArrayAdatper(Context context, ArrayList<Experiment> experiments) {
+    public ExpArrayAdatper(Context context, ArrayList<Experiment> experiments, User user) {
         super(context, 0, experiments);
         this.context = context;
         this.experiments = experiments;
+        this.user = user;
     }
 
     @NonNull
@@ -35,17 +38,19 @@ public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
 
         Experiment exp = experiments.get(position);
 
-        TextView tvOwner = view.findViewById(R.id.TextView_owner);
+        TextView tvOwner        = view.findViewById(R.id.TextView_owner);
         TextView tvCreationDate = view.findViewById(R.id.TextView_creationDate);
-        TextView tvDescr = view.findViewById(R.id.TextView_description);
-        TextView tvRegion = view.findViewById(R.id.TextView_region);
-        TextView tvMinTrial = view.findViewById(R.id.TextView_numOfTrials);
+        TextView tvDescr        = view.findViewById(R.id.TextView_description);
 
-        tvOwner.setText(exp.getOwner());
-        tvCreationDate.setText(exp.getCreationDate().toString());
-        tvDescr.setText(exp.getDescription());
-        //tvRegion.setText(exp.getRegion().toString());
-        tvMinTrial.setText(String.valueOf(exp.getTrials().size()));
+        TextView tvStatus       = view.findViewById(R.id.TextView_status);
+        TextView tvIsParti      = view.findViewById(R.id.TextView_isParticipated);
+
+        tvOwner.setText("Owner: " + exp.getOwner());
+        tvCreationDate.setText("Created on: " + exp.getCreationDate().toString());
+        tvDescr.setText("Description: " + exp.getDescription());
+
+        tvStatus.setText("Status: " + exp.getStatus());
+        tvIsParti.setText("Participated: " + new Boolean(exp.getExperimenters().contains(user.getUsername())));
         return view;
     }
 }

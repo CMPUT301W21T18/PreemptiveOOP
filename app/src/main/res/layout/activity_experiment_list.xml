@@ -8,6 +8,18 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/EditText_keywords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Keywords" />
+
+    <Button
+        android:id="@+id/Button_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search" />
+
     <RadioGroup
         android:id="@+id/RadioButton_expType"
         android:layout_width="match_parent"
