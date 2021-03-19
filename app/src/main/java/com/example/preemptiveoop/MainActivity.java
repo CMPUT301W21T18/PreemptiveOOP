@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.experiment.ExperimentList;
-import com.example.preemptiveoop.user.model.User;
 import com.example.preemptiveoop.user.UserLogin;
+import com.example.preemptiveoop.user.model.User;
 
 public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
