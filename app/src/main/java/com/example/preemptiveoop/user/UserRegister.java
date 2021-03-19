@@ -50,22 +50,6 @@ public class UserRegister extends AppCompatActivity {
 
         // add our new user to database
         User user = new User(username, password, contact);
-        FirebaseFirestore.getInstance().collection("Users")
-                .document(username)
-                .set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        // return our user object through an intent
-                        Intent intent = new Intent();
-                        intent.putExtra("UserRegister.user", user);
-                        setResult(Activity.RESULT_OK, intent);
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) { Log.d("UserRegister.DB", "Failed to add the new user to db. Detail: ", e); }
-                });
+        user.writeToDatabase();
     }
 }

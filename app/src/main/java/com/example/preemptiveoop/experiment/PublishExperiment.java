@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.preemptiveoop.R;
+import com.example.preemptiveoop.experiment.model.BinomialExp;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.model.User;
@@ -67,13 +68,13 @@ public class PublishExperiment extends DialogFragment {
 
                 int minTrials = Integer.parseInt(numb);
 
-                /*Experiment newExp = new Experiment(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
+                Experiment newExp = new BinomialExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
                 newExp.writeToDatabase();
 
                 owner.addToOwnedExp(newExp);
                 owner.writeToDatabase();
 
-                ((ExperimentList) getActivity()).readExpFromDatabase(owner.getOwnedExpIdList());*/
+                ((ExperimentList) getActivity()).displayOwnedExpList();
             }
         });
         return builder.create();
