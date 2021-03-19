@@ -93,13 +93,13 @@ public class GenericExperiment extends Experiment<Trial<Number>> {
             return toBinomialExp();
 
         if (super.getType().equals(Experiment.TYPE_COUNT))
-            return toBinomialExp();
+            return toCountExp();
 
         if (super.getType().equals(Experiment.TYPE_MEASUREMENT))
-            return toBinomialExp();
+            return toMeasurementExp();
 
         if (super.getType().equals(Experiment.TYPE_NON_NEGATIVE))
-            return toBinomialExp();
+            return toNonNegativeExp();
         return null;
     }
 }
