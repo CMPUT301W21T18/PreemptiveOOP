@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.experiment.ExperimentList;
+import com.example.preemptiveoop.user.UserProfileFragment;
 import com.example.preemptiveoop.user.model.User;
 import com.example.preemptiveoop.user.UserLogin;
 
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
 
     private TextView tvUsername;
-    private Button btExperiment, btSearch, btQrcode, btPost, btLogout;
+    private Button btExperiment, btSearch, btQrcode, btPost, btLogout, btUsrProfile;
 
     private User user;
 
@@ -33,9 +34,11 @@ public class MainActivity extends AppCompatActivity {
         btQrcode    = findViewById(R.id.Button_qrcode);
         btPost      = findViewById(R.id.Button_post);
         btLogout    = findViewById(R.id.Button_logout);
+        btUsrProfile = findViewById(R.id.Button_usrprofile);
 
         btExperiment.setOnClickListener(this::btExperimentOnClick);
         btSearch.setOnClickListener(this::btSearchOnClick);
+        btUsrProfile.setOnClickListener(this::btUsrProfileOnClick);
 
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
@@ -59,14 +62,19 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(".user", user);
         startActivity(intent);
     }
-
     public void btSearchOnClick(View v) {
         Intent intent = new Intent(this, ExperimentList.class);
         intent.putExtra(".user", user);
         intent.putExtra(".searchMode", true);
         startActivity(intent);
     }
-
+    public void btUsrProfileOnClick(View v) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("user", user);
+        UserProfileFragment fragment = new UserProfileFragment();
+        fragment.setArguments(bundle);
+        fragment.show(getSupportFragmentManager(),"USER_PROFILE");
+    }
     public void btQrcodeOnClick(View v) {}
     public void btPostOnClick(View v) {}
     public void btLogoutOnClick(View v) {}
