@@ -63,8 +63,6 @@ public class ExperimentList extends AppCompatActivity {
 
     public void displayOwnedExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
-        experiments.clear();
-
         // perform query
         expCol.whereEqualTo("owner", user.getUsername())
                 .get()
@@ -75,6 +73,7 @@ public class ExperimentList extends AppCompatActivity {
                             Log.d("ExperimentList.DB", "Failed to get owned experiments.", task.getException());
                             return;
                         }
+                        experiments.clear();
                         for (QueryDocumentSnapshot document : task.getResult())
                             experiments.add(document.toObject(GenericExperiment.class));
                         expAdapter.notifyDataSetChanged();
@@ -84,8 +83,6 @@ public class ExperimentList extends AppCompatActivity {
 
     public void displayPartiExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
-        experiments.clear();
-
         // perform query
         expCol.whereArrayContains("experimenters", user.getUsername())
                 .get()
@@ -96,6 +93,7 @@ public class ExperimentList extends AppCompatActivity {
                             Log.d("ExperimentList.DB", "Failed to get participated experiments.", task.getException());
                             return;
                         }
+                        experiments.clear();
                         for (QueryDocumentSnapshot document : task.getResult())
                             experiments.add(document.toObject(GenericExperiment.class));
                         expAdapter.notifyDataSetChanged();

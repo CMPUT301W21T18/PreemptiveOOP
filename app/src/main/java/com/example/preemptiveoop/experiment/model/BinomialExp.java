@@ -2,6 +2,8 @@ package com.example.preemptiveoop.experiment.model;
 
 import android.location.Location;
 
+import com.example.preemptiveoop.trial.model.Trial;
+
 import java.util.Date;
 
 public class BinomialExp extends Experiment <Trial<Integer>> {

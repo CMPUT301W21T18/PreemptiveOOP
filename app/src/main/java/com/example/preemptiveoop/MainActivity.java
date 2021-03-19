@@ -11,6 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.experiment.ExperimentList;
+import com.example.preemptiveoop.experiment.model.BinomialExp;
+import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.experiment.model.GenericExperiment;
 import com.example.preemptiveoop.user.model.User;
 import com.example.preemptiveoop.user.UserLogin;
 
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         btLogout    = findViewById(R.id.Button_logout);
 
         btExperiment.setOnClickListener(this::btExperimentOnClick);
+
 
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
