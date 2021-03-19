@@ -4,14 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <TextView
-        android:id="@+id/TextView_username"
+        android:id="@+id/Button_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:text="New Experiment for: " />
+
+    <RadioGroup
+        android:id="@+id/RadioGroup_expType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/RadioButton_binomial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Binomial" />
+
+        <RadioButton
+            android:id="@+id/RadioButton_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Count" />
+
+        <RadioButton
+            android:id="@+id/RadioButton_measurement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Measurement" />
+
+        <RadioButton
+            android:id="@+id/RadioButton_nonnegative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NonNegative" />
+    </RadioGroup>
 
     <EditText
         android:id="@+id/EditText_description"

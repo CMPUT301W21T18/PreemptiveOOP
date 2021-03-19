@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
 
     private TextView tvUsername;
-    private Button btProfile, btExperiment, btQrcode, btPost, btLogout;
+    private Button btExperiment, btSearch, btQrcode, btPost, btLogout;
 
     private User user;
 
@@ -28,13 +28,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         tvUsername  = findViewById(R.id.TextView_username);
-        btProfile   = findViewById(R.id.Button_profile);
         btExperiment= findViewById(R.id.Button_experiment);
+        btSearch    = findViewById(R.id.Button_search);
         btQrcode    = findViewById(R.id.Button_qrcode);
         btPost      = findViewById(R.id.Button_post);
         btLogout    = findViewById(R.id.Button_logout);
 
         btExperiment.setOnClickListener(this::btExperimentOnClick);
+        btSearch.setOnClickListener(this::btSearchOnClick);
 
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
@@ -53,10 +54,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void btProfileOnClick(View v) {}
     public void btExperimentOnClick(View v) {
         Intent intent = new Intent(this, ExperimentList.class);
-        intent.putExtra("MainActivity.user", user);
+        intent.putExtra(".user", user);
+        startActivity(intent);
+    }
+    public void btSearchOnClick(View v) {
+        Intent intent = new Intent(this, ExperimentList.class);
+        intent.putExtra(".user", user);
+        intent.putExtra(".searchMode", true);
         startActivity(intent);
     }
     public void btQrcodeOnClick(View v) {}

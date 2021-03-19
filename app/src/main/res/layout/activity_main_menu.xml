@@ -53,10 +53,10 @@
                     app:srcCompat="?attr/actionModePasteDrawable" />
 
                 <Button
-                    android:id="@+id/Button_profile"
+                    android:id="@+id/Button_experiment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Profile"
+                    android:text="Experiment"
                     android:textSize="8sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -85,10 +85,10 @@
                     app:srcCompat="@android:drawable/ic_menu_search" />
 
                 <Button
-                    android:id="@+id/Button_experiment"
+                    android:id="@+id/Button_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Experiments"
+                    android:text="Search"
                     android:textSize="8sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

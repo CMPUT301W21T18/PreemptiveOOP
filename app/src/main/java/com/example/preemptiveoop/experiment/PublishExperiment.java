@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,7 +17,10 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.BinomialExp;
+import com.example.preemptiveoop.experiment.model.CountExp;
 import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.experiment.model.MeasurementExp;
+import com.example.preemptiveoop.experiment.model.NonNegativeExp;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.model.User;
 
@@ -26,6 +30,7 @@ public class PublishExperiment extends DialogFragment {
     private User owner;
 
     private TextView tvUsername;
+    private RadioGroup rgExpType;
     private EditText etDescription;
     private EditText etMinNumOfTrials;
     private Button btPickLocation;
@@ -41,7 +46,8 @@ public class PublishExperiment extends DialogFragment {
         // return super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_publish_experiment, null);
 
-        tvUsername          = view.findViewById(R.id.TextView_username);
+        tvUsername          = view.findViewById(R.id.Button_search);
+        rgExpType           = view.findViewById(R.id.RadioGroup_expType);
         etDescription       = view.findViewById(R.id.EditText_description);
         etMinNumOfTrials    = view.findViewById(R.id.EditText_minNumOfTrials);
         btPickLocation      = view.findViewById(R.id.Button_pickLocation);
@@ -67,8 +73,29 @@ public class PublishExperiment extends DialogFragment {
                 }
 
                 int minTrials = Integer.parseInt(numb);
+                Experiment newExp = null;
 
-                Experiment newExp = new BinomialExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
+                int rbid = rgExpType.getCheckedRadioButtonId();
+                switch (rbid) {
+                    case R.id.RadioButton_binomial:
+                        newExp = new BinomialExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
+                        break;
+                    case R.id.RadioButton_count:
+                        newExp = new CountExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
+                        break;
+                    case R.id.RadioButton_measurement:
+                        newExp = new MeasurementExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
+                        break;
+                    case R.id.RadioButton_nonnegative:
+                        newExp = new NonNegativeExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
+                        break;
+                    default:
+                        MyDialog.errorDialog(getActivity(),
+                                "No Experiment Type",
+                                "Please select an experiment type to continue."
+                        );
+                        return;
+                }
                 newExp.writeToDatabase();
 
                 owner.addToOwnedExp(newExp);
