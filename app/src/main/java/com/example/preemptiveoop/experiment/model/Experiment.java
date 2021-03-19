@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
-public class Experiment <T extends Trial> {
+public class Experiment <T extends Trial> implements Serializable {
     public static final String TYPE_BINOMIAL = "Binomial";
     public static final String TYPE_NON_NEGATIVE = "NonNegative";
     public static final String TYPE_COUNT = "Count";
@@ -94,4 +94,7 @@ public class Experiment <T extends Trial> {
     public int getMinNumOfTrials() { return minNumOfTrials; }
 
     public String getStatus() { return status; }
+
+    // setters
+    public void setStatus(String status) { this.status = status; }
 }

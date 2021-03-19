@@ -183,10 +183,10 @@
                     app:srcCompat="@android:drawable/ic_input_add" />
 
                 <Button
-                    android:id="@+id/Button_notused"
+                    android:id="@+id/Button_usrprofile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Button"
+                    android:text="User Profile"
                     android:textSize="8sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

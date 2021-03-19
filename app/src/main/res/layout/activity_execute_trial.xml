@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/TextView_description_ExecuteExperiment"
+        android:id="@+id/TextView_hint"
         android:layout_width="227dp"
         android:layout_height="34dp"
         android:layout_marginTop="16dp"
@@ -31,32 +31,32 @@
         app:layout_constraintTop_toBottomOf="@+id/TextView_title_ExecuteExperiment" />
 
     <EditText
-        android:id="@+id/EditText_Input_Counts"
+        android:id="@+id/EditText_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
-        android:hint="Number of Counts:"
-        android:inputType="numberSigned"
+        android:hint="Result"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_description_ExecuteExperiment" />
+        app:layout_constraintTop_toBottomOf="@+id/TextView_hint" />
 
     <Button
-        android:id="@+id/Button_binomialTrial_Success"
+        android:id="@+id/Button_success"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="54dp"
         android:text="Success"
-        app:layout_constraintEnd_toStartOf="@+id/Button_binomialTrial_Failure"
+        app:layout_constraintEnd_toStartOf="@+id/Button_failure"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_description_ExecuteExperiment" />
+        app:layout_constraintTop_toBottomOf="@+id/TextView_hint" />
 
     <Button
-        android:id="@+id/Button_binomialTrial_Failure"
+        android:id="@+id/Button_failure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="85dp"
@@ -66,42 +66,18 @@
         android:layout_marginRight="32dp"
         android:text="Failure"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Button_binomialTrial_Success"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_description_ExecuteExperiment" />
-
-    <EditText
-        android:id="@+id/EditText_Input_NonNegativeCounts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Number of NonNegative Counts:"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_description_ExecuteExperiment" />
-
-    <EditText
-        android:id="@+id/EditText_Input_Measurement"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Enter Measurement:"
-        android:inputType="numberDecimal|numberSigned"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_description_ExecuteExperiment" />
+        app:layout_constraintStart_toEndOf="@+id/Button_success"
+        app:layout_constraintTop_toBottomOf="@+id/TextView_hint" />
 
     <Button
-        android:id="@+id/Button_Record"
+        android:id="@+id/Button_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp"
         android:text="Record"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditText_Input_Counts" />
+        app:layout_constraintTop_toBottomOf="@+id/EditText_result" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

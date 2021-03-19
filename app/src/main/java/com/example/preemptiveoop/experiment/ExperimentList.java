@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,7 +47,7 @@ public class ExperimentList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_list);
 
-        // get passed-in user
+        // get passed-in arguments
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra(".user");
         searchMode = intent.getBooleanExtra(".searchMode", false);
@@ -62,6 +63,14 @@ public class ExperimentList extends AppCompatActivity {
         expAdapter = new ExpArrayAdatper(this, experiments, user);
         expListView.setAdapter(expAdapter);
 
+        expListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ManageExperiment fragment = new ManageExperiment(experiments.get(position), user);
+                fragment.show(getSupportFragmentManager(), "MANAGE_EXPERIMENT");
+            }
+        });
+
         btSearch.setOnClickListener(this::btSearchOnClick);
 
         rgExpType.setOnCheckedChangeListener(this::rgExpTypeOnCheckedChanged);
@@ -74,10 +83,19 @@ public class ExperimentList extends AppCompatActivity {
 
         etKeywords.setVisibility(View.GONE);
         btSearch.setVisibility(View.GONE);
-        displayOwnedExpList();
+        updateExperimentList();
     }
 
-    public void displayOwnedExpList() {
+    private void updateExpListFromQueryTask(Task<QuerySnapshot> task) {
+        experiments.clear();
+        for (QueryDocumentSnapshot document : task.getResult()) {
+            GenericExperiment exp = document.toObject(GenericExperiment.class);
+            experiments.add(exp.toCorrespondingExp());
+        }
+        expAdapter.notifyDataSetChanged();
+    }
+
+    private void displayOwnedExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
         expCol.whereEqualTo("owner", user.getUsername())
@@ -89,15 +107,12 @@ public class ExperimentList extends AppCompatActivity {
                             Log.d("ExperimentList.DB", "Failed to get owned experiments.", task.getException());
                             return;
                         }
-                        experiments.clear();
-                        for (QueryDocumentSnapshot document : task.getResult())
-                            experiments.add(document.toObject(GenericExperiment.class));
-                        expAdapter.notifyDataSetChanged();
+                        updateExpListFromQueryTask(task);
                     }
                 });
     }
 
-    public void displayPartiExpList() {
+    private void displayPartiExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
         expCol.whereArrayContains("experimenters", user.getUsername())
@@ -109,18 +124,15 @@ public class ExperimentList extends AppCompatActivity {
                             Log.d("ExperimentList.DB", "Failed to get participated experiments.", task.getException());
                             return;
                         }
-                        experiments.clear();
-                        for (QueryDocumentSnapshot document : task.getResult())
-                            experiments.add(document.toObject(GenericExperiment.class));
-                        expAdapter.notifyDataSetChanged();
+                        updateExpListFromQueryTask(task);
                     }
                 });
     }
 
-    public void displaySearchedExpList(String keyword) {
+    private void displaySearchedExpList(String keyword) {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereArrayContains("keywords", keyword)
+        expCol.whereArrayContains("keywords", keyword).whereEqualTo("status", Experiment.STATUS_PUBLISHED)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -129,17 +141,19 @@ public class ExperimentList extends AppCompatActivity {
                             Log.d("ExperimentList.DB", "Failed to search for experiments.", task.getException());
                             return;
                         }
-                        experiments.clear();
-                        for (QueryDocumentSnapshot document : task.getResult())
-                            experiments.add(document.toObject(GenericExperiment.class));
-                        expAdapter.notifyDataSetChanged();
+                        updateExpListFromQueryTask(task);
                     }
                 });
     }
 
+    public void updateExperimentList() {
+        int checkId = rgExpType.getCheckedRadioButtonId();
+        rgExpTypeOnCheckedChanged(rgExpType, checkId);
+    }
+
     public void btSearchOnClick(View v) {
         String keyword = etKeywords.getText().toString();
-        if (keyword.equals(""))
+        if (keyword.isEmpty())
             return;
         displaySearchedExpList(keyword);
     }
