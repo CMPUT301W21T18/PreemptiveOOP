@@ -2,6 +2,7 @@ package com.example.preemptiveoop.experiment.model;
 
 import android.location.Location;
 
+import com.example.preemptiveoop.trial.model.Trial;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -67,6 +68,7 @@ public class Experiment <T extends Trial> {
         experimenters.add(username);
     }
 
+    // getters
     public String getDatabaseId() { return databaseId; }
     public String getType() { return type; }
 

@@ -36,6 +36,7 @@ public class User implements Serializable {
         partiExpIdList.add(exp.getDatabaseId());
     }
 
+    // getters
     public String getUsername() { return username; }
     public String getPassword() { return password; }
     public String getContact() { return contact; }
