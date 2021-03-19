@@ -16,6 +16,10 @@ public class Experiment <T extends Trial> {
     public static final String TYPE_COUNT = "Count";
     public static final String TYPE_MEASUREMENT = "Measurement";
 
+    public static final String STATUS_PUBLISHED = "published";
+    public static final String STATUS_UNPUBLISHED = "unpublished";
+    public static final String STATUS_ENDED = "ended";
+
     private String databaseId;
     private String type;
 
@@ -31,6 +35,8 @@ public class Experiment <T extends Trial> {
     private ArrayList<String> experimenters;
     private ArrayList<T> trials;
     private int minNumOfTrials;
+
+    private String status;
 
     public Experiment() {}
     public Experiment(String databaseId, String type, String owner, Date creationDate, String description,
@@ -49,8 +55,9 @@ public class Experiment <T extends Trial> {
 
         this.experimenters = new ArrayList<>();
         this.trials = new ArrayList<>();
-
         this.minNumOfTrials = requiredNumOfTrial;
+
+        this.status = STATUS_PUBLISHED;
     }
 
     public void writeToDatabase() {
@@ -83,6 +90,7 @@ public class Experiment <T extends Trial> {
 
     public ArrayList<String> getExperimenters() { return experimenters; }
     public ArrayList<T> getTrials() { return trials; }
-
     public int getMinNumOfTrials() { return minNumOfTrials; }
+
+    public String getStatus() { return status; }
 }
