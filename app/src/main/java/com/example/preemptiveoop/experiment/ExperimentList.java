@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.experiment.model.GenericExperiment;
 import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,12 +44,12 @@ public class ExperimentList extends AppCompatActivity {
         btAddExp = findViewById(R.id.Button_addExp);
 
         experiments = new ArrayList<>();
-        readExpFromDatabase(user.getOwnedExpIdList());
-
         expAdapter = new ExpArrayAdatper(this, experiments);
         expListView.setAdapter(expAdapter);
 
         btAddExp.setOnClickListener(this::btAddExpOnClick);
+
+        readExpFromDatabase(user.getOwnedExpIdList());
     }
 
     public void readExpFromDatabase(ArrayList<String> expIdList) {
@@ -64,9 +65,7 @@ public class ExperimentList extends AppCompatActivity {
                                 return;
                             }
 
-                            Experiment exp = documentSnapshot.toObject(Experiment.class);
-
-
+                            Experiment exp = documentSnapshot.toObject(GenericExperiment.class);
                             experiments.add(exp);
                             expAdapter.notifyDataSetChanged();
                         }
@@ -80,6 +79,6 @@ public class ExperimentList extends AppCompatActivity {
 
     public void btAddExpOnClick(View v) {
         PublishExperiment fragment = new PublishExperiment(user);
-        fragment.show(getSupportFragmentManager(), "PUBLISH_EXP");
+        fragment.show(getSupportFragmentManager(), "PUBLISH_EXPERIMENT");
     }
 }
