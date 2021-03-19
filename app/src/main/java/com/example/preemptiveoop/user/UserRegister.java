@@ -33,6 +33,8 @@ public class UserRegister extends AppCompatActivity {
         etPassword = findViewById(R.id.EditText_password);
         etContact = findViewById(R.id.EditText_contact);
         btRegister = findViewById(R.id.Button_register);
+
+        btRegister.setOnClickListener(this::btRegisterOnClick);
     }
 
     public void btRegisterOnClick(View v) {
@@ -51,5 +53,6 @@ public class UserRegister extends AppCompatActivity {
         // add our new user to database
         User user = new User(username, password, contact);
         user.writeToDatabase();
+        finish();
     }
 }
