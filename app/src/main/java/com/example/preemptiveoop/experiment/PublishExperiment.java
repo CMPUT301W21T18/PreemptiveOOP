@@ -67,13 +67,13 @@ public class PublishExperiment extends DialogFragment {
 
                 int minTrials = Integer.parseInt(numb);
 
-                //Experiment newExp = new Experiment(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
+                /*Experiment newExp = new Experiment(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
                 newExp.writeToDatabase();
 
                 owner.addToOwnedExp(newExp);
                 owner.writeToDatabase();
 
-                ((ExperimentList) getActivity()).readExpFromDatabase(owner.getOwnedExpIdList());
+                ((ExperimentList) getActivity()).readExpFromDatabase(owner.getOwnedExpIdList());*/
             }
         });
         return builder.create();
