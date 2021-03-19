@@ -50,7 +50,7 @@ public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
         tvDescr.setText("Description: " + exp.getDescription());
 
         tvStatus.setText("Status: " + exp.getStatus());
-        tvIsParti.setText("Participated: " + new Boolean(exp.getExperimenters().contains(user.getUsername())));
+        tvIsParti.setText("Participated: " + Boolean.valueOf(exp.getExperimenters().contains(user.getUsername())));
         return view;
     }
 }

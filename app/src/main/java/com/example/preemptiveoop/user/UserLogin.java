@@ -62,7 +62,7 @@ public class UserLogin extends AppCompatActivity {
             String username = etUsername.getText().toString();
             String password = etPassword.getText().toString();
 
-            if (username.equals("") || password.equals("")) {
+            if (username.isEmpty() || password.isEmpty()) {
                 MyDialog.errorDialog(UserLogin.this,
                         "Empty Fields",
                         "Please provide both username and password."
