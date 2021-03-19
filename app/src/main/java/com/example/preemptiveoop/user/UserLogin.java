@@ -1,4 +1,4 @@
-package com.example.preemptiveoop.user.activity;
+package com.example.preemptiveoop.user;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,14 +10,13 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
-import com.example.preemptiveoop.user.User;
+import com.example.preemptiveoop.uiwidget.MyDialog;
+import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -64,11 +63,10 @@ public class UserLogin extends AppCompatActivity {
             String password = etPassword.getText().toString();
 
             if (username.equals("") || password.equals("")) {
-                new AlertDialog.Builder(UserLogin.this)
-                        .setTitle("Empty Fields")
-                        .setMessage("Please provided both username and password.")
-                        .setPositiveButton("OK", null)
-                        .show();
+                MyDialog.errorDialog(UserLogin.this,
+                        "Empty Fields",
+                        "Please provide both username and password."
+                );
                 return;
             }
 
@@ -79,21 +77,19 @@ public class UserLogin extends AppCompatActivity {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (!documentSnapshot.exists()) {                   // query returned no document!
-                                new AlertDialog.Builder(UserLogin.this)
-                                        .setTitle("Invalid Username")
-                                        .setMessage("The provided username is not a registered user. Please register.")
-                                        .setPositiveButton("OK", null)
-                                        .show();
+                                MyDialog.errorDialog(UserLogin.this,
+                                        "Invalid Username",
+                                        "The provided username is not a registered user. Please register."
+                                );
                                 return;
                             }
 
                             User user = documentSnapshot.toObject(User.class);
                             if (!user.getPassword().equals(password)) {
-                                new AlertDialog.Builder(UserLogin.this)
-                                        .setTitle("Incorrect Password")
-                                        .setMessage("The provided password is incorrect. Please retry.")
-                                        .setPositiveButton("OK", null)
-                                        .show();
+                                MyDialog.errorDialog(UserLogin.this,
+                                        "Incorrect Password",
+                                        "The provided password is incorrect. Please retry."
+                                );
                                 return;
                             }
 
@@ -106,7 +102,7 @@ public class UserLogin extends AppCompatActivity {
                     })
                     .addOnFailureListener(new OnFailureListener() {           // query failed!
                         @Override
-                        public void onFailure(@NonNull Exception e) { Log.d("UserLogin.DB", "Failed to perform query. Detail: ", e); }
+                        public void onFailure(@NonNull Exception e) { Log.d("UserLogin.DB", "Failed to perform query.", e); }
                     });
         }
 

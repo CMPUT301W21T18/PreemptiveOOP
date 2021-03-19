@@ -9,12 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PreemptiveOOP">
-        <activity android:name=".experiment.activity.ExperimentList"></activity>
-        <activity android:name=".user.activity.UserRegister" />
+        <activity android:name=".experiment.ExperimentList"></activity>
+        <activity android:name=".user.UserRegister" />
         <activity
             android:name=".ui.login.UserRegister"
             android:label="@string/title_activity_user_register" />
-        <activity android:name=".user.activity.UserLogin" />
+        <activity android:name=".user.UserLogin" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

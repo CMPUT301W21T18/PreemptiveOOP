@@ -1,7 +1,6 @@
-package com.example.preemptiveoop.user.activity;
+package com.example.preemptiveoop.user;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -13,7 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.preemptiveoop.R;
-import com.example.preemptiveoop.user.User;
+import com.example.preemptiveoop.uiwidget.MyDialog;
+import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,11 +41,10 @@ public class UserRegister extends AppCompatActivity {
         String contact = etContact.getText().toString();
 
         if (username.equals("") || password.equals("") || contact.equals("")) {
-            new AlertDialog.Builder(UserRegister.this)
-                    .setTitle("Empty Fields")
-                    .setMessage("Please provide username, password, and contact info.")
-                    .setPositiveButton("OK", null)
-                    .show();
+            MyDialog.errorDialog(UserRegister.this,
+                    "Empty Fields",
+                    "Please provide username, password, and contact info."
+            );
             return;
         }
 

@@ -1,4 +1,4 @@
-package com.example.preemptiveoop.experiment;
+package com.example.preemptiveoop.experiment.model;
 
 import android.location.Location;
 
@@ -28,4 +28,6 @@ public class Trial <T extends Number> {
 
     public T getResult() { return result; }
     public boolean isIgnored() { return isIgnored; }
+
+    public void setResult(T result) { this.result = result; }
 }
