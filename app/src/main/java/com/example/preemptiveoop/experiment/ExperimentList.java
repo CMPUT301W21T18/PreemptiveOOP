@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +62,14 @@ public class ExperimentList extends AppCompatActivity {
         experiments = new ArrayList<>();
         expAdapter = new ExpArrayAdatper(this, experiments, user);
         expListView.setAdapter(expAdapter);
+
+        expListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ManageExperiment fragment = new ManageExperiment(experiments.get(position), user);
+                fragment.show(getSupportFragmentManager(), "MANAGE_EXPERIMENT");
+            }
+        });
 
         btSearch.setOnClickListener(this::btSearchOnClick);
 
