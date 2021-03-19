@@ -36,7 +36,7 @@ public class DisplayExpStats extends AppCompatActivity {
         ArrayList<Trial> trials = exp.getTrials();
 
 
-        if(exp.getType().equals("Count")|| exp.getType().equals("NonNegative")||exp.getType().equals("Measurement")){
+        if (exp.getType().equals("Count")|| exp.getType().equals("NonNegative")||exp.getType().equals("Measurement")) {
 
             BarChart barChart = findViewById(R.id.graphicv_exp_display_stats);
 
@@ -62,14 +62,6 @@ public class DisplayExpStats extends AppCompatActivity {
             barChart.getDescription().setText(exp.getDescription());
             barChart.animateY(1500);
             barChart.setDrawGridBackground(false);
-
         }
-
-
     }
-
-
-
-
-
 }
