@@ -9,15 +9,19 @@
     tools:context=".MainActivity">
 
     <RadioGroup
+        android:id="@+id/RadioButton_expType"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/RadioButton_ownedExp" >
 
         <RadioButton
+            android:id="@+id/RadioButton_ownedExp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Owned Experiments" />
 
         <RadioButton
+            android:id="@+id/RadioButton_partiExp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Participated Experiments" />

@@ -74,7 +74,7 @@ public class PublishExperiment extends DialogFragment {
                 owner.addToOwnedExp(newExp);
                 owner.writeToDatabase();
 
-                ((ExperimentList) getActivity()).readExpFromDatabase(owner.getOwnedExpIdList());
+                ((ExperimentList) getActivity()).displayOwnedExpList();
             }
         });
         return builder.create();

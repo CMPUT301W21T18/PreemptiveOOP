@@ -63,6 +63,9 @@ public class Experiment <T extends Trial> {
     public void addTrial(T trial) {
         trials.add(trial);
     }
+    public void addExperimenter(String username) {
+        experimenters.add(username);
+    }
 
     public String getDatabaseId() { return databaseId; }
     public String getType() { return type; }

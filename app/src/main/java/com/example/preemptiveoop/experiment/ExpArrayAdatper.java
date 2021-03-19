@@ -36,14 +36,16 @@ public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
         Experiment exp = experiments.get(position);
 
         TextView tvOwner = view.findViewById(R.id.TextView_owner);
+        TextView tvCreationDate = view.findViewById(R.id.TextView_creationDate);
         TextView tvDescr = view.findViewById(R.id.TextView_description);
         TextView tvRegion = view.findViewById(R.id.TextView_region);
         TextView tvMinTrial = view.findViewById(R.id.TextView_numOfTrials);
 
         tvOwner.setText(exp.getOwner());
+        tvCreationDate.setText(exp.getCreationDate().toString());
         tvDescr.setText(exp.getDescription());
-        tvRegion.setText(exp.getRegion().toString());
-        tvMinTrial.setText(exp.getTrials().size());
+        //tvRegion.setText(exp.getRegion().toString());
+        tvMinTrial.setText(String.valueOf(exp.getTrials().size()));
         return view;
     }
 }
