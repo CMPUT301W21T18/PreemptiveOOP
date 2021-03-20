@@ -72,6 +72,9 @@ public class ManageExperiment extends DialogFragment {
     }
 
     public void btStatsOnClick(View v) {
+        Intent i = new Intent(getActivity(),DisplayExpStats.class);
+        i.putExtra(".experiment",experiment);
+        startActivity(i);
 
     }
 
@@ -111,4 +114,7 @@ public class ManageExperiment extends DialogFragment {
         ((ExperimentList) getActivity()).updateExperimentList();
         endThisFragment();
     }
+
+
+
 }

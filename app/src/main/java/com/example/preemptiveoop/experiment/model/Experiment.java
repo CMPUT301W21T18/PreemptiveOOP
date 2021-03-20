@@ -97,4 +97,5 @@ public class Experiment <T extends GenericTrial> implements Serializable {
 
     // setters
     public void setStatus(String status) { this.status = status; }
+
 }
