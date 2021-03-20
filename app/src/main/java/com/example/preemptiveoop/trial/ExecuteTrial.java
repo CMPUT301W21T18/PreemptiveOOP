@@ -1,7 +1,5 @@
 package com.example.preemptiveoop.trial;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,16 +7,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.BinomialExp;
 import com.example.preemptiveoop.experiment.model.CountExp;
 import com.example.preemptiveoop.experiment.model.Experiment;
-import com.example.preemptiveoop.experiment.model.GenericExperiment;
 import com.example.preemptiveoop.experiment.model.MeasurementExp;
 import com.example.preemptiveoop.experiment.model.NonNegativeExp;
-import com.example.preemptiveoop.trial.model.Trial;
+import com.example.preemptiveoop.trial.model.BinomialTrial;
+import com.example.preemptiveoop.trial.model.CountTrial;
+import com.example.preemptiveoop.trial.model.MeasurementTrial;
+import com.example.preemptiveoop.trial.model.NonNegativeTrial;
 import com.example.preemptiveoop.uiwidget.MyDialog;
-import com.example.preemptiveoop.user.UserLogin;
 import com.example.preemptiveoop.user.model.User;
 
 import java.util.Date;
@@ -74,17 +75,18 @@ public class ExecuteTrial extends AppCompatActivity {
     }
 
     public void btSuccessOnClick(View v) {
-        ((BinomialExp) experiment).addTrial(new Trial<Integer>(user.getUsername(), new Date(), null, 1));
+        ((BinomialExp) experiment).addTrial(new BinomialTrial(user.getUsername(), new Date(), null, 1));
         experiment.writeToDatabase();
     }
     public void btFailureOnClick(View v) {
-        ((BinomialExp) experiment).addTrial(new Trial<Integer>(user.getUsername(), new Date(), null, 0));
+        ((BinomialExp) experiment).addTrial(new BinomialTrial(user.getUsername(), new Date(), null, 0));
         experiment.writeToDatabase();
     }
 
     public void btRecordOnClick(View v) {
+
         if (experiment.getType().equals(Experiment.TYPE_COUNT)) {
-            ((CountExp) experiment).addTrial(new Trial<Integer>(user.getUsername(), new Date(), null, 1));
+            ((CountExp) experiment).addTrial(new CountTrial(user.getUsername(), new Date(), null, 1));
             experiment.writeToDatabase();
             return;
         }
@@ -99,7 +101,7 @@ public class ExecuteTrial extends AppCompatActivity {
                 return;
             }
 
-            ((MeasurementExp) experiment).addTrial(new Trial<Double>(user.getUsername(), new Date(), null, result));
+            ((MeasurementExp) experiment).addTrial(new MeasurementTrial(user.getUsername(), new Date(), null, result));
             experiment.writeToDatabase();
             return;
         }
@@ -112,7 +114,7 @@ public class ExecuteTrial extends AppCompatActivity {
                 return;
             }
 
-            ((NonNegativeExp) experiment).addTrial(new Trial<Integer>(user.getUsername(), new Date(), null, result));
+            ((NonNegativeExp) experiment).addTrial(new NonNegativeTrial(user.getUsername(), new Date(), null, result));
             experiment.writeToDatabase();
             return;
         }

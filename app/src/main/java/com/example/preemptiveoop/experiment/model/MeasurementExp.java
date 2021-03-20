@@ -3,7 +3,6 @@ package com.example.preemptiveoop.experiment.model;
 import android.location.Location;
 
 import com.example.preemptiveoop.trial.model.MeasurementTrial;
-import com.example.preemptiveoop.trial.model.Trial;
 
 import java.util.Date;
 

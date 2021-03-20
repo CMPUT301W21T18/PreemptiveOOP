@@ -2,9 +2,10 @@ package com.example.preemptiveoop.trial.model;
 
 import android.location.Location;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class GenericTrial {
+public class GenericTrial implements Serializable {
     private String creator;
     private Date creationDate;
     private Location location;

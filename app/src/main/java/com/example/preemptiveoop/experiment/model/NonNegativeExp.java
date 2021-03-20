@@ -2,9 +2,7 @@ package com.example.preemptiveoop.experiment.model;
 
 import android.location.Location;
 
-import com.example.preemptiveoop.trial.model.CountTrial;
 import com.example.preemptiveoop.trial.model.NonNegativeTrial;
-import com.example.preemptiveoop.trial.model.Trial;
 
 import java.util.Date;
 
@@ -12,7 +10,7 @@ public class NonNegativeExp extends Experiment <NonNegativeTrial> {
     public NonNegativeExp() {}
     public NonNegativeExp(String databaseId, String owner, Date creationDate, String description,
                     Location region, boolean requireLocation, int requiredNumOfTrial) {
-        super(databaseId, Experiment.TYPE_COUNT, owner, creationDate, description, region, requireLocation, requiredNumOfTrial);
+        super(databaseId, Experiment.TYPE_NON_NEGATIVE, owner, creationDate, description, region, requireLocation, requiredNumOfTrial);
     }
 
     @Override
