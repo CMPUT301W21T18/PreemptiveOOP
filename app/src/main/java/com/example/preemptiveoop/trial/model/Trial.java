@@ -4,7 +4,7 @@ import android.location.Location;
 
 import java.util.Date;
 
-public class Trial <T extends Number> {
+public class Trial <T> {
     private String creator;
     private Date creationDate;
     private Location location;

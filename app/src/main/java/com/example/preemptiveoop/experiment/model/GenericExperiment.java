@@ -1,20 +1,18 @@
 package com.example.preemptiveoop.experiment.model;
 
-import com.example.preemptiveoop.trial.model.Trial;
-
-import java.util.ArrayList;
+import com.example.preemptiveoop.trial.model.GenericTrial;
 
 // firestore compatible class for reading from db
-public class GenericExperiment extends Experiment<Trial<Number>> {
+public class GenericExperiment extends Experiment<GenericTrial> {
     public GenericExperiment() { super(); }
-    public GenericExperiment(Experiment exp) {
+    /*public GenericExperiment(Experiment exp) {
         super(exp.getDatabaseId(), exp.getType(), exp.getOwner(), exp.getCreationDate(),
                 exp.getDescription(),
                 exp.getRegion(),
                 exp.isRequireLocation(),
                 exp.getMinNumOfTrials()
         );
-    }
+    }*/
 
     public BinomialExp toBinomialExp() {
         BinomialExp exp =  new BinomialExp(
@@ -29,8 +27,8 @@ public class GenericExperiment extends Experiment<Trial<Number>> {
         exp.setStatus(super.getStatus());
         exp.getExperimenters().addAll(super.getExperimenters());
 
-        for (Trial t : super.getTrials())
-            exp.addTrial(new Trial<Integer>(t.getCreator(), t.getCreationDate(), t.getLocation(), t.getResult().intValue()));
+        for (GenericTrial trial : super.getTrials())
+            exp.addTrial(trial.toBinomialTrial());
         return exp;
     }
 
@@ -47,9 +45,9 @@ public class GenericExperiment extends Experiment<Trial<Number>> {
         exp.setStatus(super.getStatus());
         exp.getExperimenters().addAll(super.getExperimenters());
 
-        for (Trial t : super.getTrials())
-            exp.addTrial(new Trial<Integer>(t.getCreator(), t.getCreationDate(), t.getLocation(), t.getResult().intValue()));
-            return exp;
+        for (GenericTrial trial : super.getTrials())
+            exp.addTrial(trial.toCountTrial());
+        return exp;
     }
 
     public MeasurementExp toMeasurementExp() {
@@ -65,8 +63,8 @@ public class GenericExperiment extends Experiment<Trial<Number>> {
         exp.setStatus(super.getStatus());
         exp.getExperimenters().addAll(super.getExperimenters());
 
-        for (Trial t : super.getTrials())
-            exp.addTrial(new Trial<Double>(t.getCreator(), t.getCreationDate(), t.getLocation(), t.getResult().doubleValue()));
+        for (GenericTrial trial : super.getTrials())
+            exp.addTrial(trial.toMeasurementTrial());
         return exp;
     }
 
@@ -83,8 +81,8 @@ public class GenericExperiment extends Experiment<Trial<Number>> {
         exp.setStatus(super.getStatus());
         exp.getExperimenters().addAll(super.getExperimenters());
 
-        for (Trial t : super.getTrials())
-            exp.addTrial(new Trial<Integer>(t.getCreator(), t.getCreationDate(), t.getLocation(), t.getResult().intValue()));
+        for (GenericTrial trial : super.getTrials())
+            exp.addTrial(trial.toNonNegativeTrial());
         return exp;
     }
 
