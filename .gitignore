@@ -38,3 +38,4 @@ obj/
 
 # others
 local.properties
+app/src/main/AndroidManifest.xml

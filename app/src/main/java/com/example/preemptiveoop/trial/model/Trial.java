@@ -4,7 +4,7 @@ import android.location.Location;
 
 import java.util.Date;
 
-public class Trial <T extends Number> {
+public class Trial <T extends Number>  implements Comparable<Trial>{
     private String creator;
     private Date creationDate;
     private Location location;
@@ -32,4 +32,18 @@ public class Trial <T extends Number> {
 
     // setters
     public void setResult(T result) { this.result = result; }
+
+
+
+    @Override
+    public int compareTo(Trial o) {
+
+        if(this.getResult().doubleValue()>o.getResult().doubleValue()){
+            return 1;
+        }else if(this.getResult().doubleValue() < o.getResult().doubleValue()){
+            return -1;
+        }else{
+            return 0;
+        }
+    }
 }
