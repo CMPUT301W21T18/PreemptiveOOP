@@ -37,29 +37,6 @@ public class MainActivity extends AppCompatActivity {
         btExperiment.setOnClickListener(this::btExperimentOnClick);
         btSearch.setOnClickListener(this::btSearchOnClick);
 
-        /*CollectionReference trialCol = FirebaseFirestore.getInstance().collection("Trials");
-        String newId = trialCol.document().getId();
-
-        BinomialTrial t1 = new BinomialTrial("TestCreator", new Date(), null, 10);
-        trialCol.document(newId).set(t1);
-
-        trialCol.document(newId).get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        GenericTrial  t2 = documentSnapshot.toObject(GenericTrial.class);
-                        BinomialTrial t3 = t2.toBinomialTrial();
-
-                        Log.d("MainActivity.DB", "Trial read successful.");
-                    }
-                })
-               .addOnFailureListener(new OnFailureListener() {
-                   @Override
-                   public void onFailure(@NonNull Exception e) {
-                       Log.d("MainActivity.DB", "Trial read failed.", e);
-                   }
-               });*/
-
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
     }
