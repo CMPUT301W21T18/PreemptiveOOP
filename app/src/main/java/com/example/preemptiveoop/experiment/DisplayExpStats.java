@@ -23,24 +23,6 @@ public class DisplayExpStats extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acticity_experiment_results);
 
-    /*
-        Experiment exp = new MeasurementExp(null, "xiaolei", new Date(), "hello", null, false, 3);;
-
-        Trial<Double> t1 = new Trial<>();
-        Trial<Double> t2 = new Trial<>();
-        Trial<Double> t3 = new Trial<>();
-
-        t1.setResult(3.0);
-        t3.setResult(3.7);
-        t2.setResult(2.2);
-
-
-        exp.addTrial(t1);
-        exp.addTrial(t2);
-        exp.addTrial(t3);
-
-     */
-
     }
 
 
@@ -108,11 +90,5 @@ public class DisplayExpStats extends AppCompatActivity {
         //TextView tv_quartiles = findViewById(R.id.tv_result_quartiles);
 
 
-
     }
-
-
-
-
-
 }
