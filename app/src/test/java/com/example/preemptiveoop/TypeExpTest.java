@@ -6,7 +6,10 @@ import com.example.preemptiveoop.experiment.model.BinomialExp;
 import com.example.preemptiveoop.experiment.model.CountExp;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.experiment.model.NonNegativeExp;
-import com.example.preemptiveoop.experiment.model.Trial;
+import com.example.preemptiveoop.trial.model.BinomialTrial;
+import com.example.preemptiveoop.trial.model.CountTrial;
+import com.example.preemptiveoop.trial.model.GenericTrial;
+import com.example.preemptiveoop.trial.model.NonNegativeTrial;
 
 
 import java.util.Date;
@@ -30,21 +33,21 @@ public class TypeExpTest {
                 null,"This is a mock binomial Experimental",
                 null, false,8);
     }
-    private Trial mockFalseTrial(){
-        return new Trial("Charlie", null, null, 0);
+    private GenericTrial mockFalseTrial(){
+        return new GenericTrial("Charlie", null, null, "0");
     }
-    private Trial mockTrueTrial(){
-        return new Trial("Lucy", null, null, 1);
+    private GenericTrial mockTrueTrial(){
+        return new GenericTrial("Lucy", null, null, "1");
     }
-    private Trial mockIllegalTrial(){
-        return new Trial("Felix", null, null, -3);
+    private GenericTrial mockIllegalTrial(){
+        return new GenericTrial("Felix", null, null, "-3");
     }
 
     @Test
     public void TestAddLegalTrials_Bino(){
         BinomialExp binomialExp = mockBinoExperiment();
-        binomialExp.addTrial(mockFalseTrial());
-        binomialExp.addTrial(mockTrueTrial());
+        binomialExp.addTrial(mockFalseTrial().toBinomialTrial());
+        binomialExp.addTrial(mockTrueTrial().toBinomialTrial());
         assertEquals(2,binomialExp.getTrials().size());
     }
 
@@ -53,14 +56,14 @@ public class TypeExpTest {
         BinomialExp binomialExp = mockBinoExperiment();
         //binomialExp.addTrial(mockIllegalTrial());
         assertThrows(IllegalArgumentException.class, () -> {
-            binomialExp.addTrial(mockIllegalTrial());
+            binomialExp.addTrial(mockIllegalTrial().toBinomialTrial());
         });
     }
     @Test
     public void TestAddLegalTrials_Count(){
         CountExp countExp = mockCountExperiment();
-        countExp.addTrial(mockTrueTrial());
-        countExp.addTrial(mockTrueTrial());
+        countExp.addTrial(mockTrueTrial().toCountTrial());
+        countExp.addTrial(mockTrueTrial().toCountTrial());
         assertEquals(2,countExp.getTrials().size());
     }
 
@@ -68,14 +71,14 @@ public class TypeExpTest {
     public void TestIllegalTrials_Count(){
         CountExp countExp = mockCountExperiment();
         assertThrows(IllegalArgumentException.class, () -> {
-            countExp.addTrial(mockIllegalTrial());
+            countExp.addTrial(mockIllegalTrial().toCountTrial());
         });
     }
     @Test
     public void TestAddLegalTrials_NonN(){
         NonNegativeExp nonNegativeExp = mockNonNegExperiment();
-        nonNegativeExp.addTrial(mockFalseTrial());
-        nonNegativeExp.addTrial(mockTrueTrial());
+        nonNegativeExp.addTrial(mockFalseTrial().toNonNegativeTrial());
+        nonNegativeExp.addTrial(mockTrueTrial().toNonNegativeTrial());
         assertEquals(2,nonNegativeExp.getTrials().size());
     }
 
@@ -83,7 +86,7 @@ public class TypeExpTest {
     public void TestIllegalTrials_NonN(){
         NonNegativeExp nonNegativeExp = mockNonNegExperiment();
         assertThrows(IllegalArgumentException.class, () -> {
-            nonNegativeExp.addTrial(mockIllegalTrial());
+            nonNegativeExp.addTrial(mockIllegalTrial().toNonNegativeTrial());
         });
     }
 

@@ -5,14 +5,14 @@ import com.example.preemptiveoop.trial.model.GenericTrial;
 // firestore compatible class for reading from db
 public class GenericExperiment extends Experiment<GenericTrial> {
     public GenericExperiment() { super(); }
-    /*public GenericExperiment(Experiment exp) {
+    public GenericExperiment(Experiment exp) {
         super(exp.getDatabaseId(), exp.getType(), exp.getOwner(), exp.getCreationDate(),
                 exp.getDescription(),
                 exp.getRegion(),
                 exp.isRequireLocation(),
                 exp.getMinNumOfTrials()
         );
-    }*/
+    }
 
     public BinomialExp toBinomialExp() {
         BinomialExp exp =  new BinomialExp(
