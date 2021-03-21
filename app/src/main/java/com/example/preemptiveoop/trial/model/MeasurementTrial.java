@@ -4,6 +4,10 @@ import android.location.Location;
 
 import java.util.Date;
 
+/**
+ * The MeasurementTrial class is used to store and manage a measurement trial result. The result is
+ * stored as a Double.
+ */
 public class MeasurementTrial extends GenericTrial {
     Double result;
 

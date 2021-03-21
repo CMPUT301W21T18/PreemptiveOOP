@@ -4,6 +4,10 @@ import android.location.Location;
 
 import java.util.Date;
 
+/**
+ * The BinomialTrial class is used to store and manage a binomial trial result. The result is stored
+ * as a Integer.
+ */
 public class BinomialTrial extends GenericTrial {
     Integer result;
 
