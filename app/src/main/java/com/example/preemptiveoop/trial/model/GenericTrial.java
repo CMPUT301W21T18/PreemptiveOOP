@@ -26,6 +26,7 @@ public class GenericTrial implements Serializable {
     public BinomialTrial toBinomialTrial() {
         return new BinomialTrial(creator, creationDate, location, Integer.parseInt(resultStr));
     }
+
     public CountTrial toCountTrial() {
         return new CountTrial(creator, creationDate, location, Integer.parseInt(resultStr));
     }
@@ -46,4 +47,7 @@ public class GenericTrial implements Serializable {
 
     // setters
     public void setResultStr(String resultStr) { this.resultStr = resultStr; }
+
+    public void setCreationDate(Date d){this.creationDate = d;};
+
 }
