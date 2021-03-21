@@ -6,11 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="  Histogram"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
 
     <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/graphicv_exp_display_stats"
+        android:layout_marginTop="200dp"
+        android:id="@+id/gv_histogram"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="400dp" />
 
 
 </LinearLayout>
