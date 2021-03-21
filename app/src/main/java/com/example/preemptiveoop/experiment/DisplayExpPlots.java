@@ -30,7 +30,7 @@ public class DisplayExpPlots extends AppCompatActivity {
         setContentView(R.layout.activity_display_exp_plot);
 
 
-        Experiment exp =(Experiment) getIntent().getSerializableExtra("InputExp");
+        exp =(Experiment) getIntent().getSerializableExtra(".experiment");
 
 
         /*

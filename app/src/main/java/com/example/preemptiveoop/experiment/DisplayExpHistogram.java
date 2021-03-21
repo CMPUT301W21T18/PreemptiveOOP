@@ -6,7 +6,9 @@ import android.os.Bundle;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.experiment.model.MeasurementExp;
 import com.example.preemptiveoop.trial.model.GenericTrial;
+import com.example.preemptiveoop.trial.model.MeasurementTrial;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -50,6 +52,8 @@ public class DisplayExpHistogram extends AppCompatActivity {
         exp.addTrial(t3);
 
          */
+
+
 
     }
 
