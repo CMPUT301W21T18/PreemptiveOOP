@@ -1,5 +1,6 @@
 package com.example.preemptiveoop.trial.model;
 
+
 import java.util.Comparator;
 
 public class TrialComparator implements Comparator<GenericTrial> {

@@ -49,7 +49,6 @@ public class DisplayExpPlots extends AppCompatActivity {
         exp.addTrial(t1);
         exp.addTrial(t2);
         exp.addTrial(t3);
-
          */
 
     }
