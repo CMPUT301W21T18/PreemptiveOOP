@@ -83,6 +83,11 @@ public class ExperimentList extends AppCompatActivity {
 
         etKeywords.setVisibility(View.GONE);
         btSearch.setVisibility(View.GONE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         updateExperimentList();
     }
 
