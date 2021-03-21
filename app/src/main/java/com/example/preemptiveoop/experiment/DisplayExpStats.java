@@ -3,17 +3,9 @@ package com.example.preemptiveoop.experiment;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
-import com.example.preemptiveoop.experiment.model.MeasurementExp;
-import com.example.preemptiveoop.trial.model.Trial;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
 
 public class DisplayExpStats extends AppCompatActivity {
 
@@ -21,7 +13,7 @@ public class DisplayExpStats extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.acticity_experiment_results);
+        setContentView(R.layout.activity_display_exp_stats);
 
     }
 
@@ -32,11 +24,11 @@ public class DisplayExpStats extends AppCompatActivity {
 
         Experiment exp =(Experiment) getIntent().getSerializableExtra(".experiment");
 
-        ArrayList<Trial> trials = exp.getTrials();
+        /*ArrayList<Trial> trials = exp.getTrials();
 
-        /*
-        Calculate mean
-         */
+
+        //Calculate mean
+
         double sum = 0;
         for (Trial trial : trials) {
             sum += trial.getResult().doubleValue();
@@ -44,9 +36,9 @@ public class DisplayExpStats extends AppCompatActivity {
         double mean = sum/trials.size();
 
 
-        /*
-        Calculate median
-         */
+
+        //Calculate median
+
         Collections.sort(trials);
         double median;
         if(trials.size()%2 == 1){
@@ -59,9 +51,9 @@ public class DisplayExpStats extends AppCompatActivity {
 
 
 
-        /*
-        calculate standard deviation
-         */
+
+        //calculate standard deviation
+
         double stdv = 0.0;
         for (Trial trial : trials) {
             stdv += Math.pow(trial.getResult().doubleValue()-mean,2);
@@ -87,7 +79,7 @@ public class DisplayExpStats extends AppCompatActivity {
         tv_stdv.setText(strStdv);
 
 
-        //TextView tv_quartiles = findViewById(R.id.tv_result_quartiles);
+        //TextView tv_quartiles = findViewById(R.id.tv_result_quartiles);*/
 
 
     }

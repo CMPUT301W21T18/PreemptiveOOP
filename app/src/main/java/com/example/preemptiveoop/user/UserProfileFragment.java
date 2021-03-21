@@ -31,7 +31,7 @@ public class UserProfileFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_edit_userprofile, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_edit_user_profile, null);
 
         usr_name = view.findViewById(R.id.textView_usrname);
         contact = view.findViewById(R.id.editTextTextEmailAddress);

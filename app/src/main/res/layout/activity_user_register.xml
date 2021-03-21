@@ -76,7 +76,6 @@
         android:backgroundTint="#42403E"
         android:drawableLeft="@drawable/ic_done"
         android:drawablePadding="@dimen/activity_horizontal_margin"
-        android:onClick="btRegisterOnClick"
         android:padding="60dp"
         android:textColor="#FAF7F7"
         android:textColorHighlight="#FFFFFF"
