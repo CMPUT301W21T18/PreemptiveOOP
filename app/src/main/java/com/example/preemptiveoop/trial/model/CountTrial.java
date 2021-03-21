@@ -4,6 +4,10 @@ import android.location.Location;
 
 import java.util.Date;
 
+/**
+ * The CountTrial class is used to store and manage a count trial result. The result is stored
+ * as a Integer.
+ */
 public class CountTrial extends GenericTrial {
     Integer result;
 

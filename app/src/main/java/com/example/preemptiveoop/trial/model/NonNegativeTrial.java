@@ -4,6 +4,10 @@ import android.location.Location;
 
 import java.util.Date;
 
+/**
+ * The NonNegativeTrial class is used to store and manage a non-negative trial result. The result is
+ * stored as a Integer.
+ */
 public class NonNegativeTrial extends GenericTrial {
     Integer result;
 

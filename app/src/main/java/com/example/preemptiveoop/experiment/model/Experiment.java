@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * The Experiment class is a generic class to be extended by other specific experiment types.
+ * @param <T>   The type of trial.
+ */
 public class Experiment <T extends GenericTrial> implements Serializable {
     public static final String TYPE_BINOMIAL = "Binomial";
     public static final String TYPE_NON_NEGATIVE = "NonNegative";

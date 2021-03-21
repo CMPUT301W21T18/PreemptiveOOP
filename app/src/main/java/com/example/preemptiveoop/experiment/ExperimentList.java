@@ -152,6 +152,11 @@ public class ExperimentList extends AppCompatActivity {
     }
 
     public void updateExperimentList() {
+        if (searchMode) {
+            displaySearchedExpList(etKeywords.getText().toString());
+            return;
+        }
+
         int checkId = rgExpType.getCheckedRadioButtonId();
         rgExpTypeOnCheckedChanged(rgExpType, checkId);
     }

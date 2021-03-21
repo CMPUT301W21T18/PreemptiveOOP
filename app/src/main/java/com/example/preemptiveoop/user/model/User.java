@@ -6,6 +6,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * The GenericTrial class is a Firestore compatible class used directly to store and manage a user's
+ * profile.
+ */
 public class User implements Serializable {
     private String username;    // databaseId
     private String password;

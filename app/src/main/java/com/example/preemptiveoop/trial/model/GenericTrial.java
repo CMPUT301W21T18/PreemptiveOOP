@@ -5,6 +5,10 @@ import android.location.Location;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * The GenericTrial class is a Firestore compatible class used as a intermedium for reading/writing
+ * trial data to Firestore. It contains conversion methods for other specific trial types.
+ */
 public class GenericTrial implements Serializable {
     private String creator;
     private Date creationDate;
