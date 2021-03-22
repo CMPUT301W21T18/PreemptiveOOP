@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/EditText_keywords"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Keywords" />
+
+    <Button
+        android:id="@+id/Button_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search" />
+
+    <RadioGroup
+        android:id="@+id/RadioButton_expType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checkedButton="@id/RadioButton_ownedExp" >
+
+        <RadioButton
+            android:id="@+id/RadioButton_ownedExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Owned Experiments" />
+
+        <RadioButton
+            android:id="@+id/RadioButton_partiExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Participated Experiments" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+    <ListView
+        android:id="@+id/ListView_experiments"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/Button_addExp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:clickable="true"
+        android:focusable="true"
+        app:srcCompat="@android:drawable/ic_input_add" />
+    </FrameLayout>
+</LinearLayout>

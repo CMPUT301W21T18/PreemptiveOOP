@@ -1,48 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/registerbg"
+    android:background="@drawable/loginbg"
     android:orientation="vertical">
 
 
     <EditText
         android:id="@+id/EditText_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="370dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/login_register_user_input"
+        android:drawableLeft="@drawable/ic_action_name_loginadp"
         android:hint="Username"
-        android:textColor="#fff"
-        android:textColorHint="#FFFFFF"
-        android:textStyle="bold" />
+
+        android:padding="12dp"
+        android:textColor="#373535"
+        android:textColorHint="#595555"
+        app:layout_constraintBottom_toTopOf="@+id/EditText_password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/EditText_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp"
+        android:background="@drawable/login_register_user_input"
+        android:drawableLeft="@drawable/ic_action_user_loginlock"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textStyle="bold" />
+        android:padding="12dp"
+        android:textColor="#4C4A4A"
+        android:textColorHighlight="#FFFFFF"
+        android:textColorHint="#575555"
+        android:textColorLink="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/EditText_contact"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditText_username" />
 
     <EditText
         android:id="@+id/EditText_contact"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Contact Info"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF"
-        android:textStyle="bold" />
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/login_register_user_input"
+        android:drawableLeft="@drawable/ic_action_email"
+        android:hint="contact information"
+        android:padding="12dp"
+        android:textColor="#434141"
+        android:textColorHint="#474545"
+        android:textColorLink="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/Button_register"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditText_password" />
 
     <Button
         android:id="@+id/Button_register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="147dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="105dp"
         android:background="@drawable/round_button"
         android:backgroundTint="#42403E"
-        android:onClick="btRegisterOnClick"
-        android:text="Register"
+        android:drawableLeft="@drawable/ic_done"
+        android:drawablePadding="@dimen/activity_horizontal_margin"
+        android:padding="60dp"
         android:textColor="#FAF7F7"
         android:textColorHighlight="#FFFFFF"
-        android:textStyle="bold" />
-</LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditText_contact" />
+</androidx.constraintlayout.widget.ConstraintLayout>
