@@ -43,7 +43,9 @@ public class TrialList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 GenericTrial trial = trials.get(position);
                 trial.setIgnored(!trial.isIgnored());
+
                 experiment.writeToDatabase();
+                trialAdapter.notifyDataSetChanged();
             }
         });
     }
