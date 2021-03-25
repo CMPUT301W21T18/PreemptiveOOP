@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PreemptiveOOP">
         <activity android:name=".trial.TrialList"></activity>
+        <activity android:name=".post.QuestionListActivity"></activity>
         <activity android:name=".experiment.DisplayExpHistogram" />
         <activity android:name=".experiment.DisplayExpPlots" />
         <activity android:name=".experiment.DisplayExpStats" />
