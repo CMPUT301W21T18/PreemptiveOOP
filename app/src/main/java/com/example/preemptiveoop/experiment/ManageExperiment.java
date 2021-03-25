@@ -74,6 +74,11 @@ public class ManageExperiment extends DialogFragment {
         return builder.create();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     private void endThisFragment() {
         getFragmentManager().beginTransaction().remove(ManageExperiment.this).commit();
     }

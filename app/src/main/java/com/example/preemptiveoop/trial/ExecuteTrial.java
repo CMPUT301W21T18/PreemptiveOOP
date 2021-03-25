@@ -75,18 +75,24 @@ public class ExecuteTrial extends AppCompatActivity {
     }
 
     public void btSuccessOnClick(View v) {
-        ((BinomialExp) experiment).addTrial(new BinomialTrial(user.getUsername(), new Date(), null, 1));
+        ((BinomialExp) experiment).addTrial(
+                new BinomialTrial(user.getUsername(), new Date(), null, 1, false)
+        );
         experiment.writeToDatabase();
     }
     public void btFailureOnClick(View v) {
-        ((BinomialExp) experiment).addTrial(new BinomialTrial(user.getUsername(), new Date(), null, 0));
+        ((BinomialExp) experiment).addTrial(
+                new BinomialTrial(user.getUsername(), new Date(), null, 0, false)
+        );
         experiment.writeToDatabase();
     }
 
     public void btRecordOnClick(View v) {
 
         if (experiment.getType().equals(Experiment.TYPE_COUNT)) {
-            ((CountExp) experiment).addTrial(new CountTrial(user.getUsername(), new Date(), null, 1));
+            ((CountExp) experiment).addTrial(
+                    new CountTrial(user.getUsername(), new Date(), null, 1, false)
+            );
             experiment.writeToDatabase();
             return;
         }
@@ -101,7 +107,9 @@ public class ExecuteTrial extends AppCompatActivity {
                 return;
             }
 
-            ((MeasurementExp) experiment).addTrial(new MeasurementTrial(user.getUsername(), new Date(), null, result));
+            ((MeasurementExp) experiment).addTrial(
+                    new MeasurementTrial(user.getUsername(), new Date(), null, result, false)
+            );
             experiment.writeToDatabase();
             return;
         }
@@ -114,7 +122,9 @@ public class ExecuteTrial extends AppCompatActivity {
                 return;
             }
 
-            ((NonNegativeExp) experiment).addTrial(new NonNegativeTrial(user.getUsername(), new Date(), null, result));
+            ((NonNegativeExp) experiment).addTrial(
+                    new NonNegativeTrial(user.getUsername(), new Date(), null, result, false)
+            );
             experiment.writeToDatabase();
             return;
         }

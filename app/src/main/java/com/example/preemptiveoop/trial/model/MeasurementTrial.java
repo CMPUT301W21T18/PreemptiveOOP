@@ -12,8 +12,8 @@ public class MeasurementTrial extends GenericTrial {
     Double result;
 
     public MeasurementTrial() {}
-    public MeasurementTrial(String creator, Date creationDate, Location location, Double result) {
-        super(creator, creationDate, location, result.toString());
+    public MeasurementTrial(String creator, Date creationDate, Location location, Double result, boolean isIgnored) {
+        super(creator, creationDate, location, result.toString(), isIgnored);
         this.result = result;
     }
 
