@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/EditText_search_username"
+        android:id="@+id/EditText_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/Button_retrieve_user"
+        android:id="@+id/Button_retrieve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -30,16 +30,16 @@
         android:layout_marginRight="32dp"
         android:text="Retrieve"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/EditText_search_username"
+        app:layout_constraintStart_toEndOf="@+id/EditText_username"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/TextView_retrieve_result"
+        android:id="@+id/TextView_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginLeft="36dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditText_search_username" />
+        app:layout_constraintTop_toBottomOf="@+id/EditText_username" />
 </androidx.constraintlayout.widget.ConstraintLayout>
