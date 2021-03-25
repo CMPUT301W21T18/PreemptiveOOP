@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.post.QuestionListActivity;
 import com.example.preemptiveoop.trial.ExecuteTrial;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.model.User;
@@ -23,7 +24,7 @@ public class ManageExperiment extends DialogFragment {
     private User user;
 
     private Button btStats, btParti, btDoTrial;
-    private Button btEndExp, btUnpublish;
+    private Button btEndExp, btUnpublish, btViewQuestion;
 
     public ManageExperiment(Experiment experiment, User user) {
         super();
@@ -43,6 +44,7 @@ public class ManageExperiment extends DialogFragment {
 
         btEndExp = view.findViewById(R.id.Button_endExp);
         btUnpublish = view.findViewById(R.id.Button_unpublish);
+        btViewQuestion = view.findViewById(R.id.Button_view_question);
 
         btStats.setOnClickListener(this::btStatsOnClick);
         btParti.setOnClickListener(this::btPartiOnClick);
@@ -50,6 +52,7 @@ public class ManageExperiment extends DialogFragment {
 
         btEndExp.setOnClickListener(this::btEndExperimentOnClick);
         btUnpublish.setOnClickListener(this::btUnPublishOnClick);
+        btViewQuestion.setOnClickListener(this::btViewQuestionOnClick);
 
         if (!experiment.getOwner().equals(user.getUsername())) {
             btEndExp.setVisibility(View.GONE);
@@ -110,6 +113,16 @@ public class ManageExperiment extends DialogFragment {
     public void btUnPublishOnClick(View v) {
         experiment.setStatus(Experiment.STATUS_UNPUBLISHED);
         experiment.writeToDatabase();
+
+        ((ExperimentList) getActivity()).updateExperimentList();
+        endThisFragment();
+    }
+
+    public void btViewQuestionOnClick(View v) {
+        Intent intent = new Intent(getActivity(), QuestionListActivity.class);
+        intent.putExtra(".experiment", experiment);
+        intent.putExtra(".user", user);
+        startActivity(intent);
 
         ((ExperimentList) getActivity()).updateExperimentList();
         endThisFragment();
