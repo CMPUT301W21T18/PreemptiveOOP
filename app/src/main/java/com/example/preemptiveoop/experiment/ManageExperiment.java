@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.trial.ExecuteTrial;
+import com.example.preemptiveoop.trial.TrialList;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.model.User;
 
@@ -22,7 +23,7 @@ public class ManageExperiment extends DialogFragment {
     private Experiment experiment;
     private User user;
 
-    private Button btStats, btParti, btDoTrial;
+    private Button btTrials, btStats, btParti, btDoTrial;
     private Button btEndExp, btUnpublish;
 
     public ManageExperiment(Experiment experiment, User user) {
@@ -37,6 +38,7 @@ public class ManageExperiment extends DialogFragment {
         //return super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_manage_experiment, null);
 
+        btTrials    = view.findViewById(R.id.Button_trials);
         btStats     = view.findViewById(R.id.Button_stats);
         btParti     = view.findViewById(R.id.Button_participate);
         btDoTrial   = view.findViewById(R.id.Button_doTrial);
@@ -44,7 +46,9 @@ public class ManageExperiment extends DialogFragment {
         btEndExp = view.findViewById(R.id.Button_endExp);
         btUnpublish = view.findViewById(R.id.Button_unpublish);
 
+        btTrials.setOnClickListener(this::btTrialsOnClick);
         btStats.setOnClickListener(this::btStatsOnClick);
+
         btParti.setOnClickListener(this::btPartiOnClick);
         btDoTrial.setOnClickListener(this::btDoTrialOnClick);
 
@@ -52,6 +56,7 @@ public class ManageExperiment extends DialogFragment {
         btUnpublish.setOnClickListener(this::btUnPublishOnClick);
 
         if (!experiment.getOwner().equals(user.getUsername())) {
+            btTrials.setVisibility(View.GONE);
             btEndExp.setVisibility(View.GONE);
             btUnpublish.setVisibility(View.GONE);
         }
@@ -71,11 +76,16 @@ public class ManageExperiment extends DialogFragment {
         getFragmentManager().beginTransaction().remove(ManageExperiment.this).commit();
     }
 
+    public void btTrialsOnClick(View v) {
+        Intent i = new Intent(getActivity(), TrialList.class);
+        i.putExtra(".experiment", experiment);
+        startActivity(i);
+    }
+
     public void btStatsOnClick(View v) {
         Intent i = new Intent(getActivity(),DisplayExpStats.class);
-        i.putExtra(".experiment",experiment);
+        i.putExtra(".experiment", experiment);
         startActivity(i);
-
     }
 
     public void btPartiOnClick(View v) {
@@ -114,7 +124,4 @@ public class ManageExperiment extends DialogFragment {
         ((ExperimentList) getActivity()).updateExperimentList();
         endThisFragment();
     }
-
-
-
 }

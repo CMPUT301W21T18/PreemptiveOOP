@@ -50,4 +50,5 @@ public class GenericTrial implements Serializable {
 
     // setters
     public void setResultStr(String resultStr) { this.resultStr = resultStr; }
+    public void setIgnored(boolean ignored) { isIgnored = ignored; }
 }
