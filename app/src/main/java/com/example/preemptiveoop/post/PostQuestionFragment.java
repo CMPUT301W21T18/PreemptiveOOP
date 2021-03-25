@@ -25,8 +25,8 @@ public class PostQuestionFragment extends DialogFragment {
     private User user;
     private String expId;
 
-    private EditText edit_title;
-    private EditText edit_body;
+    private EditText etQuestionTitle;
+    private EditText etQuestionBody;
 
     PostQuestionFragment(User user, String expId) {
         super();
@@ -39,8 +39,8 @@ public class PostQuestionFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_post_question, null);
 
-        edit_title = view.findViewById(R.id.editText_question_title);
-        edit_body = view.findViewById(R.id.editText_question_body);
+        etQuestionTitle = view.findViewById(R.id.EditText_question_title);
+        etQuestionBody = view.findViewById(R.id.EditText_question_body);
 
         CollectionReference postCol = FirebaseFirestore.getInstance().collection("Posts");
 
@@ -50,8 +50,8 @@ public class PostQuestionFragment extends DialogFragment {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String title = edit_title.getText().toString();
-                String body = edit_body.getText().toString();
+                String title = etQuestionTitle.getText().toString();
+                String body = etQuestionBody.getText().toString();
 
                 Post new_que = new Question(expId, user.getUsername(), title, body);
 

@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.preemptiveoop.R;
-import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -25,9 +24,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RetrieveProfileFragment extends DialogFragment{
 
-    private TextView textview_result;
-    private EditText edittext_usr_name;
-    private Button button_retrieve;
+    private TextView tvRetrieveResult;
+    private EditText etUsername;
+    private Button btRetrieveUserProfile;
     CollectionReference usrCol = FirebaseFirestore.getInstance().collection("Users");
 
     @NonNull
@@ -35,11 +34,11 @@ public class RetrieveProfileFragment extends DialogFragment{
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_retrieve_profile, null);
 
-        edittext_usr_name = view.findViewById(R.id.editTextSearchUser);
-        button_retrieve = view.findViewById(R.id.Button_get_user);
-        textview_result = view.findViewById(R.id.textView_contact_result);
+        etUsername = view.findViewById(R.id.EditText_search_username);
+        btRetrieveUserProfile = view.findViewById(R.id.Button_retrieve_user);
+        tvRetrieveResult = view.findViewById(R.id.TextView_retrieve_result);
 
-        button_retrieve.setOnClickListener(this::onClick);
+        btRetrieveUserProfile.setOnClickListener(this::onClick);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(view);
         builder.setTitle("Retrieve User Profile");
@@ -49,18 +48,22 @@ public class RetrieveProfileFragment extends DialogFragment{
     }
 
     public void onClick(View v) {
-        String search_usr_name = edittext_usr_name.getText().toString();
+        String search_usr_name = etUsername.getText().toString();
+        if (search_usr_name.equals("")) {
+            tvRetrieveResult.setText("Invalid Username");
+            return;
+        }
         usrCol.document(search_usr_name).get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (!documentSnapshot.exists()) {
-                            textview_result.setText("Invalid Username");
+                            tvRetrieveResult.setText("Invalid Username");
                             return;
                         }
 
                         User user = documentSnapshot.toObject(User.class);
-                        textview_result.setText(user.getContact());
+                        tvRetrieveResult.setText(user.getContact());
                         Log.d("USER_PROFILE", "User profile retrieve successfully !");
                     }
                 })

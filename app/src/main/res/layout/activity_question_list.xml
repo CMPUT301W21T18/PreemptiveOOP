@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/ListView_question"
+            android:id="@+id/ListView_questions"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
