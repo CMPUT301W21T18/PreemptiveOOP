@@ -5,6 +5,7 @@ import android.location.Location;
 import com.example.preemptiveoop.trial.model.GenericTrial;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class Experiment <T extends GenericTrial> implements Serializable {
 
         if (databaseId == null)     // if there is no databaseId, create one
             databaseId = expCol.document().getId();
-        expCol.document(databaseId).set(this);
+        expCol.document(databaseId).set(this, SetOptions.merge());
     }
 
     public void addTrial(T trial) {

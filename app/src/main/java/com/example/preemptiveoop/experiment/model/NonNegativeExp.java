@@ -20,7 +20,7 @@ public class NonNegativeExp extends Experiment <NonNegativeTrial> {
     @Override
     public void addTrial(NonNegativeTrial trial) {
         if (trial.getResult() < 0)
-            throw new IllegalArgumentException("Trial for NonNegativeExp can only have a result that's >= 0.");
+            throw new IllegalArgumentException("trial for NonNegativeExp can only have a result that's >= 0.");
         super.addTrial(trial);
     }
 }

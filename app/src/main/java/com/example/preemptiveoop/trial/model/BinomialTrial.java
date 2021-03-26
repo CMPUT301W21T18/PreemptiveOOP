@@ -12,8 +12,8 @@ public class BinomialTrial extends GenericTrial {
     Integer result;
 
     public BinomialTrial() {}
-    public BinomialTrial(String creator, Date creationDate, Location location, Integer result) {
-        super(creator, creationDate, location, result.toString());
+    public BinomialTrial(String creator, Date creationDate, Location location, Integer result, boolean isIgnored) {
+        super(creator, creationDate, location, result.toString(), isIgnored);
         this.result = result;
     }
 

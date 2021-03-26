@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.trial.model.GenericTrial;
-import com.example.preemptiveoop.trial.model.TrialComparator;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
@@ -16,8 +15,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
-
+import java.util.Comparator;
 
 
 public class DisplayExpPlots extends AppCompatActivity {
@@ -52,17 +50,17 @@ public class DisplayExpPlots extends AppCompatActivity {
          */
 
     }
-
-
+    
     @Override
     protected void onResume() {
         super.onResume();
-
         GraphView plot = (GraphView)findViewById(R.id.gv_plot);
 
-
         ArrayList<GenericTrial> trials = exp.getTrials();
-        Collections.sort(trials, new TrialComparator());
+        Collections.sort(trials, new Comparator<GenericTrial>() {
+            @Override
+            public int compare(GenericTrial o1, GenericTrial o2) { return o1.getCreationDate().compareTo(o2.getCreationDate()); }
+        });
 
         int size = trials.size();
         DataPoint[] arrayDataPoints = new DataPoint[size];
@@ -70,7 +68,6 @@ public class DisplayExpPlots extends AppCompatActivity {
         for(int i = 0; i<trials.size();i++){
             arrayDataPoints[i] = new DataPoint(trials.get(i).getCreationDate(),Double.parseDouble(trials.get(i).getResultStr()));
         }
-
 
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arrayDataPoints);
         series.setDrawDataPoints(true);
