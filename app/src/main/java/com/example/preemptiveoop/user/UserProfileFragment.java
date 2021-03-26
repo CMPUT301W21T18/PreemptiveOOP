@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -16,14 +15,12 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.user.model.User;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserProfileFragment extends DialogFragment {
 
-    private TextView usr_name;
+    private TextView username;
     private EditText contact;
     private User user;
     CollectionReference usrCol = FirebaseFirestore.getInstance().collection("User");
@@ -33,7 +30,7 @@ public class UserProfileFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_edit_user_profile, null);
 
-        usr_name = view.findViewById(R.id.textView_usrname);
+        username = view.findViewById(R.id.textView_usrname);
         contact = view.findViewById(R.id.editTextTextEmailAddress);
 
         Bundle bundle = getArguments();
@@ -41,7 +38,7 @@ public class UserProfileFragment extends DialogFragment {
             user = (User) bundle.get("user");
         }
 
-        usr_name.setText(user.getUsername());
+        username.setText(user.getUsername());
         contact.setText(user.getContact());
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -51,19 +48,8 @@ public class UserProfileFragment extends DialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String new_contact = contact.getText().toString();
-                usrCol.document(user.getUsername()).update("contact", new_contact)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d("USER_PROFILE", "Contact successfully updated!");
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("USER_PROFILE", "Contact updated fail!");
-                            }
-                        });
+                user.setContact(new_contact);
+                user.writeToDatabase();
             }
         });
         builder.setNegativeButton("Cancel", null);

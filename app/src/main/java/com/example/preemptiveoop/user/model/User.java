@@ -47,4 +47,7 @@ public class User implements Serializable {
 
     public ArrayList<String> getOwnedExpIdList() { return ownedExpIdList; }
     public ArrayList<String> getPartiExpIdList() { return partiExpIdList; }
+
+    // setters
+    public void setContact(String contact) { this.contact = contact; }
 }
