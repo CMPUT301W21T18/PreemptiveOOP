@@ -50,8 +50,7 @@ public class DisplayExpPlots extends AppCompatActivity {
          */
 
     }
-
-
+    
     @Override
     protected void onResume() {
         super.onResume();
@@ -60,13 +59,7 @@ public class DisplayExpPlots extends AppCompatActivity {
         ArrayList<GenericTrial> trials = exp.getTrials();
         Collections.sort(trials, new Comparator<GenericTrial>() {
             @Override
-            public int compare(GenericTrial o1, GenericTrial o2) {
-                if (o1.getCreationDate().compareTo(o2.getCreationDate()) < 0)
-                    return -1;
-                if (o1.getCreationDate().compareTo(o2.getCreationDate()) > 0)
-                    return 1;
-                return 0;
-            }
+            public int compare(GenericTrial o1, GenericTrial o2) { return o1.getCreationDate().compareTo(o2.getCreationDate()); }
         });
 
         int size = trials.size();

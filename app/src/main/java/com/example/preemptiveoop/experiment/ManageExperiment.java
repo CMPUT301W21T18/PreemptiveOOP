@@ -87,12 +87,18 @@ public class ManageExperiment extends DialogFragment {
         Intent i = new Intent(getActivity(), TrialList.class);
         i.putExtra(".experiment", experiment);
         startActivity(i);
+
+        ((ExperimentList) getActivity()).updateExperimentList();
+        endThisFragment();
     }
 
     public void btStatsOnClick(View v) {
         Intent i = new Intent(getActivity(),DisplayExpStats.class);
         i.putExtra(".experiment", experiment);
         startActivity(i);
+
+        ((ExperimentList) getActivity()).updateExperimentList();
+        endThisFragment();
     }
 
     public void btPartiOnClick(View v) {
