@@ -1,0 +1,57 @@
+package com.example.preemptiveoop.post;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
+import com.example.preemptiveoop.R;
+import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.post.model.Question;
+import com.example.preemptiveoop.post.model.Reply;
+import com.example.preemptiveoop.user.model.User;
+
+import java.util.ArrayList;
+
+public class ReplyListFragment extends DialogFragment {
+
+    private User user;
+    private Experiment experiment;
+    private Question question;
+
+    private ArrayList<Reply> replies;
+    private ArrayAdapter<Reply> postAdapter;
+
+    private ListView postListView;
+
+    public ReplyListFragment(User user, Experiment experiment, Question question) {
+        super();
+        this.user = user;
+        this.experiment = experiment;
+        this.question = question;
+    }
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_reply_list, null);
+
+        postListView = view.findViewById(R.id.ListView_reply);
+
+        replies = question.getReplies();
+        postAdapter = new PostArrayAdapter(getContext(), replies);
+        postListView.setAdapter(postAdapter);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(view).setTitle("Reply List");
+
+        return builder.create();
+    }
+}

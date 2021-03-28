@@ -3,6 +3,7 @@ package com.example.preemptiveoop.post.model;
 import java.util.Date;
 
 public abstract class Post {
+    protected String dbID;
     private String targetExpId;
     private String poster;
 
@@ -24,4 +25,7 @@ public abstract class Post {
     public String getTitle() { return title; }
     public String getBody() { return body; }
     public Date getCreationDate() { return creationDate; }
+    public String getDbID() {
+        return dbID;
+    }
 }
