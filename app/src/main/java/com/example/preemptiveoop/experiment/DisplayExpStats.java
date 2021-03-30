@@ -2,6 +2,8 @@ package com.example.preemptiveoop.experiment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +14,9 @@ import com.example.preemptiveoop.experiment.model.StatCalculator;
 
 public class DisplayExpStats extends AppCompatActivity {
     Experiment experiment;
+
     TextView tvQuart, tvMedian, tvMean, tvStdev;
+    Button btHistogram, btTimePlot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,12 @@ public class DisplayExpStats extends AppCompatActivity {
         tvMedian = findViewById(R.id.tv_result_median);
         tvMean  = findViewById(R.id.tv_result_mean);
         tvStdev = findViewById(R.id.tv_result_stdev);
+
+        btHistogram = findViewById(R.id.Button_histogram);
+        btTimePlot  = findViewById(R.id.Button_timePlot);
+
+        btHistogram.setOnClickListener(this::btHistogramExpOnClick);
+        btTimePlot.setOnClickListener(this::btTimePlotOnClick);
 
         updateStats();
     }
@@ -50,5 +60,16 @@ public class DisplayExpStats extends AppCompatActivity {
         tvMedian.setText(medianStr);
         tvMean.setText(meanStr);
         tvStdev.setText(stdevStr);
+    }
+
+    public void btHistogramExpOnClick(View v) {
+        Intent intent = new Intent(this, DisplayExpHistogram.class);
+        intent.putExtra(".experiment", experiment);
+        startActivity(intent);
+    }
+    public void btTimePlotOnClick(View v) {
+        Intent intent = new Intent(this, DisplayExpTimePlot.class);
+        intent.putExtra(".experiment", experiment);
+        startActivity(intent);
     }
 }
