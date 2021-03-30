@@ -16,8 +16,9 @@ public class BinomialTrial extends GenericTrial {
         super(creator, creationDate, location, result.toString(), isIgnored);
         this.result = result;
     }
-
-    public Integer getResult() { return result; }
+    
+    @Override
+    public Number getResultNum() { return result; }
 
     public void setResult(Integer result) {
         super.setResultStr(result.toString());

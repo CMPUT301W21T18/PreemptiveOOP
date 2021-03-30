@@ -17,7 +17,8 @@ public class CountTrial extends GenericTrial {
         this.result = result;
     }
 
-    public Integer getResult() { return result; }
+    @Override
+    public Number getResultNum() { return result; }
 
     public void setResult(Integer result) {
         super.setResultStr(result.toString());

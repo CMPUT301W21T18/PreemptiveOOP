@@ -17,7 +17,8 @@ public class MeasurementTrial extends GenericTrial {
         this.result = result;
     }
 
-    public Double getResult() { return result; }
+    @Override
+    public Number getResultNum() { return result; }
 
     public void setResult(Double result) {
         super.setResultStr(result.toString());

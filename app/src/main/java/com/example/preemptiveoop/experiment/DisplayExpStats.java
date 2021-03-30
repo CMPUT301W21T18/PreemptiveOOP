@@ -1,86 +1,54 @@
 package com.example.preemptiveoop.experiment;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.experiment.model.StatCalculator;
 
 public class DisplayExpStats extends AppCompatActivity {
-
+    Experiment experiment;
+    TextView tvQuart, tvMedian, tvMean, tvStdev;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_exp_stats);
 
+        // get passed-in arguments
+        Intent intent = getIntent();
+        experiment = (Experiment) intent.getSerializableExtra(".experiment");
+
+        tvQuart  = findViewById(R.id.tv_result_quartiles);
+        tvMedian = findViewById(R.id.tv_result_median);
+        tvMean  = findViewById(R.id.tv_result_mean);
+        tvStdev = findViewById(R.id.tv_result_stdev);
+
+        updateStats();
     }
 
+    public void updateStats() {
+        Double q1 = StatCalculator.calcQuartile(experiment.getTrials(), 1);
+        Double q2 = StatCalculator.calcQuartile(experiment.getTrials(), 2);
+        Double q3 = StatCalculator.calcQuartile(experiment.getTrials(), 3);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        Double mean  = StatCalculator.calcMean(experiment.getTrials());
+        Double stdev = StatCalculator.calcStdev(experiment.getTrials());
 
-        Experiment exp =(Experiment) getIntent().getSerializableExtra(".experiment");
+        String quartStr  = q1.isNaN() ? "Q1 = N/A, " : String.format("Q1 = %.2f, ", q1);
+               quartStr += q3.isNaN() ? "Q3 = N/A  " : String.format("Q3 = %.2f", q3);
+        String medianStr = q2.isNaN() ? "N/A" : String.format("%.2f", q2);
 
-        /*ArrayList<Trial> trials = exp.getTrials();
+        String meanStr  = mean.isNaN() ? "N/A" : String.format("%.2f", mean);
+        String stdevStr = stdev.isNaN() ? "N/A" : String.format("%.2f", stdev);
 
-
-        //Calculate mean
-
-        double sum = 0;
-        for (Trial trial : trials) {
-            sum += trial.getResult().doubleValue();
-        }
-        double mean = sum/trials.size();
-
-
-
-        //Calculate median
-
-        Collections.sort(trials);
-        double median;
-        if(trials.size()%2 == 1){
-            median = trials.get(trials.size()/2).getResult().doubleValue();
-        }else{
-            int med1 = (trials.size()-1)/2;
-            int med2 = (trials.size()+1)/2;
-            median =( trials.get(med1).getResult().doubleValue() + trials.get(med2).getResult().doubleValue())/2;
-        }
-
-
-
-
-        //calculate standard deviation
-
-        double stdv = 0.0;
-        for (Trial trial : trials) {
-            stdv += Math.pow(trial.getResult().doubleValue()-mean,2);
-        }
-        stdv = Math.sqrt(stdv/trials.size());
-
-
-
-
-        String strMean = String.format("%.3f",mean);
-        String strMedian = String.valueOf(median);
-        String strStdv = String.format("%.3f",stdv);
-
-
-        TextView tv_Median = findViewById(R.id.tv_result_median);
-        tv_Median.setText(strMedian);
-
-        TextView tv_Mean = findViewById(R.id.tv_result_mean);
-        tv_Mean.setText(strMean);
-
-
-        TextView tv_stdv = findViewById(R.id.tv_result_stdev);
-        tv_stdv.setText(strStdv);
-
-
-        //TextView tv_quartiles = findViewById(R.id.tv_result_quartiles);*/
-
-
+        tvQuart.setText(quartStr);
+        tvMedian.setText(medianStr);
+        tvMean.setText(meanStr);
+        tvStdev.setText(stdevStr);
     }
 }

@@ -4,9 +4,6 @@ import android.location.Location;
 
 import com.example.preemptiveoop.trial.model.BinomialTrial;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -22,7 +19,7 @@ public class BinomialExp extends Experiment <BinomialTrial> {
 
     @Override
     public void addTrial(BinomialTrial trial) {
-        if (trial.getResult() != 0 && trial.getResult() != 1)
+        if (trial.getResultNum().intValue() != 0 && trial.getResultNum().intValue() != 1)
             throw new IllegalArgumentException("trial for BinomialExp can only have a result of 1 or 0.");
         super.addTrial(trial);
     }

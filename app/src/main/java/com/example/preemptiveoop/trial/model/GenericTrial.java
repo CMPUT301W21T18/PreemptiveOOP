@@ -40,6 +40,10 @@ public class GenericTrial implements Serializable {
         return new NonNegativeTrial(creator, creationDate, location, Integer.parseInt(resultStr), isIgnored);
     }
 
+    public Number getResultNum() {
+        throw new IllegalStateException("GenericTrial getResult() is not meant to be called.");
+    }
+
     // getters
     public String getCreator() { return creator; }
     public Date getCreationDate() { return creationDate; }
