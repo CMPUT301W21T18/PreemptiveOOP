@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.experiment.model.StatCalculator;
+import com.example.preemptiveoop.trial.model.GenericTrial;
+
+import java.util.ArrayList;
 
 public class DisplayExpStats extends AppCompatActivity {
     Experiment experiment;
@@ -42,12 +45,15 @@ public class DisplayExpStats extends AppCompatActivity {
     }
 
     public void updateStats() {
-        Double q1 = StatCalculator.calcQuartile(experiment.getTrials(), 1);
-        Double q2 = StatCalculator.calcQuartile(experiment.getTrials(), 2);
-        Double q3 = StatCalculator.calcQuartile(experiment.getTrials(), 3);
+        ArrayList<GenericTrial> trials = StatCalculator.filterIgnoredTrials(experiment.getTrials());
+        trials = StatCalculator.sortTrialsByResult(trials);
 
-        Double mean  = StatCalculator.calcMean(experiment.getTrials());
-        Double stdev = StatCalculator.calcStdev(experiment.getTrials());
+        Double q1 = StatCalculator.calcQuartile(trials, 1);
+        Double q2 = StatCalculator.calcQuartile(trials, 2);
+        Double q3 = StatCalculator.calcQuartile(trials, 3);
+
+        Double mean  = StatCalculator.calcMean(trials);
+        Double stdev = StatCalculator.calcStdev(trials);
 
         String quartStr  = q1.isNaN() ? "Q1 = N/A, " : String.format("Q1 = %.2f, ", q1);
                quartStr += q3.isNaN() ? "Q3 = N/A  " : String.format("Q3 = %.2f", q3);

@@ -11,6 +11,16 @@ import java.util.Comparator;
  * The StatCalculator is used to calculate the statistics given an experiment.
  */
 public class StatCalculator {
+    
+    public static ArrayList<GenericTrial> filterIgnoredTrials(ArrayList<GenericTrial> trials) {
+        ArrayList<GenericTrial> filteredTrials = (ArrayList<GenericTrial>) trials.clone();
+
+        for (int i = 0; i >= 0 && i < filteredTrials.size(); ++i) {
+            if (filteredTrials.get(i).isIgnored())
+                filteredTrials.remove(i--);
+        }
+        return filteredTrials;
+    }
 
     public static ArrayList<GenericTrial> sortTrialsByResult(ArrayList<GenericTrial> trials) {
         ArrayList<GenericTrial> sortedTrials = (ArrayList<GenericTrial>) trials.clone();
