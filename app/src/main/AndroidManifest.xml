@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.preemptiveoop">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/logo"
@@ -10,10 +13,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.PreemptiveOOP">
 
-        <activity android:name=".experiment.DisplayExpHistogram"></activity>
-        <activity android:name=".experiment.DisplayExpPlots"></activity>
-        <activity android:name=".experiment.DisplayExpStats"></activity>
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDMEkpHJOWI404eEGBbjLDpHZn9N1kOT9g" />
+
+
+        <activity android:name=".geoLocation.geoSelectorActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".experiment.DisplayExpHistogram" />
+        <activity android:name=".experiment.DisplayExpPlots" />
+        <activity android:name=".experiment.DisplayExpStats" />
         <activity android:name=".trial.ExecuteTrial" />
         <activity android:name=".experiment.ExperimentList" />
         <activity android:name=".user.UserRegister" />
