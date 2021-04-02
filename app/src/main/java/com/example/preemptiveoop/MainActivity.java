@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.preemptiveoop.barcode.ScannerActivity;
 import com.example.preemptiveoop.experiment.ExperimentList;
 import com.example.preemptiveoop.user.RetrieveProfileFragment;
 import com.example.preemptiveoop.user.UserProfileFragment;
@@ -82,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
         RetrieveProfileFragment fragment = new RetrieveProfileFragment();
         fragment.show(getSupportFragmentManager(),"RETRIEVE_USER_PROFILE");
     }
-    public void btQrcodeOnClick(View v) {}
+    public void btQrcodeOnClick(View v) {
+        Intent intent = new Intent(this, ScannerActivity.class);
+        startActivity(intent);
+    }
     public void btPostOnClick(View v) {}
     public void btLogoutOnClick(View v) {}
 }
