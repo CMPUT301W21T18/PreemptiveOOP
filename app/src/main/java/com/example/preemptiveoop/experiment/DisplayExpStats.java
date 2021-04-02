@@ -1,86 +1,81 @@
 package com.example.preemptiveoop.experiment;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.experiment.model.StatCalculator;
+import com.example.preemptiveoop.trial.model.GenericTrial;
+
+import java.util.ArrayList;
 
 public class DisplayExpStats extends AppCompatActivity {
+    Experiment experiment;
 
+    TextView tvQuart, tvMedian, tvMean, tvStdev;
+    Button btHistogram, btTimePlot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_exp_stats);
 
+        // get passed-in arguments
+        Intent intent = getIntent();
+        experiment = (Experiment) intent.getSerializableExtra(".experiment");
+
+        tvQuart  = findViewById(R.id.tv_quartiles);
+        tvMedian = findViewById(R.id.tv_median);
+        tvMean  = findViewById(R.id.tv_mean);
+        tvStdev = findViewById(R.id.tv_stdev);
+
+        btHistogram = findViewById(R.id.Button_histogram);
+        btTimePlot  = findViewById(R.id.Button_timePlot);
+
+        btHistogram.setOnClickListener(this::btHistogramExpOnClick);
+        btTimePlot.setOnClickListener(this::btTimePlotOnClick);
+
+        updateStats();
     }
 
+    public void updateStats() {
+        ArrayList<GenericTrial> trials = StatCalculator.filterIgnoredTrials(experiment.getTrials());
+        trials = StatCalculator.sortTrialsByResult(trials);
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+        Double q1 = StatCalculator.calcQuartile(trials, 1);
+        Double q2 = StatCalculator.calcQuartile(trials, 2);
+        Double q3 = StatCalculator.calcQuartile(trials, 3);
 
-        Experiment exp =(Experiment) getIntent().getSerializableExtra(".experiment");
+        Double mean  = StatCalculator.calcMean(trials);
+        Double stdev = StatCalculator.calcStdev(trials);
 
-        /*ArrayList<Trial> trials = exp.getTrials();
+        String quartStr  = q1.isNaN() ? "Q1 = N/A, " : String.format("Q1 = %.2f, ", q1);
+               quartStr += q3.isNaN() ? "Q3 = N/A  " : String.format("Q3 = %.2f", q3);
+        String medianStr = q2.isNaN() ? "N/A" : String.format("%.2f", q2);
 
+        String meanStr  = mean.isNaN() ? "N/A" : String.format("%.2f", mean);
+        String stdevStr = stdev.isNaN() ? "N/A" : String.format("%.2f", stdev);
 
-        //Calculate mean
+        tvQuart.setText(quartStr);
+        tvMedian.setText(medianStr);
+        tvMean.setText(meanStr);
+        tvStdev.setText(stdevStr);
+    }
 
-        double sum = 0;
-        for (Trial trial : trials) {
-            sum += trial.getResult().doubleValue();
-        }
-        double mean = sum/trials.size();
-
-
-
-        //Calculate median
-
-        Collections.sort(trials);
-        double median;
-        if(trials.size()%2 == 1){
-            median = trials.get(trials.size()/2).getResult().doubleValue();
-        }else{
-            int med1 = (trials.size()-1)/2;
-            int med2 = (trials.size()+1)/2;
-            median =( trials.get(med1).getResult().doubleValue() + trials.get(med2).getResult().doubleValue())/2;
-        }
-
-
-
-
-        //calculate standard deviation
-
-        double stdv = 0.0;
-        for (Trial trial : trials) {
-            stdv += Math.pow(trial.getResult().doubleValue()-mean,2);
-        }
-        stdv = Math.sqrt(stdv/trials.size());
-
-
-
-
-        String strMean = String.format("%.3f",mean);
-        String strMedian = String.valueOf(median);
-        String strStdv = String.format("%.3f",stdv);
-
-
-        TextView tv_Median = findViewById(R.id.tv_result_median);
-        tv_Median.setText(strMedian);
-
-        TextView tv_Mean = findViewById(R.id.tv_result_mean);
-        tv_Mean.setText(strMean);
-
-
-        TextView tv_stdv = findViewById(R.id.tv_result_stdev);
-        tv_stdv.setText(strStdv);
-
-
-        //TextView tv_quartiles = findViewById(R.id.tv_result_quartiles);*/
-
-
+    public void btHistogramExpOnClick(View v) {
+        Intent intent = new Intent(this, DisplayExpHistogram.class);
+        intent.putExtra(".experiment", experiment);
+        startActivity(intent);
+    }
+    public void btTimePlotOnClick(View v) {
+        Intent intent = new Intent(this, DisplayExpTimePlot.class);
+        intent.putExtra(".experiment", experiment);
+        startActivity(intent);
     }
 }

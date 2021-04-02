@@ -19,8 +19,8 @@ public class CountExp extends Experiment <CountTrial> {
 
     @Override
     public void addTrial(CountTrial trial) {
-        if (trial.getResult() != 1)
-            throw new IllegalArgumentException("trial for CountExp can only have a result of 1.");
+        if (trial.getResult().intValue() != 1)
+            throw new IllegalArgumentException("trial for CountExp must have an integer result of 1.");
         super.addTrial(trial);
     }
 }

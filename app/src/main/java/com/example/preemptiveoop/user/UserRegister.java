@@ -1,26 +1,30 @@
 package com.example.preemptiveoop.user;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.uiwidget.MyDialog;
+import com.example.preemptiveoop.user.model.DeviceId;
 import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserRegister extends AppCompatActivity {
     private EditText etUsername;
-    private EditText etPassword;
     private EditText etContact;
     private Button btRegister;
 
@@ -30,29 +34,58 @@ public class UserRegister extends AppCompatActivity {
         setContentView(R.layout.activity_user_register);
 
         etUsername = findViewById(R.id.EditText_username);
-        etPassword = findViewById(R.id.EditText_password);
         etContact = findViewById(R.id.EditText_contact);
         btRegister = findViewById(R.id.Button_register);
 
         btRegister.setOnClickListener(this::btRegisterOnClick);
+
+        MyDialog.errorDialog(this,
+                "New User",
+                "Your profile is not found on DB. Please register."
+        );
     }
 
     public void btRegisterOnClick(View v) {
         String username = etUsername.getText().toString();
-        String password = etPassword.getText().toString();
         String contact = etContact.getText().toString();
 
-        if (username.isEmpty() || password.isEmpty() || contact.isEmpty()) {
+        if (username.isEmpty() || contact.isEmpty()) {
             MyDialog.errorDialog(UserRegister.this,
                     "Empty Fields",
-                    "Please provide username, password, and contact info."
+                    "Please provide username and contact info."
             );
             return;
         }
 
-        // add our new user to database
-        User user = new User(username, password, contact);
-        user.writeToDatabase();
-        finish();
+       FirebaseFirestore.getInstance().collection("Users")
+               .document(username).get()
+               .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                   @Override
+                   public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            MyDialog.errorDialog(UserRegister.this,
+                                    "Invalid Username",
+                                    "This username already exists in the DB. Please try another."
+                            );
+                            return;
+                        }
+
+                       String deviceId = DeviceId.getDeviceId(getApplicationContext());
+
+                       // add our new user to database
+                       User user = new User(deviceId, username, contact);
+                       user.writeToDatabase();
+
+                       // return user object through intent
+                       Intent intent = new Intent();
+                       intent.putExtra(".user", user);
+                       setResult(Activity.RESULT_OK, intent);
+                       finish();
+                   }
+               })
+               .addOnFailureListener(new OnFailureListener() {
+                   @Override
+                   public void onFailure(@NonNull Exception e) {Log.d("UserRegister.DB", e.toString()); }
+               });
     }
 }
