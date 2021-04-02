@@ -1,4 +1,4 @@
-package com.example.preemptiveoop;
+ package com.example.preemptiveoop;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.experiment.ExperimentList;
+import com.example.preemptiveoop.user.RetrieveProfileFragment;
 import com.example.preemptiveoop.user.UserProfileFragment;
 import com.example.preemptiveoop.user.model.User;
 import com.example.preemptiveoop.user.UserLogin;
@@ -19,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
 
     private TextView tvUsername;
-    private Button btExperiment, btSearch, btQrcode, btPost, btLogout, btUsrProfile;
+    private Button btExperiment, btSearch, btQrcode, btPost, btLogout, btUsrProfile
+            , btRetrieveProfile;
 
     private User user;
 
@@ -35,10 +37,13 @@ public class MainActivity extends AppCompatActivity {
         btPost      = findViewById(R.id.Button_post);
         btLogout    = findViewById(R.id.Button_logout);
         btUsrProfile = findViewById(R.id.Button_usrprofile);
+        btRetrieveProfile = findViewById(R.id.Button_retrieve_profile);
 
         btExperiment.setOnClickListener(this::btExperimentOnClick);
         btSearch.setOnClickListener(this::btSearchOnClick);
         btUsrProfile.setOnClickListener(this::btUsrProfileOnClick);
+        btRetrieveProfile.setOnClickListener((this::btRetrieveProfileOnClick));
+
 
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
@@ -74,6 +79,10 @@ public class MainActivity extends AppCompatActivity {
         UserProfileFragment fragment = new UserProfileFragment();
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(),"USER_PROFILE");
+    }
+    public void btRetrieveProfileOnClick(View v) {
+        RetrieveProfileFragment fragment = new RetrieveProfileFragment();
+        fragment.show(getSupportFragmentManager(),"RETRIEVE_USER_PROFILE");
     }
     public void btQrcodeOnClick(View v) {}
     public void btPostOnClick(View v) {}

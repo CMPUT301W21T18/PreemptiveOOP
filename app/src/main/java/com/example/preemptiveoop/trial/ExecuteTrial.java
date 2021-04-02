@@ -21,12 +21,17 @@ import com.example.preemptiveoop.trial.model.MeasurementTrial;
 import com.example.preemptiveoop.trial.model.NonNegativeTrial;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.model.User;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
 public class ExecuteTrial extends AppCompatActivity {
     private Experiment experiment;
     private User user;
+
+    private DocumentReference expDoc;
 
     private Button btSuccess, btFailure;
     private Button btRecord;
@@ -39,16 +44,19 @@ public class ExecuteTrial extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_trial);
 
+        Intent intent = getIntent();
+        experiment = (Experiment) intent.getSerializableExtra(".experiment");
+        user = (User) intent.getSerializableExtra(".user");
+
+        expDoc = FirebaseFirestore.getInstance()
+                .collection("Experiments").document(experiment.getDatabaseId());
+
         btSuccess = findViewById(R.id.Button_success);
         btFailure = findViewById(R.id.Button_failure);
 
         tvHint = findViewById(R.id.TextView_hint);
         etResult = findViewById(R.id.EditText_result);
         btRecord = findViewById(R.id.Button_record);
-
-        Intent intent = getIntent();
-        experiment = (Experiment) intent.getSerializableExtra(".experiment");
-        user = (User) intent.getSerializableExtra(".user");
 
         btSuccess.setOnClickListener(this::btSuccessOnClick);
         btFailure.setOnClickListener(this::btFailureOnClick);
@@ -75,19 +83,21 @@ public class ExecuteTrial extends AppCompatActivity {
     }
 
     public void btSuccessOnClick(View v) {
-        ((BinomialExp) experiment).addTrial(new BinomialTrial(user.getUsername(), new Date(), null, 1));
-        experiment.writeToDatabase();
+        expDoc.update("trials", FieldValue.arrayUnion(
+                new BinomialTrial(user.getUsername(), new Date(), null, 1, false)
+        ));
     }
     public void btFailureOnClick(View v) {
-        ((BinomialExp) experiment).addTrial(new BinomialTrial(user.getUsername(), new Date(), null, 0));
-        experiment.writeToDatabase();
+        expDoc.update("trials", FieldValue.arrayUnion(
+                new BinomialTrial(user.getUsername(), new Date(), null, 0, false)
+        ));
     }
 
     public void btRecordOnClick(View v) {
-
         if (experiment.getType().equals(Experiment.TYPE_COUNT)) {
-            ((CountExp) experiment).addTrial(new CountTrial(user.getUsername(), new Date(), null, 1));
-            experiment.writeToDatabase();
+            expDoc.update("trials", FieldValue.arrayUnion(
+                    new CountTrial(user.getUsername(), new Date(), null, 1, false)
+            ));
             return;
         }
 
@@ -101,8 +111,9 @@ public class ExecuteTrial extends AppCompatActivity {
                 return;
             }
 
-            ((MeasurementExp) experiment).addTrial(new MeasurementTrial(user.getUsername(), new Date(), null, result));
-            experiment.writeToDatabase();
+            expDoc.update("trials", FieldValue.arrayUnion(
+                    new MeasurementTrial(user.getUsername(), new Date(), null, result, false)
+            ));
             return;
         }
 
@@ -114,8 +125,9 @@ public class ExecuteTrial extends AppCompatActivity {
                 return;
             }
 
-            ((NonNegativeExp) experiment).addTrial(new NonNegativeTrial(user.getUsername(), new Date(), null, result));
-            experiment.writeToDatabase();
+            expDoc.update("trials", FieldValue.arrayUnion(
+                    new NonNegativeTrial(user.getUsername(), new Date(), null, result, false)
+            ));
             return;
         }
     }

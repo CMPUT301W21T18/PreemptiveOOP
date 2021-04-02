@@ -179,7 +179,7 @@
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="95dp"
+                    android:layout_height="45dp"
                     app:srcCompat="@android:drawable/ic_input_add" />
 
                 <Button
@@ -187,6 +187,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="User Profile"
+                    android:textSize="8sp" />
+
+                <Button
+                    android:id="@+id/Button_retrieve_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Retrieve Profile"
                     android:textSize="8sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>

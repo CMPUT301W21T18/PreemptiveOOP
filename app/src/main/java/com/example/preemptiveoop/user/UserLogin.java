@@ -17,6 +17,7 @@ import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -109,5 +110,18 @@ public class UserLogin extends AppCompatActivity {
         public void btRegisterOnClick(View v) {
             Intent intent = new Intent(this, UserRegister.class);
             startActivityForResult(intent, CHILD_USER_REGISTER);
+        }
+
+        public void btGuestOnClick(View v) {
+            CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Users");
+            String new_id = collectionReference.document().getId();
+            User user = new User(new_id, null, null);
+            collectionReference.document(new_id).set(user);
+
+            // return our user object through an intent
+            Intent intent = new Intent();
+            intent.putExtra("UserLogin.user", user);
+            setResult(Activity.RESULT_OK, intent);
+            finish();
         }
 }

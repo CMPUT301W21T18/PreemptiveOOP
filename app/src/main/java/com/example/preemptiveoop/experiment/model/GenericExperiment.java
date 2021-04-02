@@ -2,7 +2,10 @@ package com.example.preemptiveoop.experiment.model;
 
 import com.example.preemptiveoop.trial.model.GenericTrial;
 
-// firestore compatible class for reading from db
+/**
+ * The GenericExperiment class is a Firestore Compatible class used as a intermedium for reading/writing
+ * experiment data to Firestore. It contains conversion method for other specific experiment types.
+ */
 public class GenericExperiment extends Experiment<GenericTrial> {
     public GenericExperiment() { super(); }
     public GenericExperiment(Experiment exp) {

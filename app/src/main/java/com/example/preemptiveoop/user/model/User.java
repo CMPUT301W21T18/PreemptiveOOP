@@ -2,10 +2,15 @@ package com.example.preemptiveoop.user.model;
 
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * The GenericTrial class is a Firestore compatible class used directly to store and manage a user's
+ * profile.
+ */
 public class User implements Serializable {
     private String username;    // databaseId
     private String password;
@@ -26,7 +31,7 @@ public class User implements Serializable {
 
     public void writeToDatabase() {
         FirebaseFirestore.getInstance().collection("Users")
-                .document(username).set(this);
+                .document(username).set(this, SetOptions.merge());
     }
 
     public void addToOwnedExp(Experiment exp) {
@@ -43,4 +48,7 @@ public class User implements Serializable {
 
     public ArrayList<String> getOwnedExpIdList() { return ownedExpIdList; }
     public ArrayList<String> getPartiExpIdList() { return partiExpIdList; }
+
+    // setters
+    public void setContact(String contact) { this.contact = contact; }
 }

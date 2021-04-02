@@ -5,12 +5,17 @@ import android.location.Location;
 import com.example.preemptiveoop.trial.model.GenericTrial;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+/**
+ * The Experiment class is a generic class to be extended by other specific experiment types.
+ * @param <T>   The type of trial.
+ */
 public class Experiment <T extends GenericTrial> implements Serializable {
     public static final String TYPE_BINOMIAL = "Binomial";
     public static final String TYPE_NON_NEGATIVE = "NonNegative";
@@ -66,7 +71,7 @@ public class Experiment <T extends GenericTrial> implements Serializable {
 
         if (databaseId == null)     // if there is no databaseId, create one
             databaseId = expCol.document().getId();
-        expCol.document(databaseId).set(this);
+        expCol.document(databaseId).set(this, SetOptions.merge());
     }
 
     public void addTrial(T trial) {

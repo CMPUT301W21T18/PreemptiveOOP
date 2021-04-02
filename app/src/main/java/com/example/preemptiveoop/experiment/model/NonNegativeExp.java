@@ -6,6 +6,10 @@ import com.example.preemptiveoop.trial.model.NonNegativeTrial;
 
 import java.util.Date;
 
+/**
+ * The NonNegativeExp class is used to store and manage a non-negative experiment result. The trial
+ * to be added to this class is of type NonNegativeTrial. And the trial result must be >= 0.
+ */
 public class NonNegativeExp extends Experiment <NonNegativeTrial> {
     public NonNegativeExp() {}
     public NonNegativeExp(String databaseId, String owner, Date creationDate, String description,
@@ -16,7 +20,7 @@ public class NonNegativeExp extends Experiment <NonNegativeTrial> {
     @Override
     public void addTrial(NonNegativeTrial trial) {
         if (trial.getResult() < 0)
-            throw new IllegalArgumentException("Trial for NonNegativeExp can only have a result that's >= 0.");
+            throw new IllegalArgumentException("trial for NonNegativeExp can only have a result that's >= 0.");
         super.addTrial(trial);
     }
 }

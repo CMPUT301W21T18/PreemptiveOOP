@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.trial.model.GenericTrial;
-import com.example.preemptiveoop.trial.model.TrialComparator;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter;
@@ -18,6 +17,7 @@ import java.util.ArrayList;
 
 import java.util.Collections;
 
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,8 +25,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-
-
 
 
 
@@ -43,14 +41,11 @@ public class DisplayExpPlots extends AppCompatActivity {
         exp =(Experiment) getIntent().getSerializableExtra(".experiment");
 
     }
-
-
+    
     @Override
     protected void onResume() {
         super.onResume();
-
         GraphView plot = (GraphView)findViewById(R.id.gv_plot);
-
 
         ArrayList<GenericTrial> trials = exp.getTrials();
 
@@ -105,8 +100,7 @@ public class DisplayExpPlots extends AppCompatActivity {
             arrayDataPoints[i] = new DataPoint(next.getKey(),next.getValue());
         }
 
-
-        
+      
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arrayDataPoints);
         series.setDrawDataPoints(true);
 

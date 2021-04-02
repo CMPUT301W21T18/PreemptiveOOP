@@ -27,6 +27,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ExperimentList extends AppCompatActivity {
     private User user;
@@ -97,6 +99,11 @@ public class ExperimentList extends AppCompatActivity {
             GenericExperiment exp = document.toObject(GenericExperiment.class);
             experiments.add(exp.toCorrespondingExp());
         }
+
+        Collections.sort(experiments, new Comparator<Experiment>() {
+            @Override
+            public int compare(Experiment o1, Experiment o2) { return o2.getCreationDate().compareTo(o1.getCreationDate()); }
+        });
         expAdapter.notifyDataSetChanged();
     }
 
@@ -152,6 +159,11 @@ public class ExperimentList extends AppCompatActivity {
     }
 
     public void updateExperimentList() {
+        if (searchMode) {
+            displaySearchedExpList(etKeywords.getText().toString());
+            return;
+        }
+
         int checkId = rgExpType.getCheckedRadioButtonId();
         rgExpTypeOnCheckedChanged(rgExpType, checkId);
     }
