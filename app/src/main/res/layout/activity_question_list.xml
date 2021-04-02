@@ -23,5 +23,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+<!--    <androidx.fragment.app.FragmentContainerView-->
+<!--        android:id="@+id/Fragment_manage_question"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:layout_gravity="center" />-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
