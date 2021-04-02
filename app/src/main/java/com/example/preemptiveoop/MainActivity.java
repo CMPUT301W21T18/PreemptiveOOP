@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         btUsrProfile.setOnClickListener(this::btUsrProfileOnClick);
         btRetrieveProfile.setOnClickListener((this::btRetrieveProfileOnClick));
 
-        Intent intent = new Intent(this, LocationPicker.class);
+        Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
     }
 
