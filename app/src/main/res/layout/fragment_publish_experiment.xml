@@ -60,4 +60,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Pick a Region" />
+
+    <CheckBox
+        android:id="@+id/CheckBox_requireLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Require Location for Trials" />
 </LinearLayout>

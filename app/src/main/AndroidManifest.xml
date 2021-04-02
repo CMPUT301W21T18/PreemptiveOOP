@@ -31,8 +31,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".uiwidget.TrialLocationsDisp"
+            android:label="@string/title_activity_trial_locations_disp"></activity>
+        <activity
             android:name=".uiwidget.LocationPicker"
-            android:label="@string/title_activity_location_picker"></activity>
+            android:label="@string/title_activity_location_picker" />
         <activity android:name=".trial.TrialList" />
         <activity android:name=".post.QuestionListActivity" />
         <activity android:name=".experiment.DisplayExpHistogram" />

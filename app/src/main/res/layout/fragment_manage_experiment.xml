@@ -45,4 +45,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Questions" />
+
+    <Button
+        android:id="@+id/Button_viewTrialLocations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Trial Locations" />
 </LinearLayout>
