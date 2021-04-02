@@ -6,6 +6,10 @@ import com.example.preemptiveoop.trial.model.MeasurementTrial;
 
 import java.util.Date;
 
+/**
+ * The MeasurementExp class is used to store and manage a measurement experiment result. The trial
+ * to be added to this class is of type MeasurementTrial.
+ */
 public class MeasurementExp extends Experiment <MeasurementTrial> {
     public MeasurementExp() {}
     public MeasurementExp(String databaseId, String owner, Date creationDate, String description,
