@@ -37,23 +37,6 @@ public class DisplayExpHistogram extends AppCompatActivity {
         barChart = findViewById(R.id.gv_histogram);
         exp = (Experiment) getIntent().getSerializableExtra(".experiment");
 
-        /*
-        exp = new MeasurementExp(null, "xiaolei", new Date(), "hello", null, false, 3);
-        MeasurementTrial t1 = new MeasurementTrial();
-        MeasurementTrial t2 = new MeasurementTrial();
-        MeasurementTrial t3 = new MeasurementTrial();
-        t1.setResult(3.0);
-        t3.setResult(3.0);
-        t2.setResult(2.2);
-
-
-        exp.addTrial(t1);
-        exp.addTrial(t2);
-        exp.addTrial(t3);
-
-         */
-
-
 
     }
 

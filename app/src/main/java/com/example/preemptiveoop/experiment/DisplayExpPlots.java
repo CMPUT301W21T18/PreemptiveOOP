@@ -15,7 +15,17 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
+
 import java.util.Collections;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+
 
 
 
@@ -32,25 +42,6 @@ public class DisplayExpPlots extends AppCompatActivity {
 
         exp =(Experiment) getIntent().getSerializableExtra(".experiment");
 
-
-        /*
-        exp = new MeasurementExp(null, "xiaolei", new Date(), "hello", null, false, 3);
-        MeasurementTrial t1 = new MeasurementTrial();
-        MeasurementTrial t2 = new MeasurementTrial();
-        MeasurementTrial t3 = new MeasurementTrial();
-        t1.setResult(3.0);
-        t1.setCreationDate(new Date());
-        sleep(1000);
-        t3.setResult(3.7);
-        t2.setCreationDate(new Date());
-        t2.setResult(2.2);
-        sleep(1000);
-        t3.setCreationDate(new Date());
-        exp.addTrial(t1);
-        exp.addTrial(t2);
-        exp.addTrial(t3);
-         */
-
     }
 
 
@@ -62,25 +53,91 @@ public class DisplayExpPlots extends AppCompatActivity {
 
 
         ArrayList<GenericTrial> trials = exp.getTrials();
-        Collections.sort(trials, new TrialComparator());
 
-        int size = trials.size();
-        DataPoint[] arrayDataPoints = new DataPoint[size];
 
-        for(int i = 0; i<trials.size();i++){
-            arrayDataPoints[i] = new DataPoint(trials.get(i).getCreationDate(),Double.parseDouble(trials.get(i).getResultStr()));
+        HashMap<Date,ArrayList<Double>> indexTable = new HashMap<>();
+
+        for (GenericTrial trial : trials) {
+            Date dateWoTime = removeTime(trial.getCreationDate());
+
+            if(!indexTable.containsKey(dateWoTime)){
+                //if during that day, there exist a trail, put it in hashmap.
+                ArrayList<Double> resultsOfTheDay = new ArrayList<>();
+                resultsOfTheDay.add(Double.parseDouble(trial.getResultStr()));
+                indexTable.put(dateWoTime, resultsOfTheDay);
+            }else{
+                //during that day, there are many trails, then find average of the trail result.
+                ArrayList<Double> results = indexTable.get(dateWoTime);
+                results.add(Double.parseDouble(trial.getResultStr()));
+                indexTable.put(dateWoTime,results);
+            }
         }
 
 
+        //calculate average value of trails during that day
+        TreeMap<Date,Double> plotValue = new TreeMap<>();
+        for (Map.Entry<Date, ArrayList<Double>> entry : indexTable.entrySet()) {
+            Date key = entry.getKey();
+            ArrayList<Double> values = entry.getValue();
+            double sum = 0;
+
+            for (Double value : values) {
+                sum = sum + value;
+            }
+
+            double avg = sum/values.size();
+            plotValue.put(key,avg);
+        }
+
+        //plotValue.put(new Date(2021,4,3),40.3);
+
+
+        int size = plotValue.size();
+        DataPoint[] arrayDataPoints = new DataPoint[size];
+
+        Set<Map.Entry<Date, Double>> entries = plotValue.entrySet();
+        Iterator<Map.Entry<Date, Double>> iterator = entries.iterator();
+
+
+
+        for(int i = 0; i<size;i++){
+            Map.Entry<Date, Double> next = iterator.next();
+            arrayDataPoints[i] = new DataPoint(next.getKey(),next.getValue());
+        }
+
+
+        
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arrayDataPoints);
         series.setDrawDataPoints(true);
 
-        plot.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DisplayExpPlots.this));
-        GridLabelRenderer glr = plot.getGridLabelRenderer();
-        glr.setPadding(52);
         plot.addSeries(series);
+
+
+        plot.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DisplayExpPlots.this));
+        plot.getGridLabelRenderer().setNumHorizontalLabels(plotValue.size()-1);
+
+
+
         plot.getViewport().setXAxisBoundsManual(true);
         plot.getGridLabelRenderer().setHumanRounding(false);
 
+        GridLabelRenderer glr = plot.getGridLabelRenderer();
+        glr.setPadding(52);
+
+    }
+
+
+
+    /*
+    remove time part from date
+     */
+    public Date removeTime(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
     }
 }
