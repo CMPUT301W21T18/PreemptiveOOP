@@ -40,14 +40,6 @@ public class GenericTrial implements Serializable {
         return new NonNegativeTrial(creator, creationDate, location, Integer.parseInt(resultStr), isIgnored);
     }
 
-    // to be implemented by subclasses
-    public Number getResult() {
-        throw new IllegalStateException("GenericTrial getResultNum() is not meant to be called.");
-    }
-    public void setResult_(Number result) {     // extra "_" at the end to avoid Firestore messing with this method
-        throw new IllegalStateException("GenericTrial setResultNum() is not meant to be called.");
-    }
-
     // getters
     public String getCreator() { return creator; }
     public Date getCreationDate() { return creationDate; }

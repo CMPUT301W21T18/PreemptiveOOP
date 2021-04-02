@@ -71,7 +71,7 @@ public class RetrieveProfileFragment extends DialogFragment{
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) { Log.d("ReProfileFragment.DB", e.toString()); }
+                    public void onFailure(@NonNull Exception e) { Log.d("ReProfileFragment.DB", "Retrieve Request fail!"); }
                 });
     }
 }

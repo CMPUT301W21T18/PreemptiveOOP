@@ -18,15 +18,18 @@ import java.util.Collections;
 import java.util.Comparator;
 
 
-public class DisplayExpTimePlot extends AppCompatActivity {
+public class DisplayExpPlots extends AppCompatActivity {
+
     Experiment exp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_exp_time_plot);
+        setContentView(R.layout.activity_display_exp_plot);
+
 
         exp =(Experiment) getIntent().getSerializableExtra(".experiment");
+
 
         /*
         exp = new MeasurementExp(null, "xiaolei", new Date(), "hello", null, false, 3);
@@ -47,7 +50,7 @@ public class DisplayExpTimePlot extends AppCompatActivity {
          */
 
     }
-
+    
     @Override
     protected void onResume() {
         super.onResume();
@@ -69,7 +72,7 @@ public class DisplayExpTimePlot extends AppCompatActivity {
         LineGraphSeries<DataPoint> series = new LineGraphSeries<>(arrayDataPoints);
         series.setDrawDataPoints(true);
 
-        plot.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DisplayExpTimePlot.this));
+        plot.getGridLabelRenderer().setLabelFormatter(new DateAsXAxisLabelFormatter(DisplayExpPlots.this));
         GridLabelRenderer glr = plot.getGridLabelRenderer();
         glr.setPadding(52);
         plot.addSeries(series);

@@ -105,7 +105,7 @@ public class ManageExperiment extends DialogFragment {
         experiment.addExperimenter(user.getUsername());
         experiment.writeToDatabase();
 
-        user.participateExp(experiment);
+        user.addToOwnedExp(experiment);
         user.writeToDatabase();
 
         ((ExperimentList) getActivity()).updateExperimentList();

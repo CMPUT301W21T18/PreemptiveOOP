@@ -12,20 +12,18 @@ import java.util.ArrayList;
  * profile.
  */
 public class User implements Serializable {
-    private String bondDeviceId;
-
     private String username;    // databaseId
+    private String password;
     private String contact;
 
     private ArrayList<String> ownedExpIdList;
     private ArrayList<String> partiExpIdList;
 
     public User() {}
-    public User(String bondDeviceId, String username, String contact) {
-        this.bondDeviceId = bondDeviceId;
-
+    public User(String username, String password, String contact) {
         this.username = username;
         this.contact = contact;
+        this.password = password;
 
         this.ownedExpIdList = new ArrayList<>();
         this.partiExpIdList = new ArrayList<>();
@@ -44,9 +42,8 @@ public class User implements Serializable {
     }
 
     // getters
-    public String getBondDeviceId() { return bondDeviceId; }
-
     public String getUsername() { return username; }
+    public String getPassword() { return password; }
     public String getContact() { return contact; }
 
     public ArrayList<String> getOwnedExpIdList() { return ownedExpIdList; }

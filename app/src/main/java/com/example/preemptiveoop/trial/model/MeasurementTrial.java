@@ -12,20 +12,15 @@ public class MeasurementTrial extends GenericTrial {
     Double result;
 
     public MeasurementTrial() {}
-    public MeasurementTrial(String creator, Date creationDate, Location location, Double resultNum, boolean isIgnored) {
-        super(creator, creationDate, location, resultNum.toString(), isIgnored);
-        this.result = resultNum;
+    public MeasurementTrial(String creator, Date creationDate, Location location, Double result, boolean isIgnored) {
+        super(creator, creationDate, location, result.toString(), isIgnored);
+        this.result = result;
     }
 
-    @Override
-    public Number getResult() { return result; }
+    public Double getResult() { return result; }
 
-    @Override
-    public void setResult_(Number result) {
-        if (!(result instanceof Double))
-            throw new IllegalArgumentException("resultNum for MeasurementTrial must be Double.");
-
+    public void setResult(Double result) {
         super.setResultStr(result.toString());
-        this.result = result.doubleValue();
+        this.result = result;
     }
 }
