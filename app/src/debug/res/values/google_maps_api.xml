@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=B8:08:46:55:0F:4D:19:BF:52:AD:53:4D:59:96:51:E6:77:84:7A:6A%3Bcom.example.preemptiveoop.uiwidget
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.example.preemptiveoop.uiwidget
+
+    SHA-1 certificate fingerprint:
+    B8:08:46:55:0F:4D:19:BF:52:AD:53:4D:59:96:51:E6:77:84:7A:6A
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDMEkpHJOWI404eEGBbjLDpHZn9N1kOT9g</string>
+</resources>

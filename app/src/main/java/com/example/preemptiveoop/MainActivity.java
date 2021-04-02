@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.experiment.ExperimentList;
+import com.example.preemptiveoop.uiwidget.LocationPicker;
 import com.example.preemptiveoop.user.RetrieveProfileFragment;
 import com.example.preemptiveoop.user.UserProfileFragment;
 import com.example.preemptiveoop.user.model.User;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         btUsrProfile.setOnClickListener(this::btUsrProfileOnClick);
         btRetrieveProfile.setOnClickListener((this::btRetrieveProfileOnClick));
 
-        Intent intent = new Intent(this, UserLogin.class);
+        Intent intent = new Intent(this, LocationPicker.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
     }
 
