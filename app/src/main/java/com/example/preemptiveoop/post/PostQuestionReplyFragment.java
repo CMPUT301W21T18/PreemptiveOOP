@@ -18,6 +18,7 @@ import com.example.preemptiveoop.post.model.Question;
 import com.example.preemptiveoop.post.model.Reply;
 import com.example.preemptiveoop.user.model.User;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
@@ -58,14 +59,17 @@ public class PostQuestionReplyFragment extends DialogFragment {
                 String title = etQuestionTitle.getText().toString();
                 String body = etQuestionBody.getText().toString();
 
-                if (question == null) {
-                    Question newQuest = new Question(null, experiment.getDatabaseId(), user.getUsername(), title, body, new Date());
-                    newQuest.writeToDatabase();
-                }
-                else {
+                if (question != null) {
                     Reply newReply = new Reply(experiment.getDatabaseId(), user.getUsername(), title, body, new Date());
                     question.addReply(newReply);
-                    question.writeToDatabase();
+
+                    // update database
+                    FirebaseFirestore.getInstance().collection("Posts").document(question.getDatabaseId())
+                            .update("replies", FieldValue.arrayUnion(newReply));
+                }
+                else {
+                    Question newQuest = new Question(null, experiment.getDatabaseId(), user.getUsername(), title, body, new Date());
+                    newQuest.writeToDatabase();
                 }
                 ((QuestionListActivity) getActivity()).updateList();
             }
