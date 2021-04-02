@@ -29,14 +29,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_exp_stat">
 
         <TextView
-            android:id="@+id/tv_quartiles"
             android:layout_width="114dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="QUARTILES" />
 
         <TextView
-            android:id="@+id/tv_result_quartiles"
+            android:id="@+id/tv_quartiles"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
@@ -54,14 +53,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
-            android:id="@+id/tv_median"
             android:layout_width="114dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="MEDIAN" />
 
         <TextView
-            android:id="@+id/tv_result_median"
+            android:id="@+id/tv_median"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
@@ -80,14 +78,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
-            android:id="@+id/tv_mean"
             android:layout_width="114dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="MEAN" />
 
         <TextView
-            android:id="@+id/tv_result_mean"
+            android:id="@+id/tv_mean"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
@@ -96,6 +93,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="356dp"
         android:layout_height="44dp"
         android:orientation="horizontal"
@@ -104,14 +102,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
-            android:id="@+id/tv_stdev"
             android:layout_width="114dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="STDEV" />
 
         <TextView
-            android:id="@+id/tv_result_stdev"
+            android:id="@+id/tv_stdev"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
@@ -119,5 +116,22 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/Button_histogram"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="View Histogram"
+        app:layout_constraintBottom_toTopOf="@+id/Button_timePlot"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Button_timePlot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="View Time Plot"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

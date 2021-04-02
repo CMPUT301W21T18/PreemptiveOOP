@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.preemptiveoop.barcode.ScannerActivity;
 import com.example.preemptiveoop.experiment.ExperimentList;
 import com.example.preemptiveoop.user.RetrieveProfileFragment;
 import com.example.preemptiveoop.user.UserProfileFragment;
@@ -19,11 +20,10 @@ import com.example.preemptiveoop.user.UserLogin;
 public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
 
-    private TextView tvUsername;
-    private Button btExperiment, btSearch, btQrcode, btPost, btLogout, btUsrProfile
-            , btRetrieveProfile;
-
     private User user;
+
+    private TextView tvUsername;
+    private Button btExperiment, btSearch, btQrcode, btPost, btLogout, btUsrProfile, btRetrieveProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         btUsrProfile.setOnClickListener(this::btUsrProfileOnClick);
         btRetrieveProfile.setOnClickListener((this::btRetrieveProfileOnClick));
 
-
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
     }
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case CHILD_USER_LOGIN: {
                 if (resultCode == Activity.RESULT_OK) {
-                    user = (User) data.getSerializableExtra("UserLogin.user");
+                    user = (User) data.getSerializableExtra(".user");
                     tvUsername.setText(user.getUsername());
                 }
             }
@@ -84,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
         RetrieveProfileFragment fragment = new RetrieveProfileFragment();
         fragment.show(getSupportFragmentManager(),"RETRIEVE_USER_PROFILE");
     }
-    public void btQrcodeOnClick(View v) {}
+    public void btQrcodeOnClick(View v) {
+        Intent intent = new Intent(this, ScannerActivity.class);
+        startActivity(intent);
+    }
     public void btPostOnClick(View v) {}
     public void btLogoutOnClick(View v) {}
 }
