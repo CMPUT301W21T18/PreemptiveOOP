@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         btUsrProfile.setOnClickListener(this::btUsrProfileOnClick);
         btRetrieveProfile.setOnClickListener((this::btRetrieveProfileOnClick));
 
-
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
     }
@@ -55,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case CHILD_USER_LOGIN: {
                 if (resultCode == Activity.RESULT_OK) {
-                    user = (User) data.getSerializableExtra("UserLogin.user");
+                    user = (User) data.getSerializableExtra(".user");
                     tvUsername.setText(user.getUsername());
                 }
             }
