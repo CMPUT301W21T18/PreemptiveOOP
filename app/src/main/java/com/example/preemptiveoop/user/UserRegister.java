@@ -1,6 +1,8 @@
 package com.example.preemptiveoop.user;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -73,6 +75,11 @@ public class UserRegister extends AppCompatActivity {
                        // add our new user to database
                        User user = new User(deviceId, username, contact);
                        user.writeToDatabase();
+
+                       // return user object through intent
+                       Intent intent = new Intent();
+                       intent.putExtra(".user", user);
+                       setResult(Activity.RESULT_OK, intent);
                        finish();
                    }
                })

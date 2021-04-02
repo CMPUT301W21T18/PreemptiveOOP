@@ -19,11 +19,10 @@ import com.example.preemptiveoop.user.UserLogin;
 public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
 
-    private TextView tvUsername;
-    private Button btExperiment, btSearch, btQrcode, btPost, btLogout, btUsrProfile
-            , btRetrieveProfile;
-
     private User user;
+
+    private TextView tvUsername;
+    private Button btExperiment, btSearch, btQrcode, btPost, btLogout, btUsrProfile, btRetrieveProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
