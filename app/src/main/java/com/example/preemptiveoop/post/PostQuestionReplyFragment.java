@@ -14,30 +14,28 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
-import com.example.preemptiveoop.post.model.Post;
 import com.example.preemptiveoop.post.model.Question;
 import com.example.preemptiveoop.post.model.Reply;
 import com.example.preemptiveoop.user.model.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
+
 
 public class PostQuestionReplyFragment extends DialogFragment {
-
-    private User user;
     private Experiment experiment;
+    private User user;
     private Question question;
-    private int type;
 
     private EditText etQuestionTitle;
     private EditText etQuestionBody;
 
-    PostQuestionReplyFragment(User user, Experiment experiment, Question question, int type) {
+    PostQuestionReplyFragment(Experiment experiment, User user, Question question) {    // question = null for posting new question
         super();
-        this.user = user;
         this.experiment = experiment;
+        this.user = user;
         this.question = question;
-        this.type = type; // 0 for question and 1 for reply
     }
 
     @NonNull
@@ -48,31 +46,31 @@ public class PostQuestionReplyFragment extends DialogFragment {
         etQuestionTitle = view.findViewById(R.id.EditText_question_title);
         etQuestionBody = view.findViewById(R.id.EditText_question_body);
 
-        CollectionReference postCol = FirebaseFirestore.getInstance().collection("Posts");
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        if (type == 0)
+        if (question == null)
             builder.setView(view).setTitle("Post Question");
         else
             builder.setView(view).setTitle("Reply the Question");
-        builder.setNegativeButton("Cancel", null);
+
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String title = etQuestionTitle.getText().toString();
                 String body = etQuestionBody.getText().toString();
-                if (type == 0) {
-                    Question new_que = new Question(experiment.getDatabaseId(), user.getUsername(), title, body);
-                    new_que.writeToDatabase();
-                } else {
-                    Reply new_reply = new Reply(experiment.getDatabaseId(), user.getUsername(), question.getDbID(), title, body);
-                    question.addReply(new_reply);
+
+                if (question == null) {
+                    Question newQuest = new Question(null, experiment.getDatabaseId(), user.getUsername(), title, body, new Date());
+                    newQuest.writeToDatabase();
+                }
+                else {
+                    Reply newReply = new Reply(experiment.getDatabaseId(), user.getUsername(), title, body, new Date());
+                    question.addReply(newReply);
                     question.writeToDatabase();
                 }
-                ((QuestionListActivity)getActivity()).updateList();
+                ((QuestionListActivity) getActivity()).updateList();
             }
         });
-
+        builder.setNegativeButton("Cancel", null);
 
         return builder.create();
     }

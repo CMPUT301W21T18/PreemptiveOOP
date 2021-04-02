@@ -18,6 +18,7 @@ import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.post.model.Question;
 import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
@@ -30,24 +31,22 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class QuestionListActivity extends AppCompatActivity {
-
-    private FloatingActionButton add_question;
-    private ListView postListView;
-
-    private Intent intent;
-
     private User user;
     private Experiment experiment;
 
     private ArrayList<Question> questions;
     private ArrayAdapter<Question> postAdapter;
 
+    private FloatingActionButton add_question;
+    private ListView postListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question_list);
 
-        intent = getIntent();
+        // get pass-in arguments
+        Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra(".experiment");
         user = (User) intent.getSerializableExtra(".user");
 
@@ -78,37 +77,29 @@ public class QuestionListActivity extends AppCompatActivity {
 
     public void updateList() {
         CollectionReference postCol = FirebaseFirestore.getInstance().collection("Posts");
-        postCol.whereEqualTo("targetExpId", experiment.getDatabaseId())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.d("QUESTION LIST", "Failed to get question.", task.getException());
-                            return;
-                        }
 
+        postCol.whereEqualTo("targetExpId", experiment.getDatabaseId()).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         // clear the old list and inject new item
                         questions.clear();
-                        for (QueryDocumentSnapshot doc : task.getResult()) {
+                        for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                             Question que = doc.toObject(Question.class);
                             questions.add(que);
                         }
 
                         Collections.sort(questions, new Comparator<Question>() {
                             @Override
-                            public int compare(Question o1, Question o2) {
-                                return (o1.getCreationDate().compareTo(o2.getCreationDate()))*(-1);
-                            }
+                            public int compare(Question o1, Question o2) { return o2.getCreationDate().compareTo(o1.getCreationDate()); }
                         });
-
                         postAdapter.notifyDataSetChanged();
                     }
                 });
     }
 
     public void btAddQuestionOnClick(View v) {
-        PostQuestionReplyFragment fragment = new PostQuestionReplyFragment(user, experiment, null,0);
-        fragment.show(getSupportFragmentManager(), "POST QUESTION");
+        PostQuestionReplyFragment fragment = new PostQuestionReplyFragment(experiment, user, null);
+        fragment.show(getSupportFragmentManager(), "POST_QUESTION");
     }
 }

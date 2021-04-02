@@ -21,9 +21,8 @@ import com.example.preemptiveoop.user.model.User;
 import java.util.ArrayList;
 
 public class ReplyListFragment extends DialogFragment {
-
-    private User user;
     private Experiment experiment;
+    private User user;
     private Question question;
 
     private ArrayList<Reply> replies;
@@ -31,12 +30,13 @@ public class ReplyListFragment extends DialogFragment {
 
     private ListView postListView;
 
-    public ReplyListFragment(User user, Experiment experiment, Question question) {
+    public ReplyListFragment(Experiment experiment, User user, Question question) {
         super();
-        this.user = user;
         this.experiment = experiment;
+        this.user = user;
         this.question = question;
     }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -47,7 +47,6 @@ public class ReplyListFragment extends DialogFragment {
         replies = question.getReplies();
         postAdapter = new PostArrayAdapter(getContext(), replies);
         postListView.setAdapter(postAdapter);
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(view).setTitle("Reply List");

@@ -11,14 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.preemptiveoop.R;
-import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.post.model.Post;
 import com.example.preemptiveoop.post.model.Question;
 
 import java.util.ArrayList;
 
 public class PostArrayAdapter <T extends Post> extends ArrayAdapter<T> {
-
     private Context context;
     private  ArrayList<T> posts;
 
@@ -46,17 +44,12 @@ public class PostArrayAdapter <T extends Post> extends ArrayAdapter<T> {
 
         tvTitle.setText(selectPost.getTitle());
         tvBody.setText(selectPost.getBody());
+
         tvCreator.setText("Created by: " + selectPost.getPoster());
         tvDate.setText(selectPost.getCreationDate().toString());
 
-        if (selectPost instanceof Question) {
-            if (!((Question) selectPost).getReplies().isEmpty()) {
-                tvNumReply.setText("Replies: " + ((Question) selectPost).getReplies().size());
-            } else {
-                tvNumReply.setText("Replies: 0" );
-            }
-        }
-
+        if (selectPost instanceof Question)
+            tvNumReply.setText("Replies: " + ((Question) selectPost).getReplies().size());
         return view;
     }
 }

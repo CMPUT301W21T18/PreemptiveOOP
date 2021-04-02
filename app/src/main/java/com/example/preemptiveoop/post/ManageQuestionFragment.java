@@ -18,7 +18,6 @@ import com.example.preemptiveoop.post.model.Question;
 import com.example.preemptiveoop.user.model.User;
 
 public class ManageQuestionFragment extends DialogFragment {
-
     private User user;
     private Experiment experiment;
     private Question question;
@@ -51,13 +50,13 @@ public class ManageQuestionFragment extends DialogFragment {
     }
 
     public void btViewReplyOnClick(View v) {
-        ReplyListFragment fragment = new ReplyListFragment(user, experiment, question);
+        ReplyListFragment fragment = new ReplyListFragment(experiment, user, question);
         fragment.show(getActivity().getSupportFragmentManager(), "VIEW REPLY");
         dismiss();
     }
 
     public void btReplyOnClick(View v) {
-        PostQuestionReplyFragment fragment = new PostQuestionReplyFragment(user, experiment, question,1);
+        PostQuestionReplyFragment fragment = new PostQuestionReplyFragment(experiment, user, question);
         fragment.show(getActivity().getSupportFragmentManager(), "REPLY QUESTION");
         dismiss();
     }

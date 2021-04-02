@@ -1,17 +1,10 @@
 package com.example.preemptiveoop.post.model;
 
+import java.util.Date;
+
 public class Reply extends Post {
-
-    private String questionId;
-
-    Reply(){}
-
-    public Reply(String targetExpId, String poster, String questionId, String title, String body){
-        super(targetExpId, poster, title, body);
-        this.questionId = questionId;
-    }
-
-    public String getQuestionId() {
-        return questionId;
+    Reply() {}
+    public Reply(String targetExpId, String poster, String title, String body, Date creationDate) {
+        super(null, targetExpId, poster, title, body, creationDate);
     }
 }
