@@ -29,14 +29,13 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_exp_stat">
 
         <TextView
-            android:id="@+id/tv_quartiles"
             android:layout_width="114dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="QUARTILES" />
 
         <TextView
-            android:id="@+id/tv_result_quartiles"
+            android:id="@+id/tv_quartiles"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
@@ -54,14 +53,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
         <TextView
-            android:id="@+id/tv_median"
             android:layout_width="114dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="MEDIAN" />
 
         <TextView
-            android:id="@+id/tv_result_median"
+            android:id="@+id/tv_median"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
@@ -80,14 +78,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
         <TextView
-            android:id="@+id/tv_mean"
             android:layout_width="114dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="MEAN" />
 
         <TextView
-            android:id="@+id/tv_result_mean"
+            android:id="@+id/tv_mean"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:gravity="center|left"
@@ -105,14 +102,13 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
-            android:id="@+id/tv_stdev"
             android:layout_width="114dp"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="STDEV" />
 
         <TextView
-            android:id="@+id/tv_result_stdev"
+            android:id="@+id/tv_stdev"
             android:layout_width="240dp"
             android:layout_height="match_parent"
             android:gravity="center|left"

@@ -30,10 +30,10 @@ public class DisplayExpStats extends AppCompatActivity {
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra(".experiment");
 
-        tvQuart  = findViewById(R.id.tv_result_quartiles);
-        tvMedian = findViewById(R.id.tv_result_median);
-        tvMean  = findViewById(R.id.tv_result_mean);
-        tvStdev = findViewById(R.id.tv_result_stdev);
+        tvQuart  = findViewById(R.id.tv_quartiles);
+        tvMedian = findViewById(R.id.tv_median);
+        tvMean  = findViewById(R.id.tv_mean);
+        tvStdev = findViewById(R.id.tv_stdev);
 
         btHistogram = findViewById(R.id.Button_histogram);
         btTimePlot  = findViewById(R.id.Button_timePlot);
