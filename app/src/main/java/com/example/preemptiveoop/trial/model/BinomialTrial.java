@@ -16,12 +16,19 @@ public class BinomialTrial extends GenericTrial {
         super(creator, creationDate, location, result.toString(), isIgnored);
         this.result = result;
     }
-    
-    @Override
-    public Number getResultNum() { return result; }
 
-    public void setResult(Integer result) {
+    @Override
+    public Number getResult() { return result; }
+
+    @Override
+    public void setResult_(Number result) {
+        if (!(result instanceof Integer))
+            throw new IllegalArgumentException("resultNum for BinomialTrial must be Integer.");
+
+        if (result.intValue() != 0 && result.intValue() != 1)
+            throw new IllegalArgumentException("resultNum for BinomialTrial must be 1 or 0.");
+
         super.setResultStr(result.toString());
-        this.result = result;
+        this.result = result.intValue();
     }
 }

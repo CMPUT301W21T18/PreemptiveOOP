@@ -18,10 +18,17 @@ public class CountTrial extends GenericTrial {
     }
 
     @Override
-    public Number getResultNum() { return result; }
+    public Number getResult() { return result; }
 
-    public void setResult(Integer result) {
+    @Override
+    public void setResult_(Number result) {
+        if (!(result instanceof Integer))
+            throw new IllegalArgumentException("resultNum for CountTrial must be Integer.");
+
+        if (result.intValue() != 1)
+            throw new IllegalArgumentException("resultNum for CountTrial must be 1.");
+
         super.setResultStr(result.toString());
-        this.result = result;
+        this.result = result.intValue();
     }
 }

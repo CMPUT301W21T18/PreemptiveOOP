@@ -28,8 +28,8 @@ public class StatCalculator {
         Collections.sort(sortedTrials, new Comparator<GenericTrial>() {
             @Override
             public int compare(GenericTrial o1, GenericTrial o2) {
-                Double r1 = o1.getResultNum().doubleValue();
-                Double r2 = o2.getResultNum().doubleValue();
+                Double r1 = o1.getResult().doubleValue();
+                Double r2 = o2.getResult().doubleValue();
                 return r1.compareTo(r2);
             }
         });
@@ -41,10 +41,10 @@ public class StatCalculator {
         if (size == 0)
             return Double.NaN;
 
-        double m = sortedTrials.get(size / 2).getResultNum().doubleValue();
+        double m = sortedTrials.get(size / 2).getResult().doubleValue();
 
         if (size % 2 == 0)
-            m = (m + sortedTrials.get(size / 2 - 1).getResultNum().doubleValue()) / 2;
+            m = (m + sortedTrials.get(size / 2 - 1).getResult().doubleValue()) / 2;
         return m;
     }
 
@@ -53,13 +53,13 @@ public class StatCalculator {
         int size = sortedTrials.size();
 
         switch (quartNum) {
-            case 0: return sortedTrials.get(0).getResultNum().doubleValue();
+            case 0: return sortedTrials.get(0).getResult().doubleValue();
             case 1: return calcMedian(new ArrayList<>(sortedTrials.subList(0, size / 2)));
             case 2: return calcMedian(sortedTrials);
             case 3:
                 if (size % 2 == 0)  return calcMedian(new ArrayList<>(sortedTrials.subList(size / 2, size)));
                 else                return calcMedian(new ArrayList<>(sortedTrials.subList(size / 2 + 1, size)));
-            case 4: return sortedTrials.get(size - 1).getResultNum().doubleValue();
+            case 4: return sortedTrials.get(size - 1).getResult().doubleValue();
             default:
                 throw new IllegalArgumentException("quartNum can only take the integer values of 0-4.");
         }
@@ -68,7 +68,7 @@ public class StatCalculator {
     public static double calcMean(ArrayList<GenericTrial> trials) {
         double sum = 0;
         for (GenericTrial t : trials)
-            sum += t.getResultNum().doubleValue();
+            sum += t.getResult().doubleValue();
         return sum / trials.size();
     }
 
@@ -77,7 +77,7 @@ public class StatCalculator {
         double sum = 0;
 
         for (GenericTrial t : trials) {
-            double buffer = t.getResultNum().doubleValue() - mean;
+            double buffer = t.getResult().doubleValue() - mean;
             sum += buffer * buffer;
         }
         sum /= trials.size();

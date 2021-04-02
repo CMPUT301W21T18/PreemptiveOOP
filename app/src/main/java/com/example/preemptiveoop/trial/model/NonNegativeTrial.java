@@ -18,10 +18,17 @@ public class NonNegativeTrial extends GenericTrial {
     }
 
     @Override
-    public Number getResultNum() { return result; }
+    public Number getResult() { return result; }
 
-    public void setResult(Integer result) {
+    @Override
+    public void setResult_(Number result) {
+        if (!(result instanceof Integer))
+            throw new IllegalArgumentException("resultNum for NonNegativeTrial must be Integer.");
+
+        if (result.doubleValue() < 0)
+            throw new IllegalArgumentException("resultNum for NonNegativeTrial must be >= 0.");
+
         super.setResultStr(result.toString());
-        this.result = result;
+        this.result = result.intValue();
     }
 }

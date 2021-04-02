@@ -19,8 +19,8 @@ public class BinomialExp extends Experiment <BinomialTrial> {
 
     @Override
     public void addTrial(BinomialTrial trial) {
-        if (trial.getResultNum().intValue() != 0 && trial.getResultNum().intValue() != 1)
-            throw new IllegalArgumentException("trial for BinomialExp can only have a result of 1 or 0.");
+        if (trial.getResult().intValue() != 0 && trial.getResult().intValue() != 1)
+            throw new IllegalArgumentException("trial for BinomialExp must have an integer result of 1 or 0.");
         super.addTrial(trial);
     }
 }

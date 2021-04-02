@@ -19,8 +19,8 @@ public class NonNegativeExp extends Experiment <NonNegativeTrial> {
 
     @Override
     public void addTrial(NonNegativeTrial trial) {
-        if (trial.getResultNum().doubleValue() < 0)
-            throw new IllegalArgumentException("trial for NonNegativeExp can only have a double result that's >= 0.");
+        if (trial.getResult().intValue() < 0)
+            throw new IllegalArgumentException("trial for NonNegativeExp must have an integer result >= 0.");
         super.addTrial(trial);
     }
 }
