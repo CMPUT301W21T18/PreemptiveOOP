@@ -1,27 +1,14 @@
 package com.example.preemptiveoop;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Intent;
-import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.preemptiveoop.uiwidget.MyDialog;
-import com.example.preemptiveoop.user.UserLogin;
-import com.example.preemptiveoop.user.UserRegister;
 import com.example.preemptiveoop.user.model.DeviceId;
-import com.example.preemptiveoop.user.model.User;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -51,21 +38,54 @@ public class MainPageTest {
     public void start() throws Exception{
         Activity activity = rule.getActivity();
     }
+
+
     @Test
     public void checkDevID() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        if (!DevIsRegisted){
-            solo.assertCurrentActivity("Wrong Activity", UserRegister.class);
+        if(!DevIsRegisted){
             solo.clickOnButton("OK");
+            //solo.assertCurrentActivity("Wrong Activity", UserRegister.class);
             solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestUser");
             solo.enterText((EditText) solo.getView(R.id.EditText_contact), "TestUser@mock.com");
             solo.clickOnView(solo.getView(R.id.Button_register));
             DevIsRegisted = true;
-            solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         } else {
             solo.clickOnButton(R.id.Button_login);
-            solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         }
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+    }
+
+    @Test
+    public void checkInvalid1() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        if(!DevIsRegisted){
+            solo.clickOnButton("OK");
+            //solo.assertCurrentActivity("Wrong Activity", UserRegister.class);
+            solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestID4Repeat");
+            solo.enterText((EditText) solo.getView(R.id.EditText_contact), "TestID4Repeat");
+            solo.clickOnView(solo.getView(R.id.Button_register));
+            solo.clickOnButton("OK");
+        } else {
+            solo.clickOnButton(R.id.Button_login);
+        }
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+    }
+
+    @Test
+    public void checkInvalid2() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        if(!DevIsRegisted){
+            solo.clickOnButton("OK");
+            //solo.assertCurrentActivity("Wrong Activity", UserRegister.class);
+            solo.enterText((EditText) solo.getView(R.id.EditText_username), "");
+            solo.enterText((EditText) solo.getView(R.id.EditText_contact), "");
+            solo.clickOnView(solo.getView(R.id.Button_register));
+            solo.clickOnButton("OK");
+        } else {
+            solo.clickOnButton(R.id.Button_login);
+        }
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
     }
 
     @Test
@@ -81,13 +101,10 @@ public class MainPageTest {
     @After
     public void tearDown() throws Exception{
         solo.finishOpenedActivities();
-        // perform query
-
-
     }
 
     @AfterClass
-    public static void deletFireBase() throws Exception{
+    public static void deleteFireBase() throws Exception{
         String deviceId = DeviceId.getDeviceId(getApplicationContext());
         FirebaseFirestore.getInstance().collection("Users").document("TestUser")
                 .delete()
