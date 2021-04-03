@@ -1,6 +1,6 @@
 package com.example.preemptiveoop.trial.model;
 
-import android.location.Location;
+import com.example.preemptiveoop.uiwidget.model.MyLocation;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ public class NonNegativeTrial extends GenericTrial {
     Integer result;
 
     public NonNegativeTrial() {}
-    public NonNegativeTrial(String creator, Date creationDate, Location location, Integer result, boolean isIgnored) {
+    public NonNegativeTrial(String creator, Date creationDate, MyLocation location, Integer result, boolean isIgnored) {
         super(creator, creationDate, location, result.toString(), isIgnored);
         this.result = result;
     }

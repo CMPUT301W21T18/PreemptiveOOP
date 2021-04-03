@@ -1,5 +1,6 @@
 package com.example.preemptiveoop.experiment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
@@ -19,6 +21,7 @@ import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.experiment.model.GenericExperiment;
 import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
@@ -31,6 +34,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ExperimentList extends AppCompatActivity {
+    private final int CHILD_PUBLISH_EXPERIMENT = 1;
+
     private User user;
     private boolean searchMode;
 
@@ -49,10 +54,13 @@ public class ExperimentList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_list);
 
-        // get passed-in arguments
+        // get passed-in arguments: .user, .searchMode
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra(".user");
         searchMode = intent.getBooleanExtra(".searchMode", false);
+
+        if (user == null)
+            throw new IllegalArgumentException("Expected '.user' passed-in through intent.");
 
         etKeywords  = findViewById(R.id.EditText_keywords);
         btSearch    = findViewById(R.id.Button_search);
@@ -93,9 +101,9 @@ public class ExperimentList extends AppCompatActivity {
         updateExperimentList();
     }
 
-    private void updateExpListFromQueryTask(Task<QuerySnapshot> task) {
+    private void updateExpListFromQuerySnapshot(QuerySnapshot queryDocumentSnapshots) {
         experiments.clear();
-        for (QueryDocumentSnapshot document : task.getResult()) {
+        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
             GenericExperiment exp = document.toObject(GenericExperiment.class);
             experiments.add(exp.toCorrespondingExp());
         }
@@ -110,51 +118,30 @@ public class ExperimentList extends AppCompatActivity {
     private void displayOwnedExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereEqualTo("owner", user.getUsername())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        expCol.whereEqualTo("owner", user.getUsername()).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.d("ExperimentList.DB", "Failed to get owned experiments.", task.getException());
-                            return;
-                        }
-                        updateExpListFromQueryTask(task);
-                    }
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) { updateExpListFromQuerySnapshot(queryDocumentSnapshots); }
                 });
     }
 
     private void displayPartiExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereArrayContains("experimenters", user.getUsername())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        expCol.whereArrayContains("experimenters", user.getUsername()).whereEqualTo("status", Experiment.STATUS_PUBLISHED).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.d("ExperimentList.DB", "Failed to get participated experiments.", task.getException());
-                            return;
-                        }
-                        updateExpListFromQueryTask(task);
-                    }
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) { updateExpListFromQuerySnapshot(queryDocumentSnapshots); }
                 });
     }
 
     private void displaySearchedExpList(String keyword) {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereArrayContains("keywords", keyword).whereEqualTo("status", Experiment.STATUS_PUBLISHED)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        expCol.whereArrayContains("keywords", keyword).whereEqualTo("status", Experiment.STATUS_PUBLISHED).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.d("ExperimentList.DB", "Failed to search for experiments.", task.getException());
-                            return;
-                        }
-                        updateExpListFromQueryTask(task);
-                    }
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) { updateExpListFromQuerySnapshot(queryDocumentSnapshots); }
                 });
     }
 
@@ -169,7 +156,7 @@ public class ExperimentList extends AppCompatActivity {
     }
 
     public void btSearchOnClick(View v) {
-        String keyword = etKeywords.getText().toString();
+        String keyword = etKeywords.getText().toString().toLowerCase();
         if (keyword.isEmpty())
             return;
         displaySearchedExpList(keyword);
@@ -189,7 +176,8 @@ public class ExperimentList extends AppCompatActivity {
     }
 
     public void btAddExpOnClick(View v) {
-        PublishExperiment fragment = new PublishExperiment(user);
-        fragment.show(getSupportFragmentManager(), "PUBLISH_EXPERIMENT");
+        Intent intent = new Intent(this, PublishExperiment.class);
+        intent.putExtra(".user", user);
+        startActivity(intent);
     }
 }

@@ -16,7 +16,7 @@ import com.example.preemptiveoop.user.UserProfileFragment;
 import com.example.preemptiveoop.user.model.User;
 import com.example.preemptiveoop.user.UserLogin;
 
-public class MainActivity extends AppCompatActivity {
+ public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
 
     private User user;
@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        tvUsername  = findViewById(R.id.TextView_username);
-        btExperiment= findViewById(R.id.Button_experiment);
-        btSearch    = findViewById(R.id.Button_search);
-        btQrcode    = findViewById(R.id.Button_qrcode);
-        btPost      = findViewById(R.id.Button_post);
-        btLogout    = findViewById(R.id.Button_logout);
-        btUsrProfile = findViewById(R.id.Button_usrprofile);
+        tvUsername        = findViewById(R.id.TextView_username);
+        btExperiment      = findViewById(R.id.Button_experiment);
+        btSearch          = findViewById(R.id.Button_search);
+        btQrcode          = findViewById(R.id.Button_qrcode);
+        btPost            = findViewById(R.id.Button_post);
+        btLogout          = findViewById(R.id.Button_logout);
+        btUsrProfile      = findViewById(R.id.Button_usrprofile);
         btRetrieveProfile = findViewById(R.id.Button_retrieve_profile);
 
         btExperiment.setOnClickListener(this::btExperimentOnClick);
@@ -51,12 +51,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case CHILD_USER_LOGIN: {
+            case CHILD_USER_LOGIN:
                 if (resultCode == Activity.RESULT_OK) {
                     user = (User) data.getSerializableExtra(".user");
                     tvUsername.setText(user.getUsername());
                 }
-            }
+                break;
         }
     }
 

@@ -2,6 +2,8 @@ package com.example.preemptiveoop.trial.model;
 
 import android.location.Location;
 
+import com.example.preemptiveoop.uiwidget.model.MyLocation;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,13 +14,13 @@ import java.util.Date;
 public class GenericTrial implements Serializable {
     private String creator;
     private Date creationDate;
-    private Location location;
+    private MyLocation location;
 
     private String resultStr;
     private boolean isIgnored;
 
     public GenericTrial() {}
-    public GenericTrial(String creator, Date creationDate, Location location, String resultStr, boolean isIgnored) {
+    public GenericTrial(String creator, Date creationDate, MyLocation location, String resultStr, boolean isIgnored) {
         this.creator = creator;
         this.creationDate = creationDate;
         this.location = location;
@@ -51,7 +53,7 @@ public class GenericTrial implements Serializable {
     // getters
     public String getCreator() { return creator; }
     public Date getCreationDate() { return creationDate; }
-    public Location getLocation() { return location; }
+    public MyLocation getLocation() { return location; }
 
     public String getResultStr() { return resultStr; }
     public boolean isIgnored() { return isIgnored; }

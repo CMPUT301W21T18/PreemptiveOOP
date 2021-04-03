@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/TextView_qr_hint"
+        android:id="@+id/TextView_hint"
         android:layout_width="227dp"
         android:layout_height="34dp"
         android:layout_marginTop="16dp"
@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/TextView_title_ExecuteExperiment" />
 
     <EditText
-        android:id="@+id/EditText_qr_result"
+        android:id="@+id/EditText_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -41,43 +41,51 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_qr_hint" />
+        app:layout_constraintTop_toBottomOf="@+id/TextView_hint" />
 
     <Button
-        android:id="@+id/Button_qr_success"
+        android:id="@+id/Button_success"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="76dp"
         android:text="Success"
-        app:layout_constraintEnd_toStartOf="@+id/Button_qr_failure"
+        app:layout_constraintEnd_toStartOf="@+id/Button_failure"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_qr_hint" />
+        app:layout_constraintTop_toBottomOf="@+id/TextView_hint" />
 
     <Button
-        android:id="@+id/Button_qr_failure"
+        android:id="@+id/Button_failure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="85dp"
         android:layout_marginLeft="85dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="80dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:text="Failure"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/Button_qr_success"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_qr_hint" />
+        app:layout_constraintStart_toEndOf="@+id/Button_success"
+        app:layout_constraintTop_toBottomOf="@+id/TextView_hint" />
 
     <Button
-        android:id="@+id/Button_qr_generate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/Button_record"
+        android:layout_width="144dp"
+        android:layout_height="44dp"
         android:layout_marginTop="90dp"
         android:text="Record"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditText_qr_result" />
+        app:layout_constraintTop_toBottomOf="@+id/EditText_result" />
 
-
+    <Button
+        android:id="@+id/Button_pickLocation"
+        android:layout_width="301dp"
+        android:layout_height="47dp"
+        android:layout_marginBottom="36dp"
+        android:text="Pick a Location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
