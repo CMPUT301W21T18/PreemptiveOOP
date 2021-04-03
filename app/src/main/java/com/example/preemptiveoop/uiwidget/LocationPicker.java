@@ -114,7 +114,7 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
                             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 
                             mMap.clear();
-                            mMap.addMarker(new MarkerOptions().title("selected").position(latlng));
+                            mMap.addMarker(new MarkerOptions().position(latlng).title("selected"));
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM));
                         }
                     });
@@ -133,7 +133,7 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
         selectedLocation.setLongitude(point.longitude);
 
         mMap.clear();
-        mMap.addMarker(new MarkerOptions().title("selected").position(point));
+        mMap.addMarker(new MarkerOptions().position(point).title("selected"));
     }
 
     public void btCurrLocationOnClick(View v) {

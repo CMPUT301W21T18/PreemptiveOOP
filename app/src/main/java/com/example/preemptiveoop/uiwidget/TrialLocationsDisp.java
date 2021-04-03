@@ -2,6 +2,7 @@ package com.example.preemptiveoop.uiwidget;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -19,6 +20,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -105,7 +108,11 @@ public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCa
                         @Override
                         public void onSuccess(Location location) {
                             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-                            mMap.addCircle(new CircleOptions().center(latlng).radius(20));
+
+                            mMap.addMarker(new MarkerOptions().position(latlng)
+                                    .title("Your Location")
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                            );
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM));
                         }
                     });
@@ -116,14 +123,16 @@ public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCa
     private void dispTrialLocations() {
         for (GenericTrial trial : trials) {
             MyLocation location = trial.getLocation();
+            if (location == null) continue;
 
-            if (location != null) {
-                LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-                mMap.addMarker(new MarkerOptions()
-                        .title("Result: " + trial.getResultStr())
-                        .position(latlng)
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+            if (trial.isIgnored())
+                mMap.addMarker(new MarkerOptions().position(latlng)
+                        .title("Ignored Trial")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
                 );
-            }
+            else
+                mMap.addMarker(new MarkerOptions().position(latlng).title("Result: " + trial.getResultStr()));
         }
     }
 
