@@ -6,7 +6,7 @@ import android.widget.EditText;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.example.preemptiveoop.user.activity.UserLogin;
+import com.example.preemptiveoop.user.UserLogin;
 import com.robotium.solo.Solo;
 
 import org.junit.After;
@@ -17,8 +17,8 @@ import org.junit.Test;
 public class MainPageTest {
     private Solo solo;
     @Rule
-    public ActivityTestRule<MainPage> rule =
-            new ActivityTestRule<>(MainPage.class,true,true);
+    public ActivityTestRule<MainActivity> rule =
+            new ActivityTestRule<>(MainActivity.class,true,true);
 
     @Before
     public void setUp() throws Exception{
@@ -47,7 +47,7 @@ public class MainPageTest {
         solo.wait(2000);
         MainActivity activity = (MainActivity) solo.getCurrentActivity();
 
-        solo.assertCurrentActivity("Main_page Activity",MainPage.class);
+        solo.assertCurrentActivity("Main_page Activity",MainActivity.class);
 
     }
 
