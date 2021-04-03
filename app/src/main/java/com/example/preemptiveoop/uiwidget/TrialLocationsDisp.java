@@ -1,12 +1,9 @@
 package com.example.preemptiveoop.uiwidget;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -14,8 +11,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.preemptiveoop.R;
-import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.trial.model.GenericTrial;
+import com.example.preemptiveoop.uiwidget.model.MyLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,8 +27,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.util.ArrayList;
 
 public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCallback {
-    private static final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int DEFAULT_ZOOM = 15;
+    private final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private final int DEFAULT_ZOOM = 15;
 
     private GoogleMap mMap;
     private ArrayList<GenericTrial> trials;
@@ -108,7 +105,7 @@ public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCa
                         @Override
                         public void onSuccess(Location location) {
                             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
-                            mMap.addCircle(new CircleOptions().center(latlng));
+                            mMap.addCircle(new CircleOptions().center(latlng).radius(20));
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM));
                         }
                     });
@@ -118,7 +115,7 @@ public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCa
 
     private void dispTrialLocations() {
         for (GenericTrial trial : trials) {
-            Location location = trial.getLocation();
+            MyLocation location = trial.getLocation();
 
             if (location != null) {
                 LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());

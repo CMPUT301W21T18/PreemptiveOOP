@@ -1,6 +1,6 @@
 package com.example.preemptiveoop.trial.model;
 
-import android.location.Location;
+import com.example.preemptiveoop.uiwidget.model.MyLocation;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ public class MeasurementTrial extends GenericTrial {
     Double result;
 
     public MeasurementTrial() {}
-    public MeasurementTrial(String creator, Date creationDate, Location location, Double resultNum, boolean isIgnored) {
+    public MeasurementTrial(String creator, Date creationDate, MyLocation location, Double resultNum, boolean isIgnored) {
         super(creator, creationDate, location, resultNum.toString(), isIgnored);
         this.result = resultNum;
     }

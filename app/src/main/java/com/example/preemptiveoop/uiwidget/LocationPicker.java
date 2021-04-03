@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.preemptiveoop.R;
+import com.example.preemptiveoop.uiwidget.model.MyLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -25,8 +27,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 public class LocationPicker extends FragmentActivity implements OnMapReadyCallback {
-    private static final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final int DEFAULT_ZOOM = 15;
+    private final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private final int DEFAULT_ZOOM = 15;
 
     private GoogleMap mMap;
     private Location selectedLocation;
@@ -51,7 +53,7 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        selectedLocation = new Location("");
+        selectedLocation = null;
 
         btCurrLocation = findViewById(R.id.Button_currLocation);
         btFinish       = findViewById(R.id.Button_finish);
@@ -106,6 +108,8 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
                     .addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
+                            if (location == null)
+                                return;
                             selectedLocation = location;
                             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 
@@ -122,6 +126,9 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
      * Callback for OnMapClickListener, which is triggered when the map is clicked.
      */
     public void onMapClick(LatLng point) {
+        if (selectedLocation == null)
+            selectedLocation = new Location("");
+
         selectedLocation.setLatitude(point.latitude);
         selectedLocation.setLongitude(point.longitude);
 
@@ -132,10 +139,13 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
     public void btCurrLocationOnClick(View v) {
         getDeviceLocation();
     }
+
     public void btFinishOnClick(View v) {
-        // return user object through intent
+        MyLocation location = new MyLocation(selectedLocation.getLatitude(), selectedLocation.getLongitude());
+
+        // return MyLocation object through intent
         Intent intent = new Intent();
-        intent.putExtra(".location", selectedLocation);
+        intent.putExtra(".location", location);
         setResult(Activity.RESULT_OK, intent);
         finish();
     }

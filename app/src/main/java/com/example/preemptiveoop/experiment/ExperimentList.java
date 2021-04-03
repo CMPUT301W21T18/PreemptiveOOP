@@ -1,5 +1,6 @@
 package com.example.preemptiveoop.experiment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.ListView;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
@@ -31,6 +33,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class ExperimentList extends AppCompatActivity {
+    private final int CHILD_PUBLISH_EXPERIMENT = 1;
+
     private User user;
     private boolean searchMode;
 
@@ -49,10 +53,13 @@ public class ExperimentList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experiment_list);
 
-        // get passed-in arguments
+        // get passed-in arguments: .user, .searchMode
         Intent intent = getIntent();
         user = (User) intent.getSerializableExtra(".user");
         searchMode = intent.getBooleanExtra(".searchMode", false);
+
+        if (user == null)
+            throw new IllegalArgumentException("Expected '.user' passed-in through intent.");
 
         etKeywords  = findViewById(R.id.EditText_keywords);
         btSearch    = findViewById(R.id.Button_search);
@@ -110,8 +117,7 @@ public class ExperimentList extends AppCompatActivity {
     private void displayOwnedExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereEqualTo("owner", user.getUsername())
-                .get()
+        expCol.whereEqualTo("owner", user.getUsername()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -127,8 +133,7 @@ public class ExperimentList extends AppCompatActivity {
     private void displayPartiExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereArrayContains("experimenters", user.getUsername())
-                .get()
+        expCol.whereArrayContains("experimenters", user.getUsername()).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -144,8 +149,7 @@ public class ExperimentList extends AppCompatActivity {
     private void displaySearchedExpList(String keyword) {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereArrayContains("keywords", keyword).whereEqualTo("status", Experiment.STATUS_PUBLISHED)
-                .get()
+        expCol.whereArrayContains("keywords", keyword).whereEqualTo("status", Experiment.STATUS_PUBLISHED).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -189,7 +193,8 @@ public class ExperimentList extends AppCompatActivity {
     }
 
     public void btAddExpOnClick(View v) {
-        PublishExperiment fragment = new PublishExperiment(user);
-        fragment.show(getSupportFragmentManager(), "PUBLISH_EXPERIMENT");
+        Intent intent = new Intent(this, PublishExperiment.class);
+        intent.putExtra(".user", user);
+        startActivity(intent);
     }
 }
