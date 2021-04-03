@@ -156,7 +156,7 @@ public class ExperimentList extends AppCompatActivity {
     }
 
     public void btSearchOnClick(View v) {
-        String keyword = etKeywords.getText().toString();
+        String keyword = etKeywords.getText().toString().toLowerCase();
         if (keyword.isEmpty())
             return;
         displaySearchedExpList(keyword);
