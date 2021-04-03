@@ -17,13 +17,15 @@ import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.post.QuestionListActivity;
 import com.example.preemptiveoop.trial.ExecuteTrial;
 import com.example.preemptiveoop.trial.TrialList;
+import com.example.preemptiveoop.uiwidget.TrialLocationsDisp;
 import com.example.preemptiveoop.user.model.User;
 
 public class ManageExperiment extends DialogFragment {
     private Experiment experiment;
     private User user;
 
-    private Button btTrials, btStats, btParti, btDoTrial;
+    private Button btTrials, btTrialLocations, btStats;
+    private Button btParti, btDoTrial;
     private Button btEndExp, btUnpublish, btQuestion;
 
     public ManageExperiment(Experiment experiment, User user) {
@@ -38,16 +40,19 @@ public class ManageExperiment extends DialogFragment {
         //return super.onCreateDialog(savedInstanceState);
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_manage_experiment, null);
 
-        btTrials    = view.findViewById(R.id.Button_trials);
-        btStats     = view.findViewById(R.id.Button_stats);
+        btTrials         = view.findViewById(R.id.Button_trials);
+        btTrialLocations = view.findViewById(R.id.Button_viewTrialLocations);
+        btStats          = view.findViewById(R.id.Button_stats);
+
         btParti     = view.findViewById(R.id.Button_participate);
         btDoTrial   = view.findViewById(R.id.Button_doTrial);
 
-        btEndExp = view.findViewById(R.id.Button_endExp);
+        btEndExp    = view.findViewById(R.id.Button_endExp);
         btUnpublish = view.findViewById(R.id.Button_unpublish);
-        btQuestion = view.findViewById(R.id.Button_view_question);
+        btQuestion  = view.findViewById(R.id.Button_view_question);
 
         btTrials.setOnClickListener(this::btTrialsOnClick);
+        btTrialLocations.setOnClickListener(this::btTrialLocationsOnClick);
         btStats.setOnClickListener(this::btStatsOnClick);
 
         btParti.setOnClickListener(this::btPartiOnClick);
@@ -74,11 +79,6 @@ public class ManageExperiment extends DialogFragment {
         return builder.create();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private void endThisFragment() {
         getFragmentManager().beginTransaction().remove(ManageExperiment.this).commit();
     }
@@ -90,6 +90,12 @@ public class ManageExperiment extends DialogFragment {
 
         ((ExperimentList) getActivity()).updateExperimentList();
         endThisFragment();
+    }
+
+    public void btTrialLocationsOnClick(View v) {
+        Intent i = new Intent(getActivity(), TrialLocationsDisp.class);
+        i.putExtra(".trials", experiment.getTrials());
+        startActivity(i);
     }
 
     public void btStatsOnClick(View v) {

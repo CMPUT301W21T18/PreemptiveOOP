@@ -1,8 +1,7 @@
 package com.example.preemptiveoop.experiment.model;
 
-import android.location.Location;
-
 import com.example.preemptiveoop.trial.model.CountTrial;
+import com.example.preemptiveoop.uiwidget.model.MyLocation;
 
 import java.util.Date;
 
@@ -13,7 +12,7 @@ import java.util.Date;
 public class CountExp extends Experiment <CountTrial> {
     public CountExp() {}
     public CountExp(String databaseId, String owner, Date creationDate, String description,
-                       Location region, boolean requireLocation, int requiredNumOfTrial) {
+                    MyLocation region, boolean requireLocation, int requiredNumOfTrial) {
         super(databaseId, Experiment.TYPE_COUNT, owner, creationDate, description, region, requireLocation, requiredNumOfTrial);
     }
 
