@@ -128,9 +128,13 @@ public class MainPageTest {
         solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
         solo.clickOnButton("Retrieve Profile");
         assertTrue(solo.waitForText("Retrieve", 1, 200));
-        solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestUser");
+//        solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestUser");
+//        solo.clickOnButton(R.id.Button_retrieve);
+//        assertTrue(solo.waitForText("newcontect@sth.com",1,200));
+//        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.enterText((EditText) solo.getView(R.id.EditText_username), "user#1");
         solo.clickOnButton(R.id.Button_retrieve);
-        assertTrue(solo.waitForText("newcontect@sth.com"));
+        assertTrue(solo.waitForText("user#1@gmail.com",1,200));
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
 
