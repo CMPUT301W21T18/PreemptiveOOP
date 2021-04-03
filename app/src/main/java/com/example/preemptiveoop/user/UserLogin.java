@@ -1,12 +1,15 @@
 package com.example.preemptiveoop.user;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,30 +17,58 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.uiwidget.MyDialog;
+import com.example.preemptiveoop.user.model.DeviceId;
 import com.example.preemptiveoop.user.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class UserLogin extends AppCompatActivity {
     private final int CHILD_USER_REGISTER = 1;
 
-    private EditText etUsername;
-    private EditText etPassword;
+    private User user = null;
+
+    private EditText etUserName;
     private Button btLogin;
-    private Button btRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_login);
 
-        etUsername = findViewById(R.id.EditText_username);
-        etPassword = findViewById(R.id.EditText_password);
+        etUserName = findViewById(R.id.EditText_username);
         btLogin = findViewById(R.id.Button_login);
-        btRegister = findViewById(R.id.Button_register);
+
+        String deviceId = DeviceId.getDeviceId(getApplicationContext());
+
+        CollectionReference userCol = FirebaseFirestore.getInstance().collection("Users");
+        // perform query
+        userCol.whereEqualTo("bondDeviceId", deviceId).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot query) {
+                        if (query.isEmpty()) {                   // query returned no document
+                            Intent intent = new Intent(UserLogin.this, UserRegister.class);
+                            startActivityForResult(intent, CHILD_USER_REGISTER);
+                            return;
+                        }
+
+                        DocumentSnapshot doc = query.getDocuments().get(0);
+                        user = doc.toObject(User.class);
+                        etUserName.setText(user.getUsername());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        MyDialog.errorDialog(UserLogin.this, "Firestore Access Failed", e.toString());
+                    }
+                });
     }
 
     @Override
@@ -46,9 +77,8 @@ public class UserLogin extends AppCompatActivity {
         switch (requestCode) {
             case CHILD_USER_REGISTER: {
                 if (resultCode == Activity.RESULT_OK) {
-                    User user = (User) data.getSerializableExtra("UserRegister.user");
-                    etUsername.setText(user.getUsername());
-                    etPassword.setText(user.getPassword());
+                    setResult(Activity.RESULT_OK, data);
+                    finish();
                 }
             }
         }
@@ -60,68 +90,18 @@ public class UserLogin extends AppCompatActivity {
     }
 
     public void btLoginOnClick(View v) {
-            String username = etUsername.getText().toString();
-            String password = etPassword.getText().toString();
+        if (user == null)
+            return;
 
-            if (username.isEmpty() || password.isEmpty()) {
-                MyDialog.errorDialog(UserLogin.this,
-                        "Empty Fields",
-                        "Please provide both username and password."
-                );
-                return;
-            }
+        // return our user object through an intent
+        Intent intent = new Intent();
+        intent.putExtra(".user", user);
+        setResult(Activity.RESULT_OK, intent);
+        finish();
+    }
 
-            FirebaseFirestore.getInstance().collection("Users")
-                    .document(username)
-                    .get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (!documentSnapshot.exists()) {                   // query returned no document!
-                                MyDialog.errorDialog(UserLogin.this,
-                                        "Invalid Username",
-                                        "The provided username is not a registered user. Please register."
-                                );
-                                return;
-                            }
-
-                            User user = documentSnapshot.toObject(User.class);
-                            if (!user.getPassword().equals(password)) {
-                                MyDialog.errorDialog(UserLogin.this,
-                                        "Incorrect Password",
-                                        "The provided password is incorrect. Please retry."
-                                );
-                                return;
-                            }
-
-                            // return our user object through an intent
-                            Intent intent = new Intent();
-                            intent.putExtra("UserLogin.user", user);
-                            setResult(Activity.RESULT_OK, intent);
-                            finish();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {           // query failed!
-                        @Override
-                        public void onFailure(@NonNull Exception e) { Log.d("UserLogin.DB", "Failed to perform query.", e); }
-                    });
-        }
-
-        public void btRegisterOnClick(View v) {
-            Intent intent = new Intent(this, UserRegister.class);
-            startActivityForResult(intent, CHILD_USER_REGISTER);
-        }
-
-        public void btGuestOnClick(View v) {
-            CollectionReference collectionReference = FirebaseFirestore.getInstance().collection("Users");
-            String new_id = collectionReference.document().getId();
-            User user = new User(new_id, null, null);
-            collectionReference.document(new_id).set(user);
-
-            // return our user object through an intent
-            Intent intent = new Intent();
-            intent.putExtra("UserLogin.user", user);
-            setResult(Activity.RESULT_OK, intent);
-            finish();
-        }
+    public void btRegisterOnClick(View v) {
+        Intent intent = new Intent(this, UserRegister.class);
+        startActivityForResult(intent, CHILD_USER_REGISTER);
+    }
 }
