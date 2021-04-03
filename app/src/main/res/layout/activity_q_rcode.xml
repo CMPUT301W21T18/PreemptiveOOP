@@ -3,38 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".scan.QRcodeActivity">
 
-    <TextView
-        android:id="@+id/TextView_title_ExecuteExperiment"
-        android:layout_width="411dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
-        android:text="Execute Experiment"
-        android:textSize="30sp"
-        android:textStyle="bold"
+    <ImageView
+        android:id="@+id/ImageView_qr"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/logo" />
 
     <TextView
         android:id="@+id/TextView_qr_hint"
         android:layout_width="227dp"
         android:layout_height="34dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:gravity="center"
-        android:text="Enter the Trial result :"
+        android:text="Modify the Trial result :"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_title_ExecuteExperiment" />
+        app:layout_constraintTop_toBottomOf="@+id/ImageView_qr" />
 
     <EditText
         android:id="@+id/EditText_qr_result"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="Result"
         android:inputType="numberDecimal"
@@ -45,11 +46,11 @@
 
     <Button
         android:id="@+id/Button_qr_success"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="60dp"
         android:text="Success"
         app:layout_constraintEnd_toStartOf="@+id/Button_qr_failure"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,11 +58,11 @@
 
     <Button
         android:id="@+id/Button_qr_failure"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="85dp"
-        android:layout_marginLeft="85dp"
-        android:layout_marginTop="54dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:text="Failure"
@@ -72,12 +73,10 @@
     <Button
         android:id="@+id/Button_qr_generate"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="85dp"
         android:layout_marginTop="90dp"
-        android:text="Record"
+        android:text="Generate QRcode"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditText_qr_result" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,11 +10,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
-import com.example.preemptiveoop.experiment.model.BinomialExp;
-import com.example.preemptiveoop.experiment.model.CountExp;
 import com.example.preemptiveoop.experiment.model.Experiment;
-import com.example.preemptiveoop.experiment.model.MeasurementExp;
-import com.example.preemptiveoop.experiment.model.NonNegativeExp;
 import com.example.preemptiveoop.trial.model.BinomialTrial;
 import com.example.preemptiveoop.trial.model.CountTrial;
 import com.example.preemptiveoop.trial.model.MeasurementTrial;
@@ -51,12 +47,12 @@ public class ExecuteTrial extends AppCompatActivity {
         expDoc = FirebaseFirestore.getInstance()
                 .collection("Experiments").document(experiment.getDatabaseId());
 
-        btSuccess = findViewById(R.id.Button_success);
-        btFailure = findViewById(R.id.Button_failure);
+        btSuccess = findViewById(R.id.Button_qr_success);
+        btFailure = findViewById(R.id.Button_qr_failure);
 
-        tvHint = findViewById(R.id.TextView_hint);
-        etResult = findViewById(R.id.EditText_result);
-        btRecord = findViewById(R.id.Button_record);
+        tvHint = findViewById(R.id.TextView_qr_hint);
+        etResult = findViewById(R.id.EditText_qr_result);
+        btRecord = findViewById(R.id.Button_qr_generate);
 
         btSuccess.setOnClickListener(this::btSuccessOnClick);
         btFailure.setOnClickListener(this::btFailureOnClick);
