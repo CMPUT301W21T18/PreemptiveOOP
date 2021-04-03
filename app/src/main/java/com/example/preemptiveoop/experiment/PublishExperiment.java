@@ -67,14 +67,13 @@ public class PublishExperiment extends AppCompatActivity {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case CHILD_LOCATION_PICKER: {
+            case CHILD_LOCATION_PICKER:
                 if (resultCode == Activity.RESULT_OK)
                     selectedLocation = (MyLocation) data.getSerializableExtra(".location");
                 break;
-            }
         }
     }
 

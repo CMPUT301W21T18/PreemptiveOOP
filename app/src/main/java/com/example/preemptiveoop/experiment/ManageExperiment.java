@@ -23,7 +23,8 @@ public class ManageExperiment extends DialogFragment {
     private Experiment experiment;
     private User user;
 
-    private Button btTrials, btStats, btParti, btDoTrial;
+    private Button btTrials, btTrialLocations, btStats;
+    private Button btParti, btDoTrial;
     private Button btEndExp, btUnpublish, btQuestion;
 
     public ManageExperiment(Experiment experiment, User user) {
@@ -74,11 +75,6 @@ public class ManageExperiment extends DialogFragment {
         return builder.create();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
     private void endThisFragment() {
         getFragmentManager().beginTransaction().remove(ManageExperiment.this).commit();
     }
@@ -90,6 +86,10 @@ public class ManageExperiment extends DialogFragment {
 
         ((ExperimentList) getActivity()).updateExperimentList();
         endThisFragment();
+    }
+
+    public void btTrialLocations(View v) {
+
     }
 
     public void btStatsOnClick(View v) {
