@@ -2,6 +2,7 @@ package com.example.preemptiveoop;
 
 import android.app.Activity;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -14,10 +15,17 @@ import com.robotium.solo.Solo;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MainPageTest {
     private Solo solo;
     private boolean DevIsRegisted = false;
@@ -34,30 +42,14 @@ public class MainPageTest {
      * Gets the Activity
      * @throws Exception
      */
-    @Test
-    public void start() throws Exception{
+    @Ignore
+    public void T0_start() throws Exception{
         Activity activity = rule.getActivity();
     }
 
 
     @Test
-    public void checkDevID() {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        if(!DevIsRegisted){
-            solo.clickOnButton("OK");
-            //solo.assertCurrentActivity("Wrong Activity", UserRegister.class);
-            solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestUser");
-            solo.enterText((EditText) solo.getView(R.id.EditText_contact), "TestUser@mock.com");
-            solo.clickOnView(solo.getView(R.id.Button_register));
-            DevIsRegisted = true;
-        } else {
-            solo.clickOnButton(R.id.Button_login);
-        }
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-    }
-
-    @Test
-    public void checkInvalid1() {
+    public void T1_checkInvalid1() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         if(!DevIsRegisted){
             solo.clickOnButton("OK");
@@ -73,7 +65,7 @@ public class MainPageTest {
     }
 
     @Test
-    public void checkInvalid2() {
+    public void T2_checkInvalid2() {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         if(!DevIsRegisted){
             solo.clickOnButton("OK");
@@ -89,12 +81,58 @@ public class MainPageTest {
     }
 
     @Test
-    public void checkLogin() throws InterruptedException {
+    public void T3_checkDevID() {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        if(!DevIsRegisted){
+            solo.clickOnButton("OK");
+            //solo.assertCurrentActivity("Wrong Activity", UserRegister.class);
+            solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestUser");
+            solo.enterText((EditText) solo.getView(R.id.EditText_contact), "TestUser@mock.com");
+            solo.clickOnView(solo.getView(R.id.Button_register));
+            DevIsRegisted = true;
+        } else {
+            solo.clickOnButton(R.id.Button_login);
+        }
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+    }
+
+    @Test
+    public void T4_checkLogin() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
 
         solo.clickOnButton("Login");
 
         solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
+
+    }
+
+    @Test
+    public void T5_checkProfile() throws InterruptedException {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.clickOnButton("Login");
+        solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
+        solo.clickOnButton("User Profile");
+        assertTrue(solo.waitForText("User Profile", 1, 200));
+        solo.clearEditText((EditText) solo.getView(R.id.editTextTextEmailAddress));
+        solo.enterText((EditText) solo.getView(R.id.editTextTextEmailAddress), "newcontect@sth.com");
+        solo.clickOnButton("Confirm");
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.clickOnButton("User Profile");
+        assertTrue(solo.waitForText("newcontect@sth.com", 1, 200));
+    }
+
+    @Ignore
+    public void T6_retrieveProfile() throws InterruptedException {
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+        solo.clickOnButton("Login");
+        solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
+        solo.clickOnButton("Retrieve Profile");
+        assertTrue(solo.waitForText("Retrieve", 1, 200));
+        solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestUser");
+        solo.clickOnButton(R.id.Button_retrieve);
+        assertTrue(solo.waitForText("newcontect@sth.com"));
+        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
+
 
     }
 
