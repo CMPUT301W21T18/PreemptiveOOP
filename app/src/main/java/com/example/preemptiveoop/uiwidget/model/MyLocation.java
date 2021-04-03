@@ -14,6 +14,11 @@ public class MyLocation implements Serializable {
         this.longitude = longitude;
     }
 
+    @Override
+    public String toString() {
+        return String.format("lat = %f, lon = %f", latitude, longitude);
+    }
+
     // getters
     public double getLatitude() { return latitude; }
     public double getLongitude() { return longitude; }

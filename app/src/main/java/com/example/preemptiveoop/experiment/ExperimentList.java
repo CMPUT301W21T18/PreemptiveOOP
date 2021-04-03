@@ -21,6 +21,7 @@ import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.experiment.model.GenericExperiment;
 import com.example.preemptiveoop.user.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
@@ -100,9 +101,9 @@ public class ExperimentList extends AppCompatActivity {
         updateExperimentList();
     }
 
-    private void updateExpListFromQueryTask(Task<QuerySnapshot> task) {
+    private void updateExpListFromQuerySnapshot(QuerySnapshot queryDocumentSnapshots) {
         experiments.clear();
-        for (QueryDocumentSnapshot document : task.getResult()) {
+        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
             GenericExperiment exp = document.toObject(GenericExperiment.class);
             experiments.add(exp.toCorrespondingExp());
         }
@@ -118,31 +119,19 @@ public class ExperimentList extends AppCompatActivity {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
         expCol.whereEqualTo("owner", user.getUsername()).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.d("ExperimentList.DB", "Failed to get owned experiments.", task.getException());
-                            return;
-                        }
-                        updateExpListFromQueryTask(task);
-                    }
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) { updateExpListFromQuerySnapshot(queryDocumentSnapshots); }
                 });
     }
 
     private void displayPartiExpList() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
-        expCol.whereArrayContains("experimenters", user.getUsername()).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        expCol.whereArrayContains("experimenters", user.getUsername()).whereEqualTo("status", Experiment.STATUS_PUBLISHED).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.d("ExperimentList.DB", "Failed to get participated experiments.", task.getException());
-                            return;
-                        }
-                        updateExpListFromQueryTask(task);
-                    }
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) { updateExpListFromQuerySnapshot(queryDocumentSnapshots); }
                 });
     }
 
@@ -150,15 +139,9 @@ public class ExperimentList extends AppCompatActivity {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
         // perform query
         expCol.whereArrayContains("keywords", keyword).whereEqualTo("status", Experiment.STATUS_PUBLISHED).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.d("ExperimentList.DB", "Failed to search for experiments.", task.getException());
-                            return;
-                        }
-                        updateExpListFromQueryTask(task);
-                    }
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) { updateExpListFromQuerySnapshot(queryDocumentSnapshots); }
                 });
     }
 
