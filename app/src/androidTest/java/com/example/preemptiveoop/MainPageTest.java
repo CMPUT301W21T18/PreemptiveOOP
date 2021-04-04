@@ -42,7 +42,7 @@ public class MainPageTest {
      * Gets the Activity
      * @throws Exception
      */
-    @Ignore
+    @Test
     public void T0_start() throws Exception{
         Activity activity = rule.getActivity();
     }
