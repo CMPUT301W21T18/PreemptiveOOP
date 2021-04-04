@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.post.QuestionListActivity;
+import com.example.preemptiveoop.scan.QRcodeActivity;
 import com.example.preemptiveoop.trial.ExecuteTrial;
 import com.example.preemptiveoop.trial.TrialList;
 import com.example.preemptiveoop.uiwidget.TrialLocationsDisp;
@@ -25,7 +26,7 @@ public class ManageExperiment extends DialogFragment {
     private User user;
 
     private Button btTrials, btTrialLocations, btStats;
-    private Button btParti, btDoTrial;
+    private Button btParti, btDoTrial,btQRcode;
     private Button btEndExp, btUnpublish, btQuestion;
 
     public ManageExperiment(Experiment experiment, User user) {
@@ -46,6 +47,7 @@ public class ManageExperiment extends DialogFragment {
 
         btParti     = view.findViewById(R.id.Button_participate);
         btDoTrial   = view.findViewById(R.id.Button_doTrial);
+        btQRcode    = view.findViewById(R.id.Button_qr_code);
 
         btEndExp    = view.findViewById(R.id.Button_endExp);
         btUnpublish = view.findViewById(R.id.Button_unpublish);
@@ -57,6 +59,7 @@ public class ManageExperiment extends DialogFragment {
 
         btParti.setOnClickListener(this::btPartiOnClick);
         btDoTrial.setOnClickListener(this::btDoTrialOnClick);
+        btQRcode.setOnClickListener(this::btQRcodeOnClick);
 
         btEndExp.setOnClickListener(this::btEndExperimentOnClick);
         btUnpublish.setOnClickListener(this::btUnPublishOnClick);
@@ -151,6 +154,14 @@ public class ManageExperiment extends DialogFragment {
         startActivity(intent);
 
         ((ExperimentList) getActivity()).updateExperimentList();
+        endThisFragment();
+    }
+
+    public void btQRcodeOnClick(View v) {
+        Intent intent = new Intent(getActivity(), QRcodeActivity.class);
+        intent.putExtra(".experiment", experiment);
+        intent.putExtra(".user", user);
+        startActivity(intent);
         endThisFragment();
     }
 }
