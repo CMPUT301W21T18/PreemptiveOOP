@@ -1,8 +1,7 @@
 package com.example.preemptiveoop.experiment.model;
 
-import android.location.Location;
-
 import com.example.preemptiveoop.trial.model.GenericTrial;
+import com.example.preemptiveoop.uiwidget.model.MyLocation;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -35,7 +34,7 @@ public class Experiment <T extends GenericTrial> implements Serializable {
     private String description;
     private ArrayList<String> keywords;
 
-    private Location region;
+    private MyLocation region;
     private boolean requireLocation;
 
     private ArrayList<String> experimenters;
@@ -46,7 +45,7 @@ public class Experiment <T extends GenericTrial> implements Serializable {
 
     public Experiment() {}
     public Experiment(String databaseId, String type, String owner, Date creationDate, String description,
-                      Location region, boolean requireLocation, int requiredNumOfTrial) {
+                      MyLocation region, boolean requireLocation, int requiredNumOfTrial) {
         this.databaseId = databaseId;
         this.type = type;
 
@@ -91,7 +90,7 @@ public class Experiment <T extends GenericTrial> implements Serializable {
     public String getDescription() { return description; }
     public ArrayList<String> getKeywords() { return keywords; }
 
-    public Location getRegion() { return region; }
+    public MyLocation getRegion() { return region; }
     public boolean isRequireLocation() { return requireLocation; }
 
     public ArrayList<String> getExperimenters() { return experimenters; }

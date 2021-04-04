@@ -1,19 +1,17 @@
 package com.example.preemptiveoop.experiment;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.BinomialExp;
@@ -21,89 +19,110 @@ import com.example.preemptiveoop.experiment.model.CountExp;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.experiment.model.MeasurementExp;
 import com.example.preemptiveoop.experiment.model.NonNegativeExp;
+import com.example.preemptiveoop.uiwidget.LocationPicker;
 import com.example.preemptiveoop.uiwidget.MyDialog;
+import com.example.preemptiveoop.uiwidget.model.MyLocation;
 import com.example.preemptiveoop.user.model.User;
 
 import java.util.Date;
 
-public class PublishExperiment extends DialogFragment {
+public class PublishExperiment extends AppCompatActivity {
+    private final int CHILD_LOCATION_PICKER = 1;
+
     private User owner;
+    private MyLocation selectedLocation = null;
 
     private TextView tvUsername;
     private RadioGroup rgExpType;
-    private EditText etDescription;
-    private EditText etMinNumOfTrials;
+    private EditText etDescription, etMinNumOfTrials;
+
     private Button btPickLocation;
+    private CheckBox cbRequireLocation;
+    private Button btPublish;
 
-    public PublishExperiment(User owner) {
-        super();
-        this.owner = owner;
-    }
-
-    @NonNull
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        // return super.onCreateDialog(savedInstanceState);
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_publish_experiment, null);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_publish_experiment);
 
-        tvUsername          = view.findViewById(R.id.Button_search);
-        rgExpType           = view.findViewById(R.id.RadioGroup_expType);
-        etDescription       = view.findViewById(R.id.EditText_description);
-        etMinNumOfTrials    = view.findViewById(R.id.EditText_minNumOfTrials);
-        btPickLocation      = view.findViewById(R.id.Button_pickLocation);
+        // get passed-in arguments: .user
+        Intent intent = getIntent();
+        owner = (User) intent.getSerializableExtra(".user");
+        if (owner == null)
+            throw new IllegalArgumentException("Expected '.user' passed-in through intent.");
+
+        tvUsername          = findViewById(R.id.Button_search);
+        rgExpType           = findViewById(R.id.RadioGroup_expType);
+        etDescription       = findViewById(R.id.EditText_description);
+        etMinNumOfTrials    = findViewById(R.id.EditText_minNumOfTrials);
+
+        btPickLocation      = findViewById(R.id.Button_pickLocation);
+        cbRequireLocation   = findViewById(R.id.CheckBox_requireLocation);
+        btPublish           = findViewById(R.id.Button_publish);
+
+        btPickLocation.setOnClickListener(this::btPickLocationOnClick);
+        btPublish.setOnClickListener(this::btPublishOnClick);
 
         tvUsername.setText("New Experiment for: " + owner.getUsername());
+    }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(view).setTitle("Publish New Experiment");
-        builder.setNegativeButton("Cancel", null);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CHILD_LOCATION_PICKER:
+                if (resultCode == Activity.RESULT_OK)
+                    selectedLocation = (MyLocation) data.getSerializableExtra(".location");
+                break;
+        }
+    }
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String desc = etDescription.getText().toString();
-                String numb = etMinNumOfTrials.getText().toString();
+    public void btPickLocationOnClick(View v) {
+        Intent intent = new Intent(this, LocationPicker.class);
+        startActivityForResult(intent, CHILD_LOCATION_PICKER);
+    }
 
-                if (desc.isEmpty() || numb.isEmpty()) {
-                    MyDialog.errorDialog(getActivity(),
-                            "Empty Fields",
-                            "Please provide all the fields present in the form."
-                    );
-                    return;
-                }
+    public void btPublishOnClick(View v) {
+        String desc = etDescription.getText().toString();
+        String numb = etMinNumOfTrials.getText().toString();
 
-                int minTrials = Integer.parseInt(numb);
-                Experiment newExp = null;
+        if (desc.isEmpty() || numb.isEmpty()) {
+            MyDialog.errorDialog(this, "Empty Fields", "Please provide all the fields present in the form.");
+            return;
+        }
 
-                int rbid = rgExpType.getCheckedRadioButtonId();
-                switch (rbid) {
-                    case R.id.RadioButton_binomial:
-                        newExp = new BinomialExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
-                        break;
-                    case R.id.RadioButton_count:
-                        newExp = new CountExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
-                        break;
-                    case R.id.RadioButton_measurement:
-                        newExp = new MeasurementExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
-                        break;
-                    case R.id.RadioButton_nonnegative:
-                        newExp = new NonNegativeExp(null, owner.getUsername(), new Date(), desc, null, false, minTrials);
-                        break;
-                    default:
-                        MyDialog.errorDialog(getActivity(),
-                                "No Experiment Type",
-                                "Please select an experiment type to continue."
-                        );
-                        return;
-                }
-                newExp.writeToDatabase();
+        if (selectedLocation == null) {
+            MyDialog.errorDialog(this, "No Region Picked", "Please provide a region by picking one.");
+            return;
+        }
 
-                owner.addToOwnedExp(newExp);
-                owner.writeToDatabase();
+        boolean requireLocation = cbRequireLocation.isChecked();
 
-                ((ExperimentList) getActivity()).updateExperimentList();
-            }
-        });
-        return builder.create();
+        int minTrials = Integer.parseInt(numb);
+        Experiment newExp = null;
+
+        int rbid = rgExpType.getCheckedRadioButtonId();
+        switch (rbid) {
+            case R.id.RadioButton_binomial:
+                newExp = new BinomialExp(null, owner.getUsername(), new Date(), desc, selectedLocation, requireLocation, minTrials);
+                break;
+            case R.id.RadioButton_count:
+                newExp = new CountExp(null, owner.getUsername(), new Date(), desc, selectedLocation, requireLocation, minTrials);
+                break;
+            case R.id.RadioButton_measurement:
+                newExp = new MeasurementExp(null, owner.getUsername(), new Date(), desc, selectedLocation, requireLocation, minTrials);
+                break;
+            case R.id.RadioButton_nonnegative:
+                newExp = new NonNegativeExp(null, owner.getUsername(), new Date(), desc, selectedLocation, requireLocation, minTrials);
+                break;
+            default:
+                MyDialog.errorDialog(this, "No Experiment Type", "Please select an experiment type to continue.");
+                return;
+        }
+        newExp.writeToDatabase();
+
+        owner.addToOwnedExp(newExp);
+        owner.writeToDatabase();
+        finish();
     }
 }

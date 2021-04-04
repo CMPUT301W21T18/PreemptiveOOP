@@ -1,15 +1,11 @@
 package com.example.preemptiveoop.user;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,10 +15,8 @@ import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.model.DeviceId;
 import com.example.preemptiveoop.user.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -75,12 +69,12 @@ public class UserLogin extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case CHILD_USER_REGISTER: {
+            case CHILD_USER_REGISTER:
                 if (resultCode == Activity.RESULT_OK) {
                     setResult(Activity.RESULT_OK, data);
                     finish();
                 }
-            }
+                break;
         }
     }
 

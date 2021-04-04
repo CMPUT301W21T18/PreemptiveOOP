@@ -11,7 +11,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Click on any trial below to ignore/un-ignore it from the experiment." />
+        android:text="Click on any trial below to ignore/un-ignore it from the experiment."
+        android:textSize="20dp" />
 
     <ListView
         android:id="@+id/ListView_trials"

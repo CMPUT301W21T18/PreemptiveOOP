@@ -45,12 +45,16 @@ public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
         TextView tvStatus       = view.findViewById(R.id.TextView_status);
         TextView tvIsParti      = view.findViewById(R.id.TextView_isParticipated);
 
+        TextView tvProgress     = view.findViewById(R.id.TextView_progress);
+
         tvOwner.setText("Owner: " + exp.getOwner());
         tvCreationDate.setText("Created on: " + exp.getCreationDate().toString());
         tvDescr.setText("Description: " + exp.getDescription());
 
         tvStatus.setText("Status: " + exp.getStatus());
         tvIsParti.setText("Participated: " + Boolean.valueOf(exp.getExperimenters().contains(user.getUsername())));
+
+        tvProgress.setText(String.format("Progress: %d / %d", exp.getTrials().size(), exp.getMinNumOfTrials()));
         return view;
     }
 }
