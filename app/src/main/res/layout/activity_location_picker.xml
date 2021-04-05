@@ -8,11 +8,37 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Please select a location"
-        android:textSize="20dp" />
+        android:layout_height="50dp"
+        android:background="@color/white" >
+
+        <ImageView
+            android:id="@+id/ImageView_searchIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/EditText_search"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/ImageView_searchIcon"
+            android:textSize="15sp"
+            android:layout_centerVertical="true"
+            android:imeOptions="actionSearch" />
+
+        <Button
+            android:id="@+id/Button_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:background="@drawable/round_button"
+            android:text="Search"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/light_Grey" />
+    </RelativeLayout>
 
     <fragment
     android:id="@+id/map"

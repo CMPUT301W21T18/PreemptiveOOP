@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -33,6 +33,9 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
     private GoogleMap mMap;
     private Location selectedLocation;
 
+    private EditText etSearch;
+    private Button btSearch;
+
     private Button btCurrLocation, btFinish;
 
     @Override
@@ -55,11 +58,16 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
         selectedLocation = null;
 
+        etSearch = findViewById(R.id.EditText_search);
+        btSearch = findViewById(R.id.Button_search);
+
         btCurrLocation = findViewById(R.id.Button_currLocation);
         btFinish       = findViewById(R.id.Button_finish);
 
         getLocationPermission();
         mMap.setOnMapClickListener(this::onMapClick);
+
+        btSearch.setOnClickListener(this::btSearchOnClick);
 
         btCurrLocation.setOnClickListener(this::btCurrLocationOnClick);
         btFinish.setOnClickListener(this::btFinishOnClick);
@@ -134,6 +142,10 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
 
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(point).title("selected"));
+    }
+
+    public void btSearchOnClick(View v) {
+
     }
 
     public void btCurrLocationOnClick(View v) {
