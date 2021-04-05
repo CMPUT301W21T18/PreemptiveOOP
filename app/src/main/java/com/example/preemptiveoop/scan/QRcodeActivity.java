@@ -14,12 +14,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.example.preemptiveoop.R;
+import com.example.preemptiveoop.experiment.model.BinomialExp;
+import com.example.preemptiveoop.experiment.model.CountExp;
 import com.example.preemptiveoop.experiment.model.Experiment;
-import com.example.preemptiveoop.trial.ExecuteTrial;
-import com.example.preemptiveoop.uiwidget.LocationPicker;
+import com.example.preemptiveoop.experiment.model.MeasurementExp;
+import com.example.preemptiveoop.experiment.model.NonNegativeExp;
 import com.example.preemptiveoop.uiwidget.MyDialog;
-import com.example.preemptiveoop.uiwidget.model.MyLocation;
-import com.example.preemptiveoop.user.model.User;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -29,6 +29,9 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class QRcodeActivity extends AppCompatActivity {
     private final int CHILD_LOCATION_PICKER = 1;
     private ImageView ivQRcode;
@@ -36,15 +39,12 @@ public class QRcodeActivity extends AppCompatActivity {
     private Button btSuccess;
     private Button btFailure;
     private Button btGenerate;
-    private Button btLocation;
 
     private HashMap hashMap;
     private Bitmap bitmap;
     private Experiment experiment;
     private int resultInt;
     private double resultDouble;
-
-    private MyLocation myLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,20 +66,15 @@ public class QRcodeActivity extends AppCompatActivity {
         btSuccess = findViewById(R.id.Button_qr_success);
         btFailure = findViewById(R.id.Button_qr_failure);
         btGenerate = findViewById(R.id.Button_qr_generate);
-        btLocation = findViewById(R.id.Button_qr_pickLocation);
 
         btGenerate.setOnClickListener(this::btGenerateOnClick);
         btSuccess.setOnClickListener(this::btSuccessOnClick);
         btFailure.setOnClickListener(this::btFailureOnClick);
-        btLocation.setOnClickListener(this::btPickLocationOnClick);
 
-        if (!experiment.isRequireLocation()) {
-            btLocation.setVisibility(View.GONE);
-        }
     }
 
     private void setViewsPerExpType() {
-        if (experiment.getType().equals(Experiment.TYPE_BINOMIAL)) {
+        if (experiment instanceof BinomialExp) {
             etResult.setHint("Choose result below");
             etResult.setEnabled(false);
             return;
@@ -88,37 +83,21 @@ public class QRcodeActivity extends AppCompatActivity {
         btSuccess.setVisibility(View.GONE);
         btFailure.setVisibility(View.GONE);
 
-        if (experiment.getType().equals(Experiment.TYPE_MEASUREMENT)) {
+        if (experiment instanceof MeasurementExp) {
             etResult.setHint("Enter mockup measurement here");
             return;
         }
 
-        if (experiment.getType().equals(Experiment.TYPE_NON_NEGATIVE)) {
+        if (experiment instanceof NonNegativeExp) {
             etResult.setHint("Enter mockup non-negative number here");
             return;
         }
 
-        if (experiment.getType().equals(Experiment.TYPE_COUNT)) {
+        if (experiment instanceof CountExp) {
             etResult.setHint("No result input required");
             etResult.setEnabled(false);
             return;
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case CHILD_LOCATION_PICKER:
-                if (resultCode == Activity.RESULT_OK)
-                    myLocation = (MyLocation) data.getSerializableExtra(".location");
-                break;
-        }
-    }
-
-    public void btPickLocationOnClick(View v) {
-        Intent intent = new Intent(this, LocationPicker.class);
-        startActivityForResult(intent, CHILD_LOCATION_PICKER);
     }
 
     public void btSuccessOnClick(View v) {
@@ -133,27 +112,21 @@ public class QRcodeActivity extends AppCompatActivity {
     }
 
     public void btGenerateOnClick(View v) {
-        if (experiment.isRequireLocation()) {
-            if (myLocation == null) {
-                MyDialog.errorDialog(QRcodeActivity.this, "Invalid Input", "Please choose the location.");
-                return;
-            }
-        }
-        if (experiment.getType().equals(Experiment.TYPE_BINOMIAL)) {
+        if (experiment instanceof BinomialExp) {
             if (resultInt == -1) {
                 MyDialog.errorDialog(QRcodeActivity.this, "Invalid Input", "Please choose the valid result.");
                 return;
             }
-            create_QRcode(qrEncode(experiment.getDatabaseId(), resultInt,experiment.isRequireLocation()));
+            create_QRcode(jsonEncode(experiment.getDatabaseId(), resultInt));
             return;
         }
 
-        if (experiment.getType().equals(Experiment.TYPE_COUNT)) {
-            create_QRcode(qrEncode(experiment.getDatabaseId(), 1, experiment.isRequireLocation()));
+        if (experiment instanceof CountExp) {
+            create_QRcode(jsonEncode(experiment.getDatabaseId(), 1));
             return;
         }
 
-        if (experiment.getType().equals(Experiment.TYPE_MEASUREMENT)) {
+        if (experiment instanceof MeasurementExp) {
             String resultStr = etResult.getText().toString();
             if (resultStr.isEmpty()) {
                 MyDialog.errorDialog(QRcodeActivity.this, "Invalid Input", "Please enter the valid result.");
@@ -164,11 +137,11 @@ public class QRcodeActivity extends AppCompatActivity {
                 MyDialog.errorDialog(QRcodeActivity.this, "Invalid Result", "Please enter a decimal number.");
                 return;
             }
-            create_QRcode(qrEncode(experiment.getDatabaseId(), resultDouble, experiment.isRequireLocation()));
+            create_QRcode(jsonEncode(experiment.getDatabaseId(), resultDouble));
             return;
         }
 
-        if (experiment.getType().equals(Experiment.TYPE_NON_NEGATIVE)) {
+        if (experiment instanceof NonNegativeExp) {
             String resultStr = etResult.getText().toString();
             if (resultStr.isEmpty()) {
                 MyDialog.errorDialog(QRcodeActivity.this, "Invalid Input", "Please enter the valid result.");
@@ -179,26 +152,28 @@ public class QRcodeActivity extends AppCompatActivity {
                 MyDialog.errorDialog(QRcodeActivity.this, "Invalid Result", "Please enter an integer number.");
                 return;
             }
-            create_QRcode(qrEncode(experiment.getDatabaseId(), resultInt, experiment.isRequireLocation()));
+            create_QRcode(jsonEncode(experiment.getDatabaseId(), resultInt));
             return;
         }
     }
 
-    private String qrEncode(String expId, Number result, boolean isRequireLocation) {
-        String content;
-        if (isRequireLocation){
-            content = String.format("%s@@%s@@%s@@%s", expId, result, myLocation.getLatitude(), myLocation.getLongitude());
-        } else {
-            content = String.format("%s@@%s", expId, result);
+    private JSONObject jsonEncode(String expId, Number result) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("experimentId", expId);
+            jsonObject.put("result", result.toString());
+        } catch (JSONException e) {
+            MyDialog.errorDialog(QRcodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
+            return null;
         }
-        return content;
+        return jsonObject;
     }
 
-    private void create_QRcode(String content) {
+    private void create_QRcode(JSONObject content) {
         hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
         BitMatrix bitMatrix = null;
         try {
-            bitMatrix = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, 250, 250, hashMap);
+            bitMatrix = new MultiFormatWriter().encode(content.toString(), BarcodeFormat.QR_CODE, 250, 250, hashMap);
         } catch (WriterException e) {
             MyDialog.errorDialog(QRcodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
             return;
