@@ -38,7 +38,9 @@ public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
 
         Experiment exp = experiments.get(position);
 
+        TextView tvExpType      = view.findViewById(R.id.TextView_expType);
         TextView tvOwner        = view.findViewById(R.id.TextView_owner);
+
         TextView tvCreationDate = view.findViewById(R.id.TextView_creationDate);
         TextView tvDescr        = view.findViewById(R.id.TextView_description);
 
@@ -47,7 +49,9 @@ public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
 
         TextView tvProgress     = view.findViewById(R.id.TextView_progress);
 
+        tvExpType.setText("Type: " + exp.getClass().getSimpleName());
         tvOwner.setText("Owner: " + exp.getOwner());
+
         tvCreationDate.setText("Created on: " + exp.getCreationDate().toString());
         tvDescr.setText("Description: " + exp.getDescription());
 

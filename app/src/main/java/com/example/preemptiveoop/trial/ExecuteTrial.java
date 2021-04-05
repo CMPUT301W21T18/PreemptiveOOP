@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -25,6 +26,8 @@ import com.example.preemptiveoop.uiwidget.LocationPicker;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.uiwidget.model.MyLocation;
 import com.example.preemptiveoop.user.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -45,6 +48,8 @@ public class ExecuteTrial extends AppCompatActivity {
 
     private TextView tvHint;
     private EditText etResult;
+
+    private ProgressBar pbStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,8 @@ public class ExecuteTrial extends AppCompatActivity {
         etResult = findViewById(R.id.EditText_result);
 
         btRecord = findViewById(R.id.Button_record);
+        pbStatus = findViewById(R.id.ProgressBar_status);
+
         btPickLocation = findViewById(R.id.Button_pickLocation);
 
         btSuccess.setOnClickListener(this::btOnClickForMultiple);
@@ -93,6 +100,8 @@ public class ExecuteTrial extends AppCompatActivity {
     }
 
     private void setViewsPerExpType() {
+        pbStatus.setVisibility(View.GONE);
+
         if (experiment.isRequireLocation())
             MyDialog.errorDialog(ExecuteTrial.this,
                     "Privacy Warning: Require Location",
@@ -113,65 +122,111 @@ public class ExecuteTrial extends AppCompatActivity {
         }
     }
 
+    private void binomialRecord(View v) {               // to be used by btOnClickForMultiple
+        pbStatus.setVisibility(View.VISIBLE);
+
+        if (v.getId() != R.id.Button_success && v.getId() != R.id.Button_failure)
+            throw new IllegalStateException("binomialRecord() in wrong state.");
+
+        Task<Void> task = null;
+        if      (v.getId() == R.id.Button_success) {
+            task = expDoc.update("trials", FieldValue.arrayUnion(
+                    new BinomialTrial(user.getUsername(), new Date(), selectedLocation, 1, false)
+            ));
+        }
+        else if (v.getId() == R.id.Button_failure) {
+            task = expDoc.update("trials", FieldValue.arrayUnion(
+                    new BinomialTrial(user.getUsername(), new Date(), selectedLocation, 0, false)
+            ));
+        }
+
+        task.addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) { pbStatus.setVisibility(View.GONE);}
+        });
+    }
+
+    private void countRecord(View v) {                  // to be used by btOnClickForMultiple
+        pbStatus.setVisibility(View.VISIBLE);
+
+        if (v.getId() != R.id.Button_record)
+            throw new IllegalStateException("countRecord() in wrong state.");
+
+        expDoc.update("trials", FieldValue.arrayUnion(
+                new CountTrial(user.getUsername(), new Date(), selectedLocation, 1, false)
+        )).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) { pbStatus.setVisibility(View.GONE);}
+        });
+    }
+
+    private void measurementRecord(View v) {            // to be used by btOnClickForMultiple
+        pbStatus.setVisibility(View.VISIBLE);
+
+        if (v.getId() != R.id.Button_record)
+            throw new IllegalStateException("measurementRecord() in wrong state.");
+
+        String resultStr = etResult.getText().toString();
+        double result;
+
+        try { result = Double.parseDouble(resultStr); }
+        catch (NumberFormatException e) {
+            MyDialog.errorDialog(ExecuteTrial.this, "Invalid Result", "Please enter a decimal number.");
+            return;
+        }
+
+        expDoc.update("trials", FieldValue.arrayUnion(
+                new MeasurementTrial(user.getUsername(), new Date(), selectedLocation, result, false)
+        )).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) { pbStatus.setVisibility(View.GONE);}
+        });
+    }
+
+    private void nonNegativeRecord(View v) {            // to be used by btOnClickForMultiple
+        pbStatus.setVisibility(View.VISIBLE);
+
+        if (v.getId() != R.id.Button_record)
+            throw new IllegalStateException("nonNegativeRecord() in wrong state.");
+
+        String resultStr = etResult.getText().toString();
+        int result;
+
+        try { result = Integer.parseInt(resultStr); }
+        catch (NumberFormatException e) {
+            MyDialog.errorDialog(ExecuteTrial.this, "Invalid Result", "Please enter an integer number.");
+            return;
+        }
+
+        if (result < 0) {
+            MyDialog.errorDialog(ExecuteTrial.this, "Invalid Result", "Result of non-negative trial must be >= 0.");
+            return;
+        }
+
+        expDoc.update("trials", FieldValue.arrayUnion(
+                new NonNegativeTrial(user.getUsername(), new Date(), selectedLocation, result, false)
+        )).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) { pbStatus.setVisibility(View.GONE);}
+        });
+    }
+
     public void btOnClickForMultiple(View v) {
         if (experiment.isRequireLocation() && selectedLocation == null) {
             MyDialog.errorDialog(ExecuteTrial.this, "Require Location", "Please pick a location.");
             return;
         }
 
-        // for binomial experiment
-        if      (experiment instanceof BinomialExp && v.getId() == R.id.Button_success) {
-            expDoc.update("trials", FieldValue.arrayUnion(
-                    new BinomialTrial(user.getUsername(), new Date(), selectedLocation, 1, false)
-            ));
-            return;
-        }
-        else if (experiment instanceof BinomialExp && v.getId() == R.id.Button_failure) {
-            expDoc.update("trials", FieldValue.arrayUnion(
-                    new BinomialTrial(user.getUsername(), new Date(), selectedLocation, 0, false)
-            ));
-            return;
-        }
-
-        // for count experiment
-        if (experiment instanceof CountExp) {
-            expDoc.update("trials", FieldValue.arrayUnion(
-                    new CountTrial(user.getUsername(), new Date(), selectedLocation, 1, false)
-            ));
-            return;
-        }
-
-        String resultStr = etResult.getText().toString();
-
-        // for measurement experiment
-        if (experiment instanceof MeasurementExp) {
-            double result;
-            try { result = Double.parseDouble(resultStr); }
-            catch (NumberFormatException e) {
-                MyDialog.errorDialog(ExecuteTrial.this, "Invalid Result", "Please enter a decimal number.");
-                return;
-            }
-
-            expDoc.update("trials", FieldValue.arrayUnion(
-                    new MeasurementTrial(user.getUsername(), new Date(), selectedLocation, result, false)
-            ));
-            return;
-        }
-
-        // for non-negative experiment
-        if (experiment instanceof NonNegativeExp) {
-            int result;
-            try { result = Integer.parseInt(resultStr); }
-            catch (NumberFormatException e) {
-                MyDialog.errorDialog(ExecuteTrial.this, "Invalid Result", "Please enter an integer number.");
-                return;
-            }
-
-            expDoc.update("trials", FieldValue.arrayUnion(
-                    new NonNegativeTrial(user.getUsername(), new Date(), selectedLocation, result, false)
-            ));
-            return;
-        }
+        if      (experiment instanceof BinomialExp)
+            binomialRecord(v);
+        else if (experiment instanceof CountExp)
+            countRecord(v);
+        else if (experiment instanceof MeasurementExp)
+            measurementRecord(v);
+        else if (experiment instanceof NonNegativeExp)
+            nonNegativeRecord(v);
+        else
+            throw new IllegalStateException("experiment is not of any concrete experiment class.");
     }
 
     public void btPickLocationOnClick(View v) {

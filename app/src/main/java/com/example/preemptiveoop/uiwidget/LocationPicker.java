@@ -3,11 +3,13 @@ package com.example.preemptiveoop.uiwidget;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -26,12 +28,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.IOException;
+import java.util.List;
+
 public class LocationPicker extends FragmentActivity implements OnMapReadyCallback {
     private final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
     private final int DEFAULT_ZOOM = 15;
 
     private GoogleMap mMap;
     private Location selectedLocation;
+
+    private EditText etSearch;
+    private Button btSearch;
 
     private Button btCurrLocation, btFinish;
 
@@ -55,11 +63,16 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
         mMap = googleMap;
         selectedLocation = null;
 
+        etSearch = findViewById(R.id.EditText_search);
+        btSearch = findViewById(R.id.Button_search);
+
         btCurrLocation = findViewById(R.id.Button_currLocation);
         btFinish       = findViewById(R.id.Button_finish);
 
         getLocationPermission();
         mMap.setOnMapClickListener(this::onMapClick);
+
+        btSearch.setOnClickListener(this::btSearchOnClick);
 
         btCurrLocation.setOnClickListener(this::btCurrLocationOnClick);
         btFinish.setOnClickListener(this::btFinishOnClick);
@@ -126,14 +139,37 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
      * Callback for OnMapClickListener, which is triggered when the map is clicked.
      */
     public void onMapClick(LatLng point) {
-        if (selectedLocation == null)
-            selectedLocation = new Location("");
+        selectedLocation = new Location("");
 
         selectedLocation.setLatitude(point.latitude);
         selectedLocation.setLongitude(point.longitude);
 
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(point).title("selected"));
+    }
+
+    public void btSearchOnClick(View v) {
+        String searchStr = etSearch.getText().toString();
+
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> results = null;
+
+        try { results = geocoder.getFromLocationName(searchStr, 1); }
+        catch (IOException e) { return; }
+
+        if (results == null || results.isEmpty())
+            return;
+        Address first = results.get(0);
+
+        selectedLocation = new Location("");
+
+        selectedLocation.setLatitude(first.getLatitude());
+        selectedLocation.setLongitude(first.getLongitude());
+
+        LatLng latlng = new LatLng(first.getLatitude(), first.getLongitude());
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(latlng).title("selected"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM));
     }
 
     public void btCurrLocationOnClick(View v) {

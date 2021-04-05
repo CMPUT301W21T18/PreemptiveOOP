@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
+import com.example.preemptiveoop.experiment.model.StatCalculator;
 import com.example.preemptiveoop.trial.model.GenericTrial;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -31,35 +32,23 @@ public class DisplayExpHistogram extends AppCompatActivity {
         barChart = findViewById(R.id.gv_histogram);
         exp = (Experiment) getIntent().getSerializableExtra(".experiment");
 
-        /*
-        exp = new MeasurementExp(null, "xiaolei", new Date(), "hello", null, false, 3);
-        MeasurementTrial t1 = new MeasurementTrial();
-        MeasurementTrial t2 = new MeasurementTrial();
-        MeasurementTrial t3 = new MeasurementTrial();
-        t1.setResult(3.0);
-        t3.setResult(3.0);
-        t2.setResult(2.2);
 
-
-        exp.addTrial(t1);
-        exp.addTrial(t2);
-        exp.addTrial(t3);
-
-         */
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ArrayList<GenericTrial> trials = exp.getTrials();
+
+        ArrayList<GenericTrial> trials = StatCalculator.filterIgnoredTrials(exp.getTrials());
 
         HashMap<String,Integer> frequency = new HashMap<>();
+
         ArrayList<BarEntry> barEntries = new ArrayList<>();
 
         for (GenericTrial trial : trials) {
-            if(!frequency.containsKey(trial.getResultStr())){
+            if(!frequency.containsKey(trial.getResultStr()))
                 frequency.put(trial.getResultStr(),1);
-            }else{
+            else {
                 int count = frequency.get(trial.getResultStr());
                 frequency.put(trial.getResultStr(),count+1);
             }

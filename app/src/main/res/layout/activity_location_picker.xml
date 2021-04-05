@@ -8,18 +8,45 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Please select a location"
-        android:textSize="20dp" />
+        android:layout_height="50dp"
+        android:background="@color/white" >
+
+        <ImageView
+            android:id="@+id/ImageView_searchIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_search" />
+
+        <EditText
+            android:id="@+id/EditText_search"
+            android:layout_width="230dp"
+            android:layout_height="match_parent"
+            android:layout_toEndOf="@id/ImageView_searchIcon"
+            android:textSize="15sp"
+            android:layout_centerVertical="true" />
+
+        <Button
+            android:id="@+id/Button_search"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+            android:layout_toEndOf="@+id/EditText_search"
+            android:layout_marginStart="20dp"
+
+            android:background="@drawable/round_button"
+            android:backgroundTint="@color/light_Grey"
+            android:text="Search"
+            android:textColor="@color/white" />
+    </RelativeLayout>
 
     <fragment
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
-    android:layout_width="match_parent"
-    android:layout_height="500dp"
-    tools:context=".uiwidget.LocationPicker" />
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        tools:context=".uiwidget.LocationPicker" />
 
     <Button
         android:id="@+id/Button_currLocation"
