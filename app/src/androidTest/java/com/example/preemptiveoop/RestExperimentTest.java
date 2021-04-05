@@ -18,6 +18,7 @@ import com.example.preemptiveoop.post.QuestionListActivity;
 import com.example.preemptiveoop.trial.ExecuteTrial;
 
 import com.example.preemptiveoop.trial.TrialList;
+import com.example.preemptiveoop.uiwidget.LocationPicker;
 import com.example.preemptiveoop.user.model.DeviceId;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -71,37 +72,41 @@ public class RestExperimentTest {
     @Test
     public void T1_openActivity() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnButton("Login");
+        solo.clickOnView(solo.getView(R.id.Button_login));
         solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
-        solo.clickOnButton("Experiment");
+        solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
     }
 
     @Test
     public void T2_CountExpTrial() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnButton("Login");
-        solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
-        solo.clickOnButton("Experiment");
-        solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
+        solo.clickOnView(solo.getView(R.id.Button_login));
+        solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.clickOnView(solo.getView(R.id.Button_addExp));
         solo.clickOnView(solo.getView(R.id.RadioButton_count));
         solo.enterText((EditText) solo.getView(R.id.EditText_description), "TestCountExp");
         solo.enterText((EditText) solo.getView(R.id.EditText_minNumOfTrials), "2");
-        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.Button_pickLocation));
+        solo.assertCurrentActivity("Wrong Activity", LocationPicker.class);
+        //solo.waitForText("",1,200);
+        solo.clickOnView(solo.getView(R.id.Button_currLocation));
+        solo.clickOnView(solo.getView(R.id.Button_finish));
+        solo.clickOnView(solo.getView(R.id.Button_publish));
         assertTrue(solo.waitForText("TestCountExp", 1, 2000));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
+
         solo.clickInList(1);
-        solo.clickOnButton("Participate Experiment");
+        solo.clickOnView(solo.getView(R.id.Button_participate));
         solo.clickInList(1);
-        solo.clickOnButton("Record a Trial");
+        solo.clickOnView(solo.getView(R.id.Button_doTrial));
         solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
-        solo.clickOnButton("Record");
-        solo.clickOnButton("Record");
+        solo.clickOnView(solo.getView(R.id.Button_record));
+        solo.clickOnView(solo.getView(R.id.Button_record));
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
         solo.clickInList(1);
-        solo.clickOnButton("Stats for Experiment");
+        solo.clickOnView(solo.getView(R.id.Button_stats));
         solo.waitForActivity(DisplayExpStats.class);
         TextView textView = (TextView) solo.getView(R.id.tv_mean);
         assertEquals("1.00", textView.getText().toString());
@@ -110,31 +115,35 @@ public class RestExperimentTest {
     @Test
     public void T3_MeasExpTrial() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnButton("Login");
-        solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
-        solo.clickOnButton("Experiment");
-        solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
+        solo.clickOnView(solo.getView(R.id.Button_login));
+        solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.clickOnView(solo.getView(R.id.Button_addExp));
         solo.clickOnView(solo.getView(R.id.RadioButton_measurement));
         solo.enterText((EditText) solo.getView(R.id.EditText_description), "TestMeasurementExp");
         solo.enterText((EditText) solo.getView(R.id.EditText_minNumOfTrials), "2");
-        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.Button_pickLocation));
+        solo.assertCurrentActivity("Wrong Activity", LocationPicker.class);
+        solo.clickOnView(solo.getView(R.id.Button_currLocation));
+        solo.clickOnView(solo.getView(R.id.Button_finish));
+        solo.clickOnView(solo.getView(R.id.Button_publish));
         assertTrue(solo.waitForText("TestMeasurementExp", 1, 2000));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
+
         solo.clickInList(1);
-        solo.clickOnButton("Participate Experiment");
+        solo.clickOnView(solo.getView(R.id.Button_participate));
         solo.clickInList(1);
-        solo.clickOnButton("Record a Trial");
+        solo.clickOnView(solo.getView(R.id.Button_doTrial));
         solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
+
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3.2");
-        solo.clickOnButton("Record");
+        solo.clickOnView(solo.getView(R.id.Button_record));
         solo.clearEditText((EditText) solo.getView(R.id.EditText_result));
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3.2");
-        solo.clickOnButton("Record");
+        solo.clickOnView(solo.getView(R.id.Button_record));
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
         solo.clickInList(1);
-        solo.clickOnButton("Stats for Experiment");
+        solo.clickOnView(solo.getView(R.id.Button_stats));
         solo.waitForActivity(DisplayExpStats.class);
         TextView textView = (TextView) solo.getView(R.id.tv_mean);
         assertEquals("3.20", textView.getText().toString());
@@ -143,36 +152,39 @@ public class RestExperimentTest {
     @Test
     public void T4_NonNExpTrial() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnButton("Login");
-        solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
-        solo.clickOnButton("Experiment");
-        solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
+        solo.clickOnView(solo.getView(R.id.Button_login));
+        solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.clickOnView(solo.getView(R.id.Button_addExp));
         solo.clickOnView(solo.getView(R.id.RadioButton_nonnegative));
         solo.enterText((EditText) solo.getView(R.id.EditText_description), "TestNonNExp");
         solo.enterText((EditText) solo.getView(R.id.EditText_minNumOfTrials), "2");
-        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.Button_pickLocation));
+        solo.assertCurrentActivity("Wrong Activity", LocationPicker.class);
+        solo.clickOnView(solo.getView(R.id.Button_currLocation));
+        solo.clickOnView(solo.getView(R.id.Button_finish));
+        solo.clickOnView(solo.getView(R.id.Button_publish));
         assertTrue(solo.waitForText("TestNonNExp", 1, 2000));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
         solo.clickInList(1);
-        solo.clickOnButton("Participate Experiment");
+        solo.clickOnView(solo.getView(R.id.Button_participate));
         solo.clickInList(1);
-        solo.clickOnButton("Record a Trial");
+        solo.clickOnView(solo.getView(R.id.Button_doTrial));
         solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
+
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3");
-        solo.clickOnButton("Record");
+        solo.clickOnView(solo.getView(R.id.Button_record));
         solo.clearEditText((EditText) solo.getView(R.id.EditText_result));
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3.2");
-        solo.clickOnButton("Record");
+        solo.clickOnView(solo.getView(R.id.Button_record));
         assertTrue(solo.waitForText("Invalid Result", 1, 2000));
         solo.clickOnButton("OK");
         solo.clearEditText((EditText) solo.getView(R.id.EditText_result));
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3");
-        solo.clickOnButton("Record");
+        solo.clickOnView(solo.getView(R.id.Button_record));
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
         solo.clickInList(1);
-        solo.clickOnButton("Stats for Experiment");
+        solo.clickOnView(solo.getView(R.id.Button_stats));
         solo.waitForActivity(DisplayExpStats.class);
         TextView textView = (TextView) solo.getView(R.id.tv_mean);
         assertEquals("3.00", textView.getText().toString());
@@ -195,6 +207,5 @@ public class RestExperimentTest {
                         return;
                     }
                 });
-
     }
 }

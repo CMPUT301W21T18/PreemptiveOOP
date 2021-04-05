@@ -25,6 +25,10 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Current Device ID NOT IN FIREBASE
+ * TestID4Repeat MUST BE IN FIREBASE
+ */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MainPageTest {
     private Solo solo;

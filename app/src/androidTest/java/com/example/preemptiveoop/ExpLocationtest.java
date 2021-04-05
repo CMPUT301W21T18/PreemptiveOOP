@@ -41,7 +41,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class BinoExperimentTest {
+public class ExpLocationtest {
 
     private Solo solo;
 
@@ -80,7 +80,7 @@ public class BinoExperimentTest {
     }
 
     @Test
-    public void T2_createBinoExp() throws InterruptedException {
+    public void T2_createLocaExp() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
@@ -92,13 +92,14 @@ public class BinoExperimentTest {
         solo.assertCurrentActivity("Wrong Activity", LocationPicker.class);
         solo.clickOnView(solo.getView(R.id.Button_currLocation));
         solo.clickOnView(solo.getView(R.id.Button_finish));
+        solo.clickOnCheckBox(0);
         solo.clickOnView(solo.getView(R.id.Button_publish));
         assertTrue(solo.waitForText("TestBinoExp", 1, 2000));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
     }
 
     @Test
-    public void T3_createBinoTrial() throws InterruptedException {
+    public void T3_createLocaTrial() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
@@ -106,114 +107,33 @@ public class BinoExperimentTest {
         solo.clickOnView(solo.getView(R.id. Button_participate));
         solo.clickInList(1);
         solo.clickOnView(solo.getView(R.id. Button_doTrial));
-        solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id. Button_pickLocation));
+        solo.assertCurrentActivity("Wrong Activity", LocationPicker.class);
+        solo.clickOnView(solo.getView(R.id.Button_currLocation));
+        solo.clickOnView(solo.getView(R.id.Button_finish));
+
         solo.clickOnView(solo.getView(R.id.Button_success));
         solo.clickOnView(solo.getView(R.id.Button_success));
         solo.clickOnView(solo.getView(R.id.Button_failure));
         solo.clickOnView(solo.getView(R.id.Button_failure));
         solo.goBack();
-
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
-       // assertTrue(solo.waitForText("4/4", 1,200));
+        // assertTrue(solo.waitForText("4/4", 1,200));
     }
 
     @Test
-    public void T4_modify() throws InterruptedException {
+    public void T4_checkLocation() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.clickInList(1);
         solo.clickOnView(solo.getView(R.id. Button_trials));
-        solo.assertCurrentActivity("Wrong Activity", TrialList.class);
-        solo.clickInList(1);
-        solo.waitForText("true", 1, 200);
-        TextView textView = (TextView) solo.getView(R.id.TextView_isIgnored);
-        assertEquals("Ignored: true", textView.getText().toString());
-    }
+        assertTrue(solo.waitForText("lat = 37.421998", 1, 2000));
+        assertTrue(solo.waitForText("lon = -122.084000", 1, 2000));
 
-
-
-
-    @Test
-    public void T5_modify2() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
-        solo.clickOnView(solo.getView(R.id.Button_experiment));
-        solo.clickInList(1);
-        solo.clickOnView(solo.getView(R.id.Button_stats));
-        solo.waitForActivity(DisplayExpStats.class);
-        //solo.assertCurrentActivity("Wrong Activity", DisplayExpStats.class);
-        TextView textView = (TextView) solo.getView(R.id.tv_mean);
-        assertEquals("0.67", textView.getText().toString());
-        solo.clickOnView(solo.getView(R.id.Button_histogram));
-        solo.assertCurrentActivity("Wrong Activity", DisplayExpHistogram.class);
-        solo.goBackToActivity("DisplayExpStats");
-        solo.clickOnView(solo.getView(R.id.Button_timePlot));
-        solo.assertCurrentActivity("Wrong Activity", DisplayExpTimePlot.class);
 
     }
-
-    @Test
-    public void T6_modify3() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
-        solo.clickOnView(solo.getView(R.id.Button_experiment));
-        solo.clickInList(1);
-        solo.clickOnView(solo.getView(R.id.Button_endExp));
-        solo.waitForText("ended", 1, 200);
-        TextView textView = (TextView) solo.getView(R.id.TextView_status);
-        assertEquals("Status: ended", textView.getText().toString());
-        solo.clickInList(1);
-        solo.clickOnView(solo.getView(R.id.Button_unpublish));
-        solo.waitForText("unpublish", 1, 200);
-        assertEquals("Status: unpublished", textView.getText().toString());
-    }
-
-    @Test
-    public void T7_addQuestion() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
-        solo.clickOnView(solo.getView(R.id.Button_experiment));
-        solo.clickInList(1);
-        solo.clickOnView(solo.getView(R.id.Button_view_question));
-        solo.clickOnView(solo.getView(R.id.Button_post_question));
-        solo.enterText((EditText) solo.getView(R.id.EditText_question_title), "TestQuesTitle");
-        solo.enterText((EditText) solo.getView(R.id.EditText_question_body), "mock Question body");
-        solo.clickOnButton("Confirm");
-        assertTrue(solo.waitForText("TestQuesTitle", 1, 200));
-        solo.assertCurrentActivity("Wrong Activity", QuestionListActivity.class);
-    }
-
-    @Test
-    public void T8_replyQuestion() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
-        solo.clickOnView(solo.getView(R.id.Button_experiment));
-        solo.clickInList(1);
-        solo.clickOnView(solo.getView(R.id.Button_view_question));
-        assertTrue(solo.waitForText("TestQuesTitle", 1, 200));
-        solo.clickInList(1);
-        solo.clickOnView(solo.getView(R.id.Button_add_reply));
-        solo.enterText((EditText) solo.getView(R.id.EditText_question_title), "TestReplyTitle");
-        solo.enterText((EditText) solo.getView(R.id.EditText_question_body), "mock Reply body");
-        solo.clickOnButton("Confirm");
-        //assertTrue(solo.waitForText("Replies: 1", 1, 200);
-        solo.assertCurrentActivity("Wrong Activity", QuestionListActivity.class);
-    }
-
-    @Test
-    public void T9_replyQuestion() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
-        solo.clickOnView(solo.getView(R.id.Button_experiment));
-        solo.clickInList(1);
-        solo.clickOnView(solo.getView(R.id.Button_view_question));
-        assertTrue(solo.waitForText("TestQuesTitle", 1, 200));
-        solo.clickInList(1);
-        solo.clickOnView(solo.getView(R.id.Button_view_reply));
-        assertTrue(solo.waitForText("Reply List", 1, 200));
-    }
-
 
     @After
     public void tearDown() throws Exception{
