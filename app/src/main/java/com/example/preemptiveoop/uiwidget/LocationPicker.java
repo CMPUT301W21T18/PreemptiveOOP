@@ -3,6 +3,8 @@ package com.example.preemptiveoop.uiwidget;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.io.IOException;
+import java.util.List;
 
 public class LocationPicker extends FragmentActivity implements OnMapReadyCallback {
     private final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -134,8 +139,7 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
      * Callback for OnMapClickListener, which is triggered when the map is clicked.
      */
     public void onMapClick(LatLng point) {
-        if (selectedLocation == null)
-            selectedLocation = new Location("");
+        selectedLocation = new Location("");
 
         selectedLocation.setLatitude(point.latitude);
         selectedLocation.setLongitude(point.longitude);
@@ -145,7 +149,27 @@ public class LocationPicker extends FragmentActivity implements OnMapReadyCallba
     }
 
     public void btSearchOnClick(View v) {
+        String searchStr = etSearch.getText().toString();
 
+        Geocoder geocoder = new Geocoder(this);
+        List<Address> results = null;
+
+        try { results = geocoder.getFromLocationName(searchStr, 1); }
+        catch (IOException e) { return; }
+
+        if (results == null || results.isEmpty())
+            return;
+        Address first = results.get(0);
+
+        selectedLocation = new Location("");
+
+        selectedLocation.setLatitude(first.getLatitude());
+        selectedLocation.setLongitude(first.getLongitude());
+
+        LatLng latlng = new LatLng(first.getLatitude(), first.getLongitude());
+        mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(latlng).title("selected"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, DEFAULT_ZOOM));
     }
 
     public void btCurrLocationOnClick(View v) {
