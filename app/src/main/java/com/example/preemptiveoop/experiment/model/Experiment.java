@@ -77,7 +77,8 @@ public class Experiment <T extends GenericTrial> implements Serializable {
         trials.add(trial);
     }
     public void addExperimenter(String username) {
-        experimenters.add(username);
+        if (!experimenters.contains(username))
+            experimenters.add(username);
     }
 
     // getters

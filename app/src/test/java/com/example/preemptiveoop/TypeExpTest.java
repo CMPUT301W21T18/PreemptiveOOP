@@ -34,13 +34,13 @@ public class TypeExpTest {
                 null, false,8);
     }
     private GenericTrial mockFalseTrial(){
-        return new GenericTrial("Charlie", null, null, "0");
+        return new GenericTrial("Charlie", null, null, "0",false);
     }
     private GenericTrial mockTrueTrial(){
-        return new GenericTrial("Lucy", null, null, "1");
+        return new GenericTrial("Lucy", null, null, "1",false);
     }
     private GenericTrial mockIllegalTrial(){
-        return new GenericTrial("Felix", null, null, "-3");
+        return new GenericTrial("Felix", null, null, "-3",false);
     }
 
     @Test

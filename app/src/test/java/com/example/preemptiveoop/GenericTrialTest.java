@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GenericTrialTest {
     private GenericTrial mockTrial(){
-        return new GenericTrial("Jack D",null,null,"1");
+        return new GenericTrial("Jack D",null,null,"1",false);
     }
 
     @Test
