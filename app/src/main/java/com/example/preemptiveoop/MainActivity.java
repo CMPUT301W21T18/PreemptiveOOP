@@ -11,6 +11,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.experiment.ExperimentList;
+import com.example.preemptiveoop.scan.CaptureActivity;
+import com.example.preemptiveoop.trial.ExecuteTrial;
+import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.RetrieveProfileFragment;
 import com.example.preemptiveoop.user.UserProfileFragment;
 import com.example.preemptiveoop.user.model.User;
@@ -18,6 +21,7 @@ import com.example.preemptiveoop.user.UserLogin;
 
  public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
+    private final int CHILD_QR_Scan = 2;
 
     private User user;
 
@@ -42,6 +46,7 @@ import com.example.preemptiveoop.user.UserLogin;
         btSearch.setOnClickListener(this::btSearchOnClick);
         btUsrProfile.setOnClickListener(this::btUsrProfileOnClick);
         btRetrieveProfile.setOnClickListener((this::btRetrieveProfileOnClick));
+        btQrcode.setOnClickListener(this::btQrcodeOnClick);
 
         Intent intent = new Intent(this, UserLogin.class);
         startActivityForResult(intent, CHILD_USER_LOGIN);
@@ -56,6 +61,10 @@ import com.example.preemptiveoop.user.UserLogin;
                     user = (User) data.getSerializableExtra(".user");
                     //tvUsername.setText(user.getUsername());
                 }
+                break;
+            case CHILD_QR_Scan:
+                if (resultCode == Activity.RESULT_OK)
+                    MyDialog.errorDialog(MainActivity.this, "Record Successfully", "New trial has been recorded");
                 break;
         }
     }
@@ -82,6 +91,5 @@ import com.example.preemptiveoop.user.UserLogin;
         RetrieveProfileFragment fragment = new RetrieveProfileFragment();
         fragment.show(getSupportFragmentManager(),"RETRIEVE_USER_PROFILE");
     }
-    public void btQrcodeOnClick(View v) {}
 
 }

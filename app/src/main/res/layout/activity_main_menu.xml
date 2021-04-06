@@ -112,8 +112,9 @@
                 android:layout_marginLeft="48dp"
                 android:background="@mipmap/qr_logo"
                 android:orientation="vertical">
-
             </LinearLayout>
+          
+          
             <Button
                 android:id="@+id/Button_qrcode"
                 android:layout_width="match_parent"
