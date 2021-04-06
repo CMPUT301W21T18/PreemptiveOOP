@@ -51,4 +51,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Questions" />
+
+    <Button
+        android:id="@+id/Button_qr_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate QRcode" />
+
+    <Button
+        android:id="@+id/Button_barcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Generate Barcode" />
 </LinearLayout>

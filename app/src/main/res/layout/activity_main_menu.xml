@@ -121,7 +121,7 @@
                     android:id="@+id/Button_qrcode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="QR"
+                    android:text="SCAN"
                     android:textSize="8sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
