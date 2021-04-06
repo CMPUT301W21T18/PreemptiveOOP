@@ -9,15 +9,24 @@
     tools:context=".MainActivity">
 
     <EditText
+        android:layout_marginTop="15dp"
         android:id="@+id/EditText_keywords"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Keywords" />
+        android:hint="keyword"
+        android:background="@drawable/textbox_outline"
+        android:drawableLeft="@drawable/ic_search"/>
 
     <Button
+        android:layout_marginTop="15dp"
         android:id="@+id/Button_search"
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:background="@drawable/round_button"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:backgroundTint="#72CEF8"
         android:text="Search" />
 
     <RadioGroup

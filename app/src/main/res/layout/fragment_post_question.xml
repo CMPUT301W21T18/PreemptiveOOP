@@ -5,19 +5,30 @@
     android:orientation="vertical">
 
     <EditText
+        android:layout_marginTop="25dp"
+        android:background="@drawable/box_selector"
+
         android:id="@+id/EditText_question_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_gravity="center"
+        android:layout_height="50dp"
+        android:padding="10dp"
         android:ems="10"
         android:hint="Question Title"
+        android:drawableLeft="@drawable/ic_stat_name"
         android:inputType="textPersonName" />
 
     <EditText
+        android:layout_marginTop="20dp"
+        android:background="@drawable/box_selector"
         android:id="@+id/EditText_question_body"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:layout_gravity="center"
         android:layout_height="100dp"
         android:ems="10"
         android:gravity="start|top"
         android:lines="5"
+        android:hint="Ask your Question here"
+        android:padding="10dp"
         android:inputType="textMultiLine" />
 </LinearLayout>

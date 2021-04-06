@@ -2,21 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
 
     <Button
+        android:layout_marginTop="20dp"
         android:id="@+id/Button_view_reply"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:backgroundTint="#72CEF8"
+        android:textColor="@color/white"
         android:text="View All Replies"
         android:background="@drawable/button_outline"
         android:textStyle="bold"/>
 
     <Button
+        android:layout_marginTop="20dp"
         android:id="@+id/Button_add_reply"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
+        android:backgroundTint="#72CEF8"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
         android:layout_height="wrap_content"
         android:text="Reply Question"
         android:background="@drawable/button_outline"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"/>
 </LinearLayout>

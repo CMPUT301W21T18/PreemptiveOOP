@@ -49,16 +49,16 @@ public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
 
         TextView tvProgress     = view.findViewById(R.id.TextView_progress);
 
-        tvExpType.setText("Type: " + exp.getClass().getSimpleName());
-        tvOwner.setText("Owner: " + exp.getOwner());
+        tvExpType.setText("\n    \uD83D\uDCD1Type:                   " + exp.getClass().getSimpleName());
+        tvOwner.setText("\n\n    \uD83E\uDD13Owner:                 " + exp.getOwner());
 
-        tvCreationDate.setText("Created on: " + exp.getCreationDate().toString());
-        tvDescr.setText("Description: " + exp.getDescription());
+        tvCreationDate.setText("\n    \uD83D\uDCC6Created on:        " + exp.getCreationDate().toString());
+        tvDescr.setText("\n    ✏️Description:       " + exp.getDescription());
 
-        tvStatus.setText("Status: " + exp.getStatus());
-        tvIsParti.setText("Participated: " + Boolean.valueOf(exp.getExperimenters().contains(user.getUsername())));
+        tvStatus.setText("\n    \uD83C\uDD97Status:                 " + exp.getStatus());
+        tvIsParti.setText("\n    \uD83D\uDE4B\u200D♀️Participated:      " + Boolean.valueOf(exp.getExperimenters().contains(user.getUsername())));
 
-        tvProgress.setText(String.format("Progress: %d / %d", exp.getTrials().size(), exp.getMinNumOfTrials()));
+        tvProgress.setText(String.format("\n    ▶️Progress:            %d / %d", exp.getTrials().size(), exp.getMinNumOfTrials()));
         return view;
     }
 }

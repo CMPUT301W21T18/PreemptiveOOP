@@ -47,7 +47,7 @@ public class TrialArrayAdapter extends ArrayAdapter<GenericTrial> {
 
 
 
-        tvCreator.setText("\n\n    \uD83D\uDE4BCreator:          " + trial.getCreator()+'\n');
+        tvCreator.setText("\n\n    \uD83E\uDDD0Creator:          " + trial.getCreator()+'\n');
         tvCreationDate.setText("    \uD83D\uDD58Created on:   " + trial.getCreationDate().toString()+"\n");
 
         if (trial.getLocation() != null)
@@ -56,7 +56,7 @@ public class TrialArrayAdapter extends ArrayAdapter<GenericTrial> {
             tvLocation.setText("    \uD83D\uDEA9Location:       " + "none"+"\n");
 
         tvResult.setText("    \uD83D\uDCDDResult:           " + trial.getResultStr()+"\n");
-        tvIsIgnored.setText("    ❓Ignored:         " + trial.isIgnored());
+        tvIsIgnored.setText("    ❎Ignored:         " + trial.isIgnored());
         return view;
     }
 }

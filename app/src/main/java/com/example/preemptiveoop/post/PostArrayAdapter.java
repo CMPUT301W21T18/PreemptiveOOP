@@ -42,14 +42,14 @@ public class PostArrayAdapter <T extends Post> extends ArrayAdapter<T> {
         TextView tvDate = view.findViewById(R.id.TextView_quetion_date_conent);
         TextView tvNumReply = view.findViewById(R.id.TextView_question_reply_num_content);
 
-        tvTitle.setText(selectPost.getTitle());
-        tvBody.setText(selectPost.getBody());
+        tvTitle.setText("\n\n   \uD83C\uDFF7️"+selectPost.getTitle());
+        tvBody.setText("\n   \uD83D\uDCDD"+selectPost.getBody());
 
-        tvCreator.setText("Created by: " + selectPost.getPoster());
-        tvDate.setText(selectPost.getCreationDate().toString());
+        tvCreator.setText("\n   \uD83E\uDD13Created by: " + selectPost.getPoster());
+        tvDate.setText("   \uD83D\uDDD3️"+selectPost.getCreationDate().toString());
 
         if (selectPost instanceof Question)
-            tvNumReply.setText("Replies: " + ((Question) selectPost).getReplies().size());
+            tvNumReply.setText("   \uD83D\uDCE9Replies: " + ((Question) selectPost).getReplies().size());
         return view;
     }
 }
