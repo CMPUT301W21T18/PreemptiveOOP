@@ -46,7 +46,7 @@
         <activity android:name=".trial.ExecuteTrial" />
         <activity android:name=".user.UserRegister" />
         <activity android:name=".user.UserLogin" />
-        <activity android:name=".scan.QRcodeActivity" />
+        <activity android:name=".scan.ScanCodeActivity" />
         <activity android:name=".scan.CaptureActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
