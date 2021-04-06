@@ -19,7 +19,7 @@ public class ExperimentTest {
         return experiment;
     }
     private GenericTrial mockTrial(){
-        return new GenericTrial("Jack D",null,null,"1");
+        return new GenericTrial("Jack D",null,null,"1",false);
     }
     @Ignore
     public void testWriteToDatabase(){
