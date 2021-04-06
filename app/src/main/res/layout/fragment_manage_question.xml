@@ -8,11 +8,15 @@
         android:id="@+id/Button_view_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="View All Replies" />
+        android:text="View All Replies"
+        android:background="@drawable/button_outline"
+        android:textStyle="bold"/>
 
     <Button
         android:id="@+id/Button_add_reply"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reply Question" />
+        android:text="Reply Question"
+        android:background="@drawable/button_outline"
+        android:textStyle="bold"/>
 </LinearLayout>
