@@ -74,7 +74,7 @@ public class ManageExperiment extends DialogFragment {
             btDoTrial.setVisibility(View.GONE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(view).setTitle("Manage Experiment");
+        builder.setView(view);
 
         return builder.create();
     }

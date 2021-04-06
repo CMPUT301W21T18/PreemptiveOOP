@@ -12,6 +12,7 @@
         android:layout_width="393dp"
         android:layout_height="56dp"
         android:layout_marginStart="20dp"
+        android:fontFamily="@font/abril_fatface"
         android:text="Histogram"
         android:textSize="30dp"
         android:textStyle="bold"

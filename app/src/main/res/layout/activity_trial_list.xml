@@ -11,11 +11,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Click on any trial below to ignore/un-ignore it from the experiment."
-        android:textSize="20dp" />
+        android:text="💡Click any trial below to ignore it from experiment"
+        android:textColor="#F6E442"
+        android:textSize="14dp"
+        android:textStyle="bold" />
 
     <ListView
         android:id="@+id/ListView_trials"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
+        />
+
 </LinearLayout>

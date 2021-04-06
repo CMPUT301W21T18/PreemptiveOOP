@@ -29,12 +29,12 @@ import com.example.preemptiveoop.user.UserLogin;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        tvUsername        = findViewById(R.id.TextView_username);
+        //tvUsername        = findViewById(R.id.TextView_username);
         btExperiment      = findViewById(R.id.Button_experiment);
         btSearch          = findViewById(R.id.Button_search);
         btQrcode          = findViewById(R.id.Button_qrcode);
-        btPost            = findViewById(R.id.Button_post);
-        btLogout          = findViewById(R.id.Button_logout);
+        //btPost            = findViewById(R.id.Button_post);
+        //btLogout          = findViewById(R.id.Button_logout);
         btUsrProfile      = findViewById(R.id.Button_usrprofile);
         btRetrieveProfile = findViewById(R.id.Button_retrieve_profile);
 
@@ -54,7 +54,7 @@ import com.example.preemptiveoop.user.UserLogin;
             case CHILD_USER_LOGIN:
                 if (resultCode == Activity.RESULT_OK) {
                     user = (User) data.getSerializableExtra(".user");
-                    tvUsername.setText(user.getUsername());
+                    //tvUsername.setText(user.getUsername());
                 }
                 break;
         }
@@ -83,6 +83,5 @@ import com.example.preemptiveoop.user.UserLogin;
         fragment.show(getSupportFragmentManager(),"RETRIEVE_USER_PROFILE");
     }
     public void btQrcodeOnClick(View v) {}
-    public void btPostOnClick(View v) {}
-    public void btLogoutOnClick(View v) {}
+
 }

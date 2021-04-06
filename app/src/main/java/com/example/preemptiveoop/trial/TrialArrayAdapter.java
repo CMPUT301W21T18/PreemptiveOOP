@@ -1,6 +1,7 @@
 package com.example.preemptiveoop.trial;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,16 +45,18 @@ public class TrialArrayAdapter extends ArrayAdapter<GenericTrial> {
         TextView tvResult       = view.findViewById(R.id.TextView_result);
         TextView tvIsIgnored    = view.findViewById(R.id.TextView_isIgnored);
 
-        tvCreator.setText("Creator: " + trial.getCreator());
-        tvCreationDate.setText("Created on: " + trial.getCreationDate().toString());
+
+
+        tvCreator.setText("\n\n    \uD83D\uDE4BCreator:          " + trial.getCreator()+'\n');
+        tvCreationDate.setText("    \uD83D\uDD58Created on:   " + trial.getCreationDate().toString()+"\n");
 
         if (trial.getLocation() != null)
-            tvLocation.setText("Location: " + trial.getLocation().toString());
+            tvLocation.setText("    \uD83D\uDEA9Location:       " + trial.getLocation().toString()+"\n");
         else
-            tvLocation.setText("Location: " + "none");
+            tvLocation.setText("    \uD83D\uDEA9Location:       " + "none"+"\n");
 
-        tvResult.setText("Result: " + trial.getResultStr());
-        tvIsIgnored.setText("Ignored: " + trial.isIgnored());
+        tvResult.setText("    \uD83D\uDCDDResult:           " + trial.getResultStr()+"\n");
+        tvIsIgnored.setText("    ❓Ignored:         " + trial.isIgnored());
         return view;
     }
 }
