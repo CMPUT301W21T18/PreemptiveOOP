@@ -22,6 +22,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * The UserLogin class is the activity class that builds and manages the UI for the login page.
+ */
 public class UserLogin extends AppCompatActivity {
     private final int CHILD_USER_REGISTER = 1;
 

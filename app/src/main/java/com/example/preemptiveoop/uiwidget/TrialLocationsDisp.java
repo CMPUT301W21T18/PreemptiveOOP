@@ -2,7 +2,6 @@ package com.example.preemptiveoop.uiwidget;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -20,15 +19,17 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 
+/**
+ * The TrialLocationsDisp class is the activity class that builds and manages the UI for displaying
+ * a map of trial locations.
+ */
 public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCallback {
     private final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
     private final int DEFAULT_ZOOM = 15;
