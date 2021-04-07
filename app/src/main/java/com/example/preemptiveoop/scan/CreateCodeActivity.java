@@ -51,7 +51,7 @@ public class CreateCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr_code);
+        setContentView(R.layout.activity_create_code);
 
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra(".experiment");

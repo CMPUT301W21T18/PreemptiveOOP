@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.experiment.ExperimentList;
-import com.example.preemptiveoop.scan.ScanActivity;
+import com.example.preemptiveoop.scan.ScanCodeActivity;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.RetrieveProfileFragment;
 import com.example.preemptiveoop.user.UserProfileFragment;
@@ -93,7 +93,7 @@ import com.example.preemptiveoop.user.UserLogin;
     }
 
     public void btQrcodeOnClick(View v) {
-        Intent intent = new Intent(this, ScanActivity.class);
+        Intent intent = new Intent(this, ScanCodeActivity.class);
         intent.putExtra(".user", user);
         startActivityForResult(intent, CHILD_QR_SCAN);
     }
