@@ -15,7 +15,7 @@ import androidx.fragment.app.DialogFragment;
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.post.QuestionListActivity;
-import com.example.preemptiveoop.scan.ScanCodeActivity;
+import com.example.preemptiveoop.scan.CreateCodeActivity;
 import com.example.preemptiveoop.trial.ExecuteTrial;
 import com.example.preemptiveoop.trial.TrialList;
 import com.example.preemptiveoop.uiwidget.TrialLocationsDisp;
@@ -60,7 +60,7 @@ public class ManageExperiment extends DialogFragment {
 
         btParti.setOnClickListener(this::btPartiOnClick);
         btDoTrial.setOnClickListener(this::btDoTrialOnClick);
-        btQRcode.setOnClickListener(this::btQRcodeOnClick);
+        btQRcode.setOnClickListener(this::btQrcodeOnClick);
         btBarcode.setOnClickListener(this::btBarcodeOnClick);
 
         btEndExp.setOnClickListener(this::btEndExperimentOnClick);
@@ -159,20 +159,20 @@ public class ManageExperiment extends DialogFragment {
         endThisFragment();
     }
 
-    public void btQRcodeOnClick(View v) {
-        Intent intent = new Intent(getActivity(), ScanCodeActivity.class);
+    public void btQrcodeOnClick(View v) {
+        Intent intent = new Intent(getActivity(), CreateCodeActivity.class);
         intent.putExtra(".experiment", experiment);
         intent.putExtra(".user", user);
-        intent.putExtra(".type", 1);
+        intent.putExtra(".type", CreateCodeActivity.TYPE_CREATE_QRCODE);
         startActivity(intent);
         endThisFragment();
     }
 
     public void btBarcodeOnClick(View v) {
-        Intent intent = new Intent(getActivity(), ScanCodeActivity.class);
+        Intent intent = new Intent(getActivity(), CreateCodeActivity.class);
         intent.putExtra(".experiment", experiment);
         intent.putExtra(".user", user);
-        intent.putExtra(".type", 2);
+        intent.putExtra(".type", CreateCodeActivity.TYPE_CREATE_BARCODE);
         startActivity(intent);
         endThisFragment();
     }

@@ -1,239 +1,167 @@
 package com.example.preemptiveoop.scan;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-
+import com.budiyev.android.codescanner.CodeScanner;
+import com.budiyev.android.codescanner.CodeScannerView;
+import com.budiyev.android.codescanner.DecodeCallback;
 import com.example.preemptiveoop.R;
-import com.example.preemptiveoop.experiment.model.BinomialExp;
-import com.example.preemptiveoop.experiment.model.CountExp;
-import com.example.preemptiveoop.experiment.model.Experiment;
-import com.example.preemptiveoop.experiment.model.MeasurementExp;
-import com.example.preemptiveoop.experiment.model.NonNegativeExp;
 import com.example.preemptiveoop.scan.model.Barcode;
-import com.example.preemptiveoop.uiwidget.MyDialog;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import com.example.preemptiveoop.user.model.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.Result;
 
-import java.util.HashMap;
-
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ScanCodeActivity extends AppCompatActivity {
-    private ImageView ivQRcode;
-    private EditText etResult;
-    private Button btSuccess;
-    private Button btFailure;
-    private Button btGenerate;
+    private final int CHILD_CONFIRM_EXP = 1;
 
-    private HashMap hashMap;
-    private Bitmap bitmap;
-    private Experiment experiment;
-    private int resultInt;
-    private double resultDouble;
-    private int type;
+    private CodeScanner cScanner;
+    private CodeScannerView cSView;
+
+    private User user;
+    private String resultArray[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qr_code);
+        setContentView(R.layout.activity_scan_code);
 
         Intent intent = getIntent();
-        experiment = (Experiment) intent.getSerializableExtra(".experiment");
-        type = (int) intent.getIntExtra(".type", 0);
+        user = (User) intent.getSerializableExtra(".user");
 
-        initView();
-        setViewsPerExpType();
-        resultInt = -1; // set the initial value for non-input detection
+        cSView = findViewById(R.id.scanner_view);
+        cScanner = new CodeScanner(this, cSView);
+
+        cScanner.setDecodeCallback(new DecodeCallback() {
+            @Override
+            public void onDecoded(@NonNull Result result) { runOnUiThread(getDecodedRunnable(result)); }
+        });
+
+        cSView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { cScanner.startPreview(); }
+        });
     }
 
-    private void initView() {
-        hashMap = new HashMap();
-        ivQRcode = findViewById(R.id.ImageView_qr);
-        etResult = findViewById(R.id.EditText_qr_result);
-        btSuccess = findViewById(R.id.Button_qr_success);
-        btFailure = findViewById(R.id.Button_qr_failure);
-        btGenerate = findViewById(R.id.Button_qr_generate);
-
-        btGenerate.setOnClickListener(this::btGenerateOnClick);
-        btSuccess.setOnClickListener(this::btSuccessOnClick);
-        btFailure.setOnClickListener(this::btFailureOnClick);
-
+    private void startScanConfirmActivity(String experimentId, String result, User user) {
+        Intent intent = new Intent(this, AfterScanActivity.class);
+        intent.putExtra(".experimentId", resultArray[0]);
+        intent.putExtra(".result", resultArray[1]);
+        intent.putExtra(".user", user);
+        startActivityForResult(intent, CHILD_CONFIRM_EXP);
     }
+    
+    private Runnable getDecodedRunnable(Result result) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                String scanResult = result.getText();
+                if (scanResult.isEmpty())
+                    return;
 
-    private void setViewsPerExpType() {
-        if (experiment instanceof BinomialExp) {
-            etResult.setHint("\uD83D\uDCC3 True or False?");
-            etResult.setEnabled(false);
-            return;
-        }
+                resultArray = jsonDecode(scanResult);
 
-        btSuccess.setVisibility(View.GONE);
-        btFailure.setVisibility(View.GONE);
+                // if result is QR code
+                if (resultArray[0] != null) {
+                    startScanConfirmActivity(resultArray[0], resultArray[1], user);
+                    return;
+                }
 
-        if (experiment instanceof MeasurementExp) {
-            etResult.setHint("\uD83D\uDCC3 Enter a measurement");
-            return;
-        }
+                // if result is barcode
+                CollectionReference barcodeCol = FirebaseFirestore.getInstance().collection("Barcodes");
+                barcodeCol.whereEqualTo("fuzzyString", scanResult).get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot querySnapshot) {
+                                if (querySnapshot.size() == 0) {
+                                    Log.d("BARCODE ANALYSIS", "Cannot find experiment");
+                                    return;
+                                }
+                                Log.d("BARCODE ANALYSIS", "Found the experiment");
 
-        if (experiment instanceof NonNegativeExp) {
-            etResult.setHint("\uD83D\uDCC3 Enter a non-negative");
-            return;
-        }
+                                Barcode barcode = querySnapshot.iterator().next().toObject(Barcode.class);
+                                resultArray = jsonDecode(barcode.getJsonString());
 
-        if (experiment instanceof CountExp) {
-            etResult.setHint("\uD83D\uDCC3 Your count is Ok!");
-            etResult.setEnabled(false);
-            return;
-        }
-    }
-
-    public void btSuccessOnClick(View v) {
-        etResult.setText("✅Success");
-        resultInt = 1;
-
-    }
-
-    public void btFailureOnClick(View v) {
-        etResult.setText("❌Failure");
-        resultInt = 0;
-    }
-
-    public void btGenerateOnClick(View v) {
-        if (experiment instanceof BinomialExp) {
-            if (resultInt == -1) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Input", "Please choose the valid result.");
-                return;
+                                if (resultArray[0] == null) return;
+                                startScanConfirmActivity(resultArray[0], resultArray[1], user);
+                            }
+                        });
             }
-            selector(jsonEncode(experiment.getDatabaseId(), resultInt));
-            return;
-        }
+        };
+        return runnable;
+    }
 
-        if (experiment instanceof CountExp) {
-            selector(jsonEncode(experiment.getDatabaseId(), 1));
-            return;
-        }
-
-        if (experiment instanceof MeasurementExp) {
-            String resultStr = etResult.getText().toString();
-            if (resultStr.isEmpty()) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Input", "Please enter the valid result.");
-                return;
-            }
-            try { resultDouble = Double.parseDouble(resultStr); }
-            catch (NumberFormatException e) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please enter a decimal number.");
-                return;
-            }
-            selector(jsonEncode(experiment.getDatabaseId(), resultDouble));
-            return;
-        }
-
-        if (experiment instanceof NonNegativeExp) {
-            String resultStr = etResult.getText().toString();
-            if (resultStr.isEmpty()) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Input", "Please enter the valid result.");
-                return;
-            }
-            try { resultInt = Integer.parseInt(resultStr); }
-            catch (NumberFormatException e) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please enter an integer number.");
-                return;
-            }
-            selector(jsonEncode(experiment.getDatabaseId(), resultInt));
-            return;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CHILD_CONFIRM_EXP:
+                if (resultCode == Activity.RESULT_OK)
+                    setResult(Activity.RESULT_OK);
+                    finish();
+                break;
         }
     }
 
-    private void selector (JSONObject content) {
-        if (type == 1)
-            create_QRcode(content);
-        else if (type == 2)
-            create_Barcode(content);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cScanner.startPreview();
     }
 
-    private JSONObject jsonEncode(String expId, Number result) {
-        JSONObject jsonObject = new JSONObject();
+    @Override
+    protected void onPause() {
+        cScanner.releaseResources();
+        super.onPause();
+    }
+
+    private String[] jsonDecode(String jsonString) {
+        String[] result = new String[2];
         try {
-            jsonObject.put("experimentId", expId);
-            jsonObject.put("result", result.toString());
-        } catch (JSONException e) {
-            MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
-            return null;
+            JSONObject jsonObject = new JSONObject(jsonString);
+            result[0] = jsonObject.getString("experimentId");
+            result[1] = jsonObject.getString("result");
+        } catch (Exception e) {
+            Toast.makeText(ScanCodeActivity.this, "JSON Fail", Toast.LENGTH_SHORT).show();
         }
-        return jsonObject;
+        return result;
     }
 
-    private void create_QRcode(JSONObject content) {
-        hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-        BitMatrix bitMatrix = null;
-        try {
-            bitMatrix = new MultiFormatWriter().encode(content.toString(), BarcodeFormat.QR_CODE, 250, 250, hashMap);
-        } catch (WriterException e) {
-            MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
-            return;
-        }
+    /*private String[] barcodeDecode(String content) {
+        DocumentReference barcodeDoc = FirebaseFirestore.getInstance()
+                .collection("Barcodes").document(content);
 
-        int width = bitMatrix.getWidth();
-        int height = bitMatrix.getHeight();
-        int[] pixels = new int[width * height];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                //set the color
-                if (bitMatrix.get(i, j)) {
-                    pixels[i * width + j] = Color.BLACK;
-
+        barcodeDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    Barcode barcode = documentSnapshot.toObject(Barcode.class);
+                    result = jsonDecode(barcode.getJsonString());
+                    Log.d("BARCODE ANALYSIS", "Found the experiment");
                 } else {
-                    pixels[i * width + j] = Color.WHITE;
+                    Log.d("BARCODE ANALYSIS", "Cannot find experiment");
+                    return;
                 }
             }
-        }
-
-        bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-        ivQRcode.setImageBitmap(bitmap);
-    }
-
-    private void create_Barcode(JSONObject content) {
-
-        Barcode barcode = new Barcode(content);
-        barcode.writeToDatabase();
-
-        hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
-        BitMatrix bitMatrix = null;
-
-        try {
-            bitMatrix = new MultiFormatWriter().encode(barcode.getFuzzyString(), BarcodeFormat.CODE_128, 250, 250, hashMap);
-        } catch (WriterException e) {
-            MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
-            return;
-        }
-        int width = bitMatrix.getWidth();
-        int height = bitMatrix.getHeight();
-        bitmap= Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                //set the color
-                if (bitMatrix.get(i, j)) {
-                    bitmap.setPixel(i,j, Color.BLACK);
-                } else {
-                    bitmap.setPixel(i,j, Color.WHITE);
-                }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("BARCODE ANALYSIS", "Cannot find experiment");
             }
-        }
-        ivQRcode.setImageBitmap(bitmap);
-    }
+        });
+        return result;
+    }*/
 }
