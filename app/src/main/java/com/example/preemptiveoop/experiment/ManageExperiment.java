@@ -21,6 +21,10 @@ import com.example.preemptiveoop.trial.TrialList;
 import com.example.preemptiveoop.uiwidget.TrialLocationsDisp;
 import com.example.preemptiveoop.user.model.User;
 
+/**
+ * The ManageExperiment class is the fragment class that builds and manages the UI for the user to
+ * manage an experiment.
+ */
 public class ManageExperiment extends DialogFragment {
     private Experiment experiment;
     private User user;

@@ -6,6 +6,10 @@ import com.google.firebase.firestore.SetOptions;
 
 import org.json.JSONObject;
 
+/**
+ * The Barcode class is used to store and manage the barcode representing a trial result to an experiment.
+ * This class is Firestore compatible.
+ */
 public class Barcode {
     private String databaseId;
     private String jsonString;

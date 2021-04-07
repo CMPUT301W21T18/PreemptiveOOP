@@ -16,6 +16,10 @@ import com.example.preemptiveoop.user.model.User;
 
 import java.util.ArrayList;
 
+/**
+ * The ExpArrayAdatper class is an ArrayAdapter class to be used by ExperimentList to display a
+ * single item in the list.
+ */
 public class ExpArrayAdatper extends ArrayAdapter<Experiment> {
     private Context context;
     private ArrayList<Experiment> experiments;

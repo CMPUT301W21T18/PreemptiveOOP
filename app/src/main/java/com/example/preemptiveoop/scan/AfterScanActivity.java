@@ -36,6 +36,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
+/**
+ * The AfterScanActivity class is the activity class that builds and manages the UI that is displayed
+ * after the user scans a QR code or barcode.
+ */
 public class AfterScanActivity extends AppCompatActivity {
     private final int CHILD_LOCATION_PICKER = 1;
 

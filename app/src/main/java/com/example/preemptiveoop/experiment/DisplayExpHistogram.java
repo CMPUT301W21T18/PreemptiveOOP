@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The DisplayExpHistogram class is the activity class for building and displaying a histogram for
+ * experiment trial results to the user.
+ */
 public class DisplayExpHistogram extends AppCompatActivity {
     BarChart barChart;
     Experiment exp;
@@ -31,8 +35,6 @@ public class DisplayExpHistogram extends AppCompatActivity {
 
         barChart = findViewById(R.id.gv_histogram);
         exp = (Experiment) getIntent().getSerializableExtra(".experiment");
-
-
     }
 
     @Override

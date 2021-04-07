@@ -31,6 +31,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The LocationPicker class is the activity class that builds and manages the UI for the user to select
+ * a location.
+ */
 public class LocationPicker extends FragmentActivity implements OnMapReadyCallback {
     private final int PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 1;
     private final int DEFAULT_ZOOM = 15;

@@ -31,6 +31,10 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * The CreateCodeActivity class is the activity class that builds and manages the UI for the user to
+ * create a QR code or barcode.
+ */
 public class CreateCodeActivity extends AppCompatActivity {
     public static final int TYPE_CREATE_QRCODE  = 1;
     public static final int TYPE_CREATE_BARCODE = 2;

@@ -26,6 +26,10 @@ import com.example.preemptiveoop.user.model.User;
 
 import java.util.Date;
 
+/**
+ * The PublishExperiment class is the activity class that builds and manages the UI for the user to
+ * publish a new experiment.
+ */
 public class PublishExperiment extends AppCompatActivity {
     private final int CHILD_LOCATION_PICKER = 1;
 

@@ -1,10 +1,7 @@
 package com.example.preemptiveoop.user;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +20,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * The UserRegister class is the activity class that builds and manages the UI for the new user to
+ * register itself to the database.
+ */
 public class UserRegister extends AppCompatActivity {
     private EditText etUsername;
     private EditText etContact;
