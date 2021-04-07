@@ -31,8 +31,11 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ScanCodeActivity extends AppCompatActivity {
-    private ImageView ivQRcode;
+public class CreateCodeActivity extends AppCompatActivity {
+    public static final int TYPE_CREATE_QRCODE  = 1;
+    public static final int TYPE_CREATE_BARCODE = 2;
+
+    private ImageView ivQrcode;
     private EditText etResult;
     private Button btSuccess;
     private Button btFailure;
@@ -54,23 +57,20 @@ public class ScanCodeActivity extends AppCompatActivity {
         experiment = (Experiment) intent.getSerializableExtra(".experiment");
         type = (int) intent.getIntExtra(".type", 0);
 
-        initView();
-        setViewsPerExpType();
-        resultInt = -1; // set the initial value for non-input detection
-    }
-
-    private void initView() {
         hashMap = new HashMap();
-        ivQRcode = findViewById(R.id.ImageView_qr);
-        etResult = findViewById(R.id.EditText_qr_result);
-        btSuccess = findViewById(R.id.Button_qr_success);
-        btFailure = findViewById(R.id.Button_qr_failure);
-        btGenerate = findViewById(R.id.Button_qr_generate);
+        resultInt = -1; // set the initial value for non-input detection
+
+        ivQrcode    = findViewById(R.id.ImageView_qr);
+        etResult    = findViewById(R.id.EditText_qr_result);
+        btSuccess   = findViewById(R.id.Button_qr_success);
+        btFailure   = findViewById(R.id.Button_qr_failure);
+        btGenerate  = findViewById(R.id.Button_qr_generate);
 
         btGenerate.setOnClickListener(this::btGenerateOnClick);
         btSuccess.setOnClickListener(this::btSuccessOnClick);
         btFailure.setOnClickListener(this::btFailureOnClick);
 
+        setViewsPerExpType();
     }
 
     private void setViewsPerExpType() {
@@ -114,7 +114,7 @@ public class ScanCodeActivity extends AppCompatActivity {
     public void btGenerateOnClick(View v) {
         if (experiment instanceof BinomialExp) {
             if (resultInt == -1) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Input", "Please choose the valid result.");
+                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Input", "Please choose the valid result.");
                 return;
             }
             selector(jsonEncode(experiment.getDatabaseId(), resultInt));
@@ -129,12 +129,12 @@ public class ScanCodeActivity extends AppCompatActivity {
         if (experiment instanceof MeasurementExp) {
             String resultStr = etResult.getText().toString();
             if (resultStr.isEmpty()) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Input", "Please enter the valid result.");
+                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Input", "Please enter the valid result.");
                 return;
             }
             try { resultDouble = Double.parseDouble(resultStr); }
             catch (NumberFormatException e) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please enter a decimal number.");
+                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please enter a decimal number.");
                 return;
             }
             selector(jsonEncode(experiment.getDatabaseId(), resultDouble));
@@ -144,12 +144,12 @@ public class ScanCodeActivity extends AppCompatActivity {
         if (experiment instanceof NonNegativeExp) {
             String resultStr = etResult.getText().toString();
             if (resultStr.isEmpty()) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Input", "Please enter the valid result.");
+                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Input", "Please enter the valid result.");
                 return;
             }
             try { resultInt = Integer.parseInt(resultStr); }
             catch (NumberFormatException e) {
-                MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please enter an integer number.");
+                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please enter an integer number.");
                 return;
             }
             selector(jsonEncode(experiment.getDatabaseId(), resultInt));
@@ -157,11 +157,13 @@ public class ScanCodeActivity extends AppCompatActivity {
         }
     }
 
-    private void selector (JSONObject content) {
-        if (type == 1)
-            create_QRcode(content);
-        else if (type == 2)
-            create_Barcode(content);
+    private void selector(JSONObject content) {
+        switch (type) {
+            case TYPE_CREATE_QRCODE:  createQrcode(content);  break;
+            case TYPE_CREATE_BARCODE: createBarcode(content); break;
+            default:
+                throw new UnsupportedOperationException("type has an unsupported value.");
+        }
     }
 
     private JSONObject jsonEncode(String expId, Number result) {
@@ -170,19 +172,19 @@ public class ScanCodeActivity extends AppCompatActivity {
             jsonObject.put("experimentId", expId);
             jsonObject.put("result", result.toString());
         } catch (JSONException e) {
-            MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
+            MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
             return null;
         }
         return jsonObject;
     }
 
-    private void create_QRcode(JSONObject content) {
+    private void createQrcode(JSONObject content) {
         hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
         BitMatrix bitMatrix = null;
         try {
             bitMatrix = new MultiFormatWriter().encode(content.toString(), BarcodeFormat.QR_CODE, 250, 250, hashMap);
         } catch (WriterException e) {
-            MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
+            MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
             return;
         }
 
@@ -203,12 +205,11 @@ public class ScanCodeActivity extends AppCompatActivity {
 
         bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
-        ivQRcode.setImageBitmap(bitmap);
+        ivQrcode.setImageBitmap(bitmap);
     }
 
-    private void create_Barcode(JSONObject content) {
-
-        Barcode barcode = new Barcode(content);
+    private void createBarcode(JSONObject content) {
+        Barcode barcode = new Barcode(null, content);
         barcode.writeToDatabase();
 
         hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
@@ -217,7 +218,7 @@ public class ScanCodeActivity extends AppCompatActivity {
         try {
             bitMatrix = new MultiFormatWriter().encode(barcode.getFuzzyString(), BarcodeFormat.CODE_128, 250, 250, hashMap);
         } catch (WriterException e) {
-            MyDialog.errorDialog(ScanCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
+            MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
             return;
         }
         int width = bitMatrix.getWidth();
@@ -234,6 +235,6 @@ public class ScanCodeActivity extends AppCompatActivity {
                 }
             }
         }
-        ivQRcode.setImageBitmap(bitmap);
+        ivQrcode.setImageBitmap(bitmap);
     }
 }

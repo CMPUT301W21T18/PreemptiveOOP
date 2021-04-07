@@ -25,7 +25,7 @@ import com.google.zxing.Result;
 
 import org.json.JSONObject;
 
-public class CaptureActivity extends AppCompatActivity {
+public class ScanActivity extends AppCompatActivity {
     private final int CHILD_CONFIRM_EXP = 1;
 
     private CodeScanner cScanner;
@@ -57,7 +57,7 @@ public class CaptureActivity extends AppCompatActivity {
     }
 
     private void startScanConfirmActivity(String experimentId, String result, User user) {
-        Intent intent = new Intent(this, ScanConfirmActivity.class);
+        Intent intent = new Intent(this, AfterScanActivity.class);
         intent.putExtra(".experimentId", resultArray[0]);
         intent.putExtra(".result", resultArray[1]);
         intent.putExtra(".user", user);
@@ -135,7 +135,7 @@ public class CaptureActivity extends AppCompatActivity {
             result[0] = jsonObject.getString("experimentId");
             result[1] = jsonObject.getString("result");
         } catch (Exception e) {
-            Toast.makeText(CaptureActivity.this, "JSON Fail", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ScanActivity.this, "JSON Fail", Toast.LENGTH_SHORT).show();
         }
         return result;
     }

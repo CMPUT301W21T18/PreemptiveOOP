@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.experiment.ExperimentList;
-import com.example.preemptiveoop.scan.CaptureActivity;
+import com.example.preemptiveoop.scan.ScanActivity;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.user.RetrieveProfileFragment;
 import com.example.preemptiveoop.user.UserProfileFragment;
@@ -71,12 +71,14 @@ import com.example.preemptiveoop.user.UserLogin;
         intent.putExtra(".user", user);
         startActivity(intent);
     }
+
     public void btSearchOnClick(View v) {
         Intent intent = new Intent(this, ExperimentList.class);
         intent.putExtra(".user", user);
         intent.putExtra(".searchMode", true);
         startActivity(intent);
     }
+
     public void btUsrProfileOnClick(View v) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("user", user);
@@ -84,14 +86,17 @@ import com.example.preemptiveoop.user.UserLogin;
         fragment.setArguments(bundle);
         fragment.show(getSupportFragmentManager(),"USER_PROFILE");
     }
+
     public void btRetrieveProfileOnClick(View v) {
         RetrieveProfileFragment fragment = new RetrieveProfileFragment();
         fragment.show(getSupportFragmentManager(),"RETRIEVE_USER_PROFILE");
     }
+
     public void btQrcodeOnClick(View v) {
-        Intent intent = new Intent(this, CaptureActivity.class);
+        Intent intent = new Intent(this, ScanActivity.class);
         intent.putExtra(".user", user);
         startActivityForResult(intent, CHILD_QR_SCAN);
     }
+
     public void btLogoutOnClick(View v) {}
 }
