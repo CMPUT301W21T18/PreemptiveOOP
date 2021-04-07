@@ -25,6 +25,10 @@ import com.google.zxing.Result;
 
 import org.json.JSONObject;
 
+/**
+ * The ScanCodeActivity class is the activity class that builds and manages the UI for the user to
+ * scan a QR code or barcode.
+ */
 public class ScanCodeActivity extends AppCompatActivity {
     private final int CHILD_CONFIRM_EXP = 1;
 
