@@ -48,7 +48,7 @@ public class ScanCodeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_q_rcode);
+        setContentView(R.layout.activity_qr_code);
 
         Intent intent = getIntent();
         experiment = (Experiment) intent.getSerializableExtra(".experiment");
