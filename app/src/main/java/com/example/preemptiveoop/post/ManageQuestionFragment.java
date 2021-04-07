@@ -17,6 +17,10 @@ import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.post.model.Question;
 import com.example.preemptiveoop.user.model.User;
 
+/**
+ * The ManageQuestionFragment class is the fragment class that builds and manages the UI for the user
+ * to manage a question.
+ */
 public class ManageQuestionFragment extends DialogFragment {
     private User user;
     private Experiment experiment;

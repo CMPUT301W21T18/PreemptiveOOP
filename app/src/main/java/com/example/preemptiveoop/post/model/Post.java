@@ -2,6 +2,10 @@ package com.example.preemptiveoop.post.model;
 
 import java.util.Date;
 
+/**
+ * The Post class is a abstract class to be extended by other specific post types
+ * (Question and Reply).
+ */
 public abstract class Post {
     protected String databaseId;
 

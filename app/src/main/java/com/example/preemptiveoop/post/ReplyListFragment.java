@@ -20,6 +20,10 @@ import com.example.preemptiveoop.user.model.User;
 
 import java.util.ArrayList;
 
+/**
+ * The ReplyListFragment class is the fragment class that builds and manages the UI for listing
+ * replies to a question.
+ */
 public class ReplyListFragment extends DialogFragment {
     private Experiment experiment;
     private User user;
