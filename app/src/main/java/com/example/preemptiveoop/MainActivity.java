@@ -1,4 +1,4 @@
- package com.example.preemptiveoop;
+package com.example.preemptiveoop;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,7 +18,10 @@ import com.example.preemptiveoop.user.UserProfileFragment;
 import com.example.preemptiveoop.user.model.User;
 import com.example.preemptiveoop.user.UserLogin;
 
- public class MainActivity extends AppCompatActivity {
+/**
+ * The MainActivity class is the activity class that builds and manages the UI for the main menu.
+ */
+public class MainActivity extends AppCompatActivity {
     private final int CHILD_USER_LOGIN = 1;
     private final int CHILD_QR_SCAN = 2;
 
