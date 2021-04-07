@@ -23,6 +23,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+/**
+ * The DisplayExpTimePlot class is the activity class for building and displaying a time-plot for
+ * experiment trial results to the user.
+ */
 public class DisplayExpTimePlot extends AppCompatActivity {
     Experiment exp;
 
