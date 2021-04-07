@@ -1,4 +1,4 @@
-# PreemptiveOOP
+# Reference
 
-Project Part 2 -- Preparation
-Due Friday, 26 February 2021, 4:00 PM
+Code for LocationPicker and TrialLocationsDisp are based on this tutorial:
+https://developers.google.com/codelabs/maps-platform/location-places-android#0
