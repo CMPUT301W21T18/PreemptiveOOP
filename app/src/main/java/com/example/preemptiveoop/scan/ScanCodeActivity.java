@@ -75,7 +75,7 @@ public class ScanCodeActivity extends AppCompatActivity {
 
     private void setViewsPerExpType() {
         if (experiment instanceof BinomialExp) {
-            etResult.setHint("Choose result below");
+            etResult.setHint("\uD83D\uDCC3 True or False?");
             etResult.setEnabled(false);
             return;
         }
@@ -84,30 +84,30 @@ public class ScanCodeActivity extends AppCompatActivity {
         btFailure.setVisibility(View.GONE);
 
         if (experiment instanceof MeasurementExp) {
-            etResult.setHint("Enter mockup measurement here");
+            etResult.setHint("\uD83D\uDCC3 Enter a measurement");
             return;
         }
 
         if (experiment instanceof NonNegativeExp) {
-            etResult.setHint("Enter mockup non-negative number here");
+            etResult.setHint("\uD83D\uDCC3 Enter a non-negative");
             return;
         }
 
         if (experiment instanceof CountExp) {
-            etResult.setHint("No result input required");
+            etResult.setHint("\uD83D\uDCC3 Your count is Ok!");
             etResult.setEnabled(false);
             return;
         }
     }
 
     public void btSuccessOnClick(View v) {
-        etResult.setText("Success");
+        etResult.setText("✅Success");
         resultInt = 1;
 
     }
 
     public void btFailureOnClick(View v) {
-        etResult.setText("Failure");
+        etResult.setText("❌Failure");
         resultInt = 0;
     }
 
