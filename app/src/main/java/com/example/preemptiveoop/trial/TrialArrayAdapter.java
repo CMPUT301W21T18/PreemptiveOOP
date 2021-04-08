@@ -1,7 +1,6 @@
 package com.example.preemptiveoop.trial;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.preemptiveoop.R;
-import com.example.preemptiveoop.experiment.model.Experiment;
 import com.example.preemptiveoop.trial.model.GenericTrial;
-import com.example.preemptiveoop.user.model.User;
 
 import java.util.ArrayList;
 
+/**
+ * The TrialArrayAdapter class is an ArrayAdapter class to be used by TrialList for displaying a
+ * single item in the list.
+ */
 public class TrialArrayAdapter extends ArrayAdapter<GenericTrial> {
     private Context context;
     private ArrayList<GenericTrial> trials;

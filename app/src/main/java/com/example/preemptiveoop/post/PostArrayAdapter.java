@@ -16,6 +16,11 @@ import com.example.preemptiveoop.post.model.Question;
 
 import java.util.ArrayList;
 
+/**
+ * The ExpArrayAdatper class is an ArrayAdapter class to be used by QuestionListActivity and
+ * ReplyListFragment to display a single item in the list.
+ * @param <T>   The type of post.
+ */
 public class PostArrayAdapter <T extends Post> extends ArrayAdapter<T> {
     private Context context;
     private  ArrayList<T> posts;

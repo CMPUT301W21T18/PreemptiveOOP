@@ -1,9 +1,5 @@
 package com.example.preemptiveoop.scan;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.BinomialExp;
@@ -28,10 +27,8 @@ import com.example.preemptiveoop.uiwidget.LocationPicker;
 import com.example.preemptiveoop.uiwidget.MyDialog;
 import com.example.preemptiveoop.uiwidget.model.MyLocation;
 import com.example.preemptiveoop.user.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -39,7 +36,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
-public class ScanConfirmActivity extends AppCompatActivity {
+/**
+ * The AfterScanActivity class is the activity class that builds and manages the UI that is displayed
+ * after the user scans a QR code or barcode.
+ */
+public class AfterScanActivity extends AppCompatActivity {
     private final int CHILD_LOCATION_PICKER = 1;
 
     private Button btLocation;
@@ -58,9 +59,9 @@ public class ScanConfirmActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scan_confirm);
+        setContentView(R.layout.activity_after_scan);
 
-        // get passed-in arguments: .user, .searchMode
+        // get passed-in arguments
         Intent intent = getIntent();
         experimentId = intent.getStringExtra(".experimentId");
         result = intent.getStringExtra(".result");
@@ -74,7 +75,6 @@ public class ScanConfirmActivity extends AppCompatActivity {
         btConfirm.setOnClickListener(this::btConfirmOnClick);
 
         getInfo();
-
     }
 
     @Override
@@ -120,15 +120,16 @@ public class ScanConfirmActivity extends AppCompatActivity {
     }
 
     private void updateView() {
-        if (experiment.isRequireLocation()) {
+        if (experiment.isRequireLocation())
             btLocation.setVisibility(View.VISIBLE);
-        }
-        String temp = String.format("The experiment detail:\n %s\nOwner: %s\nDate: %s\nStatus: %s\nTypes :%s",
+
+        String temp = String.format("The experiment detail:\n %s\nOwner: %s\nDate: %s\nStatus: %s\nTypes: %s\nResult: %s",
                 experiment.getDescription(),
                 experiment.getOwner(),
                 experiment.getCreationDate(),
                 experiment.getStatus(),
-                experiment.getType());
+                experiment.getType(),
+                result);
         tvResult.setText(temp);
     }
 
@@ -150,7 +151,7 @@ public class ScanConfirmActivity extends AppCompatActivity {
                 data = Integer.parseInt(result);
             }
         } catch (NumberFormatException e){
-            MyDialog.errorDialog(ScanConfirmActivity.this, "Invalid Input", "Please scan again.");
+            MyDialog.errorDialog(AfterScanActivity.this, "Invalid Input", "Please scan again.");
             return;
         }
 

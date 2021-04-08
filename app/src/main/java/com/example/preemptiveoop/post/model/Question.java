@@ -7,6 +7,10 @@ import com.google.firebase.firestore.SetOptions;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * The Question class is used to store and manage the question posted to an experiment.
+ * This class is Firestore compatible.
+ */
 public class Question extends Post {
     private ArrayList<Reply> replies;
 

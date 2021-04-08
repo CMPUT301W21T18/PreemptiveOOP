@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
 import com.example.preemptiveoop.experiment.model.Experiment;
-import com.example.preemptiveoop.trial.model.BinomialTrial;
 import com.example.preemptiveoop.trial.model.GenericTrial;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
@@ -20,8 +19,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
+/**
+ * The ExecuteTrial class is the activity class that builds and manages the UI for the user to record
+ * trials to an experiment.
+ */
 public class TrialList extends AppCompatActivity {
     private Experiment experiment;
 

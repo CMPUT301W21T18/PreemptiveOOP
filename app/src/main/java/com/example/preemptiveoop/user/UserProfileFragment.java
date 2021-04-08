@@ -18,6 +18,10 @@ import com.example.preemptiveoop.user.model.User;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * The UserProfileFragment class is the fragment class that builds and manages the UI for the user
+ * to retrieve its own profile.
+ */
 public class UserProfileFragment extends DialogFragment {
 
     private TextView username;

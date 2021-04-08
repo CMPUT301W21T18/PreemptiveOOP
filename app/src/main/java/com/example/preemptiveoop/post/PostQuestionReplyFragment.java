@@ -23,7 +23,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
-
+/**
+ * The PostQuestionReplyFragment class is the fragment class that builds and manages the UI for the user
+ * to post a question or a reply.
+ */
 public class PostQuestionReplyFragment extends DialogFragment {
     private Experiment experiment;
     private User user;

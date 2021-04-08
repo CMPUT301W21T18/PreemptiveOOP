@@ -34,6 +34,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
 
+/**
+ * The ExecuteTrial class is the activity class that builds and manages the UI for the user to record
+ * trials to an experiment.
+ */
 public class ExecuteTrial extends AppCompatActivity {
     private final int CHILD_LOCATION_PICKER = 1;
 

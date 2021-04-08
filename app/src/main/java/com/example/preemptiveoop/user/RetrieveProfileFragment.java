@@ -23,6 +23,10 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * The RetrieveProfileFragment class is the fragment class that builds and manages the UI for the user
+ * to retrieve another user's profile.
+ */
 public class RetrieveProfileFragment extends DialogFragment{
     private TextView tvResult;
     private EditText etUsername;

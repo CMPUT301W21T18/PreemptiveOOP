@@ -15,6 +15,10 @@ import com.example.preemptiveoop.trial.model.GenericTrial;
 
 import java.util.ArrayList;
 
+/**
+ * The DisplayExpStats class is the activity class for calculating and displaying the experiment
+ * trial results statistics to the user.
+ */
 public class DisplayExpStats extends AppCompatActivity {
     Experiment experiment;
 
