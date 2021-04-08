@@ -123,12 +123,13 @@ public class AfterScanActivity extends AppCompatActivity {
         if (experiment.isRequireLocation())
             btLocation.setVisibility(View.VISIBLE);
 
-        String temp = String.format("The experiment detail:\n %s\nOwner: %s\nDate: %s\nStatus: %s\nTypes :%s",
+        String temp = String.format("The experiment detail:\n %s\nOwner: %s\nDate: %s\nStatus: %s\nTypes: %s\nResult: %s",
                 experiment.getDescription(),
                 experiment.getOwner(),
                 experiment.getCreationDate(),
                 experiment.getStatus(),
-                experiment.getType());
+                experiment.getType(),
+                result);
         tvResult.setText(temp);
     }
 

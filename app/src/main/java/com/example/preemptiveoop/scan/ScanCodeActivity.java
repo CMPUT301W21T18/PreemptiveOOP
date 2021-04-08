@@ -139,33 +139,8 @@ public class ScanCodeActivity extends AppCompatActivity {
             result[0] = jsonObject.getString("experimentId");
             result[1] = jsonObject.getString("result");
         } catch (Exception e) {
-            Toast.makeText(ScanCodeActivity.this, "JSON Fail", Toast.LENGTH_SHORT).show();
+            Log.d("BARCODE ANALYSIS", "cannot fetch data from json");
         }
         return result;
     }
-
-    /*private String[] barcodeDecode(String content) {
-        DocumentReference barcodeDoc = FirebaseFirestore.getInstance()
-                .collection("Barcodes").document(content);
-
-        barcodeDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    Barcode barcode = documentSnapshot.toObject(Barcode.class);
-                    result = jsonDecode(barcode.getJsonString());
-                    Log.d("BARCODE ANALYSIS", "Found the experiment");
-                } else {
-                    Log.d("BARCODE ANALYSIS", "Cannot find experiment");
-                    return;
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("BARCODE ANALYSIS", "Cannot find experiment");
-            }
-        });
-        return result;
-    }*/
 }
