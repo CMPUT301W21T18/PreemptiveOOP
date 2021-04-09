@@ -102,9 +102,13 @@ public class BinoExperimentTest {
         solo.clickOnView(solo.getView(R.id. Button_doTrial));
         solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
         solo.clickOnView(solo.getView(R.id.Button_success));
+        solo.clickOnButton("OK");
         solo.clickOnView(solo.getView(R.id.Button_success));
+        solo.clickOnButton("OK");
         solo.clickOnView(solo.getView(R.id.Button_failure));
+        solo.clickOnButton("OK");
         solo.clickOnView(solo.getView(R.id.Button_failure));
+        solo.clickOnButton("OK");
         solo.goBack();
 
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);

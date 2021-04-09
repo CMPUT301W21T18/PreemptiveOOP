@@ -81,7 +81,9 @@ public class RestExperimentTest {
         solo.clickOnView(solo.getView(R.id.Button_doTrial));
         solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
         solo.clickOnView(solo.getView(R.id.Button_record));
+        solo.clickOnButton("OK");
         solo.clickOnView(solo.getView(R.id.Button_record));
+        solo.clickOnButton("OK");
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
         solo.clickInList(0);
@@ -116,9 +118,11 @@ public class RestExperimentTest {
 
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3.2");
         solo.clickOnView(solo.getView(R.id.Button_record));
+        solo.clickOnButton("OK");
         solo.clearEditText((EditText) solo.getView(R.id.EditText_result));
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3.2");
         solo.clickOnView(solo.getView(R.id.Button_record));
+        solo.clickOnButton("OK");
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
         solo.clickInList(0);
@@ -151,9 +155,11 @@ public class RestExperimentTest {
 
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3");
         solo.clickOnView(solo.getView(R.id.Button_record));
+        solo.clickOnButton("OK");
         solo.clearEditText((EditText) solo.getView(R.id.EditText_result));
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3");
         solo.clickOnView(solo.getView(R.id.Button_record));
+        solo.clickOnButton("OK");
         assertTrue(solo.waitForText("Invalid Result", 1, 2000));
         solo.clickOnButton("OK");
         solo.clearEditText((EditText) solo.getView(R.id.EditText_result));
