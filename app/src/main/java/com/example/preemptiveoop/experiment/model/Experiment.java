@@ -65,6 +65,10 @@ public class Experiment <T extends GenericTrial> implements Serializable {
         this.status = STATUS_PUBLISHED;
     }
 
+    /**
+     * Write all fields in this Experiment class to the Firestore database. Existing fields are
+     * updated accordingly.
+     */
     public void writeToDatabase() {
         CollectionReference expCol = FirebaseFirestore.getInstance().collection("Experiments");
 
@@ -73,9 +77,18 @@ public class Experiment <T extends GenericTrial> implements Serializable {
         expCol.document(databaseId).set(this, SetOptions.merge());
     }
 
+    /**
+     * Add a trial to this experiment.
+     * @param trial The trial to add.
+     */
     public void addTrial(T trial) {
         trials.add(trial);
     }
+
+    /**
+     * Add an experimenter to this experiment.
+     * @param username The username of the experimenter to add.
+     */
     public void addExperimenter(String username) {
         if (!experimenters.contains(username))
             experimenters.add(username);

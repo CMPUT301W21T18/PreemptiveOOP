@@ -91,12 +91,12 @@ public class PublishExperiment extends AppCompatActivity {
         String numb = etMinNumOfTrials.getText().toString();
 
         if (desc.isEmpty() || numb.isEmpty()) {
-            MyDialog.errorDialog(this, "Empty Fields", "Please provide all the fields present in the form.");
+            MyDialog.messageDialog(this, "Empty Fields", "Please provide all the fields present in the form.");
             return;
         }
 
         if (selectedLocation == null) {
-            MyDialog.errorDialog(this, "No Region Picked", "Please provide a region by picking one.");
+            MyDialog.messageDialog(this, "No Region Picked", "Please provide a region by picking one.");
             return;
         }
 
@@ -120,7 +120,7 @@ public class PublishExperiment extends AppCompatActivity {
                 newExp = new NonNegativeExp(null, owner.getUsername(), new Date(), desc, selectedLocation, requireLocation, minTrials);
                 break;
             default:
-                MyDialog.errorDialog(this, "No Experiment Type", "Please select an experiment type to continue.");
+                MyDialog.messageDialog(this, "No Experiment Type", "Please select an experiment type to continue.");
                 return;
         }
         newExp.writeToDatabase();

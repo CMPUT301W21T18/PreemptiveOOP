@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case CHILD_QR_SCAN:
                 if (resultCode == Activity.RESULT_OK)
-                    MyDialog.errorDialog(MainActivity.this, "Record Successfully", "New trial has been recorded");
+                    MyDialog.messageDialog(MainActivity.this, "Record Successfully", "New trial has been recorded");
                 break;
         }
     }

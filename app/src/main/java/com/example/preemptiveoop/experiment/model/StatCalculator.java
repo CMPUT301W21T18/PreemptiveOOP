@@ -11,7 +11,11 @@ import java.util.Comparator;
  * The StatCalculator is used to calculate the statistics given an experiment.
  */
 public class StatCalculator {
-    
+    /**
+     * Filter the given GenericTrial array to remove ignored trials from it.
+     * @param trials The trial array to filter.
+     * @return The filtered array.
+     */
     public static ArrayList<GenericTrial> filterIgnoredTrials(ArrayList<GenericTrial> trials) {
         ArrayList<GenericTrial> filteredTrials = (ArrayList<GenericTrial>) trials.clone();
 
@@ -22,6 +26,11 @@ public class StatCalculator {
         return filteredTrials;
     }
 
+    /**
+     * Sort the given GenericTrial array based on each GenericTrial's trial result.
+     * @param trials The trial array to sort.
+     * @return The sorted trial array.
+     */
     public static ArrayList<GenericTrial> sortTrialsByResult(ArrayList<GenericTrial> trials) {
         ArrayList<GenericTrial> sortedTrials = (ArrayList<GenericTrial>) trials.clone();
 
@@ -48,6 +57,12 @@ public class StatCalculator {
         return m;
     }
 
+    /**
+     * Calculate the quartile given a GenericTrial array and a quartile number.
+     * @param trials The GenericTrial array.
+     * @param quartNum The quartile number.
+     * @return The calculated quartile.
+     */
     public static double calcQuartile(ArrayList<GenericTrial> trials, int quartNum) {
         ArrayList<GenericTrial> sortedTrials = sortTrialsByResult(trials);
         int size = sortedTrials.size();
@@ -65,6 +80,11 @@ public class StatCalculator {
         }
     }
 
+    /**
+     * Calculate the mean given a GenericTrial array.
+     * @param trials The GenericTrial array.
+     * @return The calculated mean.
+     */
     public static double calcMean(ArrayList<GenericTrial> trials) {
         double sum = 0;
         for (GenericTrial t : trials)
@@ -72,6 +92,11 @@ public class StatCalculator {
         return sum / trials.size();
     }
 
+    /**
+     * Calculate the standard deviation given a GenericTrial array.
+     * @param trials The GenericTrial array.
+     * @return The calculated standard deviation.
+     */
     public static double calcStdev(ArrayList<GenericTrial> trials) {
         double mean = calcMean(trials);
         double sum = 0;

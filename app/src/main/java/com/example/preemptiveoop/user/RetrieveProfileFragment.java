@@ -53,7 +53,7 @@ public class RetrieveProfileFragment extends DialogFragment{
     public void btRetrieveOnClick(View v) {
         String username = etUsername.getText().toString();
         if (username.isEmpty()) {
-            MyDialog.errorDialog(getActivity(), "Empty Field", "Please enter a username.");
+            MyDialog.messageDialog(getActivity(), "Empty Field", "Please enter a username.");
             return;
         }
 
@@ -63,7 +63,7 @@ public class RetrieveProfileFragment extends DialogFragment{
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (!documentSnapshot.exists()) {
-                            MyDialog.errorDialog(getActivity(),
+                            MyDialog.messageDialog(getActivity(),
                                     "User Not Found",
                                     "The provide username was not found in the DB.");
                             return;

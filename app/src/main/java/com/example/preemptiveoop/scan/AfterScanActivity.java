@@ -151,7 +151,7 @@ public class AfterScanActivity extends AppCompatActivity {
                 data = Integer.parseInt(result);
             }
         } catch (NumberFormatException e){
-            MyDialog.errorDialog(AfterScanActivity.this, "Invalid Input", "Please scan again.");
+            MyDialog.messageDialog(AfterScanActivity.this, "Invalid Input", "Please scan again.");
             return;
         }
 
