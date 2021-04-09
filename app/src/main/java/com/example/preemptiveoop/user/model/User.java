@@ -31,14 +31,26 @@ public class User implements Serializable {
         this.partiExpIdList = new ArrayList<>();
     }
 
+    /**
+     * Write all fields in this User class to the Firestore database. Existing fields are
+     * updated accordingly.
+     */
     public void writeToDatabase() {
         FirebaseFirestore.getInstance().collection("Users")
                 .document(username).set(this, SetOptions.merge());
     }
 
+    /**
+     * Add an experiment to this user's owned-experiment list.
+     * @param exp The experiment to add.
+     */
     public void addToOwnedExp(Experiment exp) {
         ownedExpIdList.add(exp.getDatabaseId());
     }
+    /**
+     * Add an experiment to this user's participated-experiment list.
+     * @param exp The experiment to add.
+     */
     public void participateExp(Experiment exp) {
         partiExpIdList.add(exp.getDatabaseId());
     }

@@ -42,10 +42,17 @@ public class GenericTrial implements Serializable {
         return new NonNegativeTrial(creator, creationDate, location, Integer.parseInt(resultStr), isIgnored);
     }
 
-    // to be implemented by subclasses
+    /**
+     * Get the result contained by this trial. This method is meant to be overridden in subclasses.
+     * @return The result.
+     */
     public Number getResult() {
         throw new IllegalStateException("GenericTrial getResultNum() is not meant to be called.");
     }
+    /**
+     * Set the result contained by this trial. This method is meant to be overridden in subclasses.
+     * @param result The result.
+     */
     public void setResult_(Number result) {     // extra "_" at the end to avoid Firestore messing with this method
         throw new IllegalStateException("GenericTrial setResultNum() is not meant to be called.");
     }

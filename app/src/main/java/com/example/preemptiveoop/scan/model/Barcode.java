@@ -21,6 +21,10 @@ public class Barcode {
         this.jsonString = jsonObject.toString();
     }
 
+    /**
+     * Write all fields in this Barcode class to the Firestore database. Existing fields are
+     * updated accordingly.
+     */
     public void writeToDatabase() {
         CollectionReference barCol = FirebaseFirestore.getInstance().collection("Barcodes");
 
