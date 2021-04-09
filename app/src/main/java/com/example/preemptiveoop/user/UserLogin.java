@@ -63,7 +63,7 @@ public class UserLogin extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        MyDialog.errorDialog(UserLogin.this, "Firestore Access Failed", e.toString());
+                        MyDialog.messageDialog(UserLogin.this, "Firestore Access Failed", e.toString());
                     }
                 });
     }

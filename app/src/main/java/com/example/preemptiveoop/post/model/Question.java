@@ -20,9 +20,17 @@ public class Question extends Post {
         replies = new ArrayList<>();
     }
 
+    /**
+     * Add a reply to this question.
+     * @param reply The reply to add.
+     */
     public void addReply(Reply reply) { replies.add(reply); }
     public ArrayList<Reply> getReplies() { return replies; }
 
+    /**
+     * Write all fields in this Question class to the Firestore database. Existing fields are
+     * updated accordingly.
+     */
     public void writeToDatabase() {
         CollectionReference postCol = FirebaseFirestore.getInstance().collection("Posts");
 

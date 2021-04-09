@@ -118,7 +118,7 @@ public class CreateCodeActivity extends AppCompatActivity {
     public void btGenerateOnClick(View v) {
         if (experiment instanceof BinomialExp) {
             if (resultInt == -1) {
-                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Input", "Please choose the valid result.");
+                MyDialog.messageDialog(CreateCodeActivity.this, "Invalid Input", "Please choose the valid result.");
                 return;
             }
             selector(jsonEncode(experiment.getDatabaseId(), resultInt));
@@ -133,12 +133,12 @@ public class CreateCodeActivity extends AppCompatActivity {
         if (experiment instanceof MeasurementExp) {
             String resultStr = etResult.getText().toString();
             if (resultStr.isEmpty()) {
-                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Input", "Please enter the valid result.");
+                MyDialog.messageDialog(CreateCodeActivity.this, "Invalid Input", "Please enter the valid result.");
                 return;
             }
             try { resultDouble = Double.parseDouble(resultStr); }
             catch (NumberFormatException e) {
-                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please enter a decimal number.");
+                MyDialog.messageDialog(CreateCodeActivity.this, "Invalid Result", "Please enter a decimal number.");
                 return;
             }
             selector(jsonEncode(experiment.getDatabaseId(), resultDouble));
@@ -148,12 +148,12 @@ public class CreateCodeActivity extends AppCompatActivity {
         if (experiment instanceof NonNegativeExp) {
             String resultStr = etResult.getText().toString();
             if (resultStr.isEmpty()) {
-                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Input", "Please enter the valid result.");
+                MyDialog.messageDialog(CreateCodeActivity.this, "Invalid Input", "Please enter the valid result.");
                 return;
             }
             try { resultInt = Integer.parseInt(resultStr); }
             catch (NumberFormatException e) {
-                MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please enter an integer number.");
+                MyDialog.messageDialog(CreateCodeActivity.this, "Invalid Result", "Please enter an integer number.");
                 return;
             }
             selector(jsonEncode(experiment.getDatabaseId(), resultInt));
@@ -176,7 +176,7 @@ public class CreateCodeActivity extends AppCompatActivity {
             jsonObject.put("experimentId", expId);
             jsonObject.put("result", result.toString());
         } catch (JSONException e) {
-            MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
+            MyDialog.messageDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
             return null;
         }
         return jsonObject;
@@ -188,7 +188,7 @@ public class CreateCodeActivity extends AppCompatActivity {
         try {
             bitMatrix = new MultiFormatWriter().encode(content.toString(), BarcodeFormat.QR_CODE, 250, 250, hashMap);
         } catch (WriterException e) {
-            MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
+            MyDialog.messageDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
             return;
         }
 
@@ -222,7 +222,7 @@ public class CreateCodeActivity extends AppCompatActivity {
         try {
             bitMatrix = new MultiFormatWriter().encode(barcode.getFuzzyString(), BarcodeFormat.CODE_128, 250, 250, hashMap);
         } catch (WriterException e) {
-            MyDialog.errorDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
+            MyDialog.messageDialog(CreateCodeActivity.this, "Invalid Result", "Please choose the valid experiment.");
             return;
         }
         int width = bitMatrix.getWidth();
