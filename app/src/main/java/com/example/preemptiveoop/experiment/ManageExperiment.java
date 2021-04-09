@@ -71,6 +71,15 @@ public class ManageExperiment extends DialogFragment {
         btUnpublish.setOnClickListener(this::btUnPublishOnClick);
         btQuestion.setOnClickListener(this::btViewQuestionOnClick);
 
+        setViewsAccordingly();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(view);
+
+        return builder.create();
+    }
+
+    private void setViewsAccordingly() {
         if (!experiment.getOwner().equals(user.getUsername())) {
             btTrials.setVisibility(View.GONE);
             btEndExp.setVisibility(View.GONE);
@@ -82,10 +91,8 @@ public class ManageExperiment extends DialogFragment {
         else
             btDoTrial.setVisibility(View.GONE);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setView(view);
-
-        return builder.create();
+        if (!experiment.isRequireLocation())
+            btTrialLocations.setVisibility(View.GONE);
     }
 
     private void endThisFragment() {
