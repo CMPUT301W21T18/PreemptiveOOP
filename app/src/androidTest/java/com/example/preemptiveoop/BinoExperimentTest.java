@@ -40,6 +40,10 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+
+/**
+ * This test case is for Binomial Experiment creation and operation
+ * */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BinoExperimentTest {
 
@@ -52,6 +56,7 @@ public class BinoExperimentTest {
     @Before
     public void setUp() throws Exception{
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
+        solo.clickOnView(solo.getView(R.id.Button_login));
     }
 
     /**
@@ -59,32 +64,21 @@ public class BinoExperimentTest {
      * @throws Exception
      */
     @Test
-    public void T0_start() throws Exception{
+    public void T1_start() throws Exception{
         Activity activity = rule.getActivity();
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnButton("OK");
-        //solo.assertCurrentActivity("Wrong Activity", UserRegister.class);
-        solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestUser");
-        solo.enterText((EditText) solo.getView(R.id.EditText_contact), "TestUser@mock.com");
-        solo.clickOnView(solo.getView(R.id.Button_register));
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-    }
-
-    @Ignore
-    public void T1_openActivity() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
-        solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
     }
 
     @Test
-    public void T2_createBinoExp() throws InterruptedException {
+    public void T2_createBinoExp()  {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
+
+        solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
         solo.clickOnView(solo.getView(R.id.Button_addExp));
+
         solo.clickOnView(solo.getView(R.id.RadioButton_binomial));
         solo.enterText((EditText) solo.getView(R.id.EditText_description), "TestBinoExp");
         solo.enterText((EditText) solo.getView(R.id.EditText_minNumOfTrials), "4");
@@ -118,7 +112,7 @@ public class BinoExperimentTest {
     }
 
     @Test
-    public void T4_modify() throws InterruptedException {
+    public void T4_testTrialIgnore() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
@@ -126,16 +120,14 @@ public class BinoExperimentTest {
         solo.clickOnView(solo.getView(R.id. Button_trials));
         solo.assertCurrentActivity("Wrong Activity", TrialList.class);
         solo.clickInList(1);
-        solo.waitForText("true", 1, 200);
-        TextView textView = (TextView) solo.getView(R.id.TextView_isIgnored);
-        assertEquals("Ignored: true", textView.getText().toString());
+        solo.waitForText("Ignored: true", 1, 200);
     }
 
 
 
 
     @Test
-    public void T5_modify2() throws InterruptedException {
+    public void T5_testTrialStat() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
@@ -154,23 +146,21 @@ public class BinoExperimentTest {
     }
 
     @Test
-    public void T6_modify3() throws InterruptedException {
+    public void T6_testExpStatus() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.clickInList(1);
         solo.clickOnView(solo.getView(R.id.Button_endExp));
         solo.waitForText("ended", 1, 200);
-        TextView textView = (TextView) solo.getView(R.id.TextView_status);
-        assertEquals("Status: ended", textView.getText().toString());
+        solo.waitForText("Status: ended", 1, 200);
         solo.clickInList(1);
         solo.clickOnView(solo.getView(R.id.Button_unpublish));
-        solo.waitForText("unpublish", 1, 200);
-        assertEquals("Status: unpublished", textView.getText().toString());
+        solo.waitForText("Status: unpublish", 1, 200);
     }
 
     @Test
-    public void T7_addQuestion() throws InterruptedException {
+    public void T7_testAddQuestion() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
@@ -221,17 +211,17 @@ public class BinoExperimentTest {
 
     }
 
-    @AfterClass
-    public static void deleteFireBase() throws Exception{
-        String deviceId = DeviceId.getDeviceId(getApplicationContext());
-        FirebaseFirestore.getInstance().collection("Users").document("TestUser")
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        return;
-                    }
-                });
-
-    }
+//    @AfterClass
+//    public static void deleteFireBase() throws Exception{
+//        String deviceId = DeviceId.getDeviceId(getApplicationContext());
+//        FirebaseFirestore.getInstance().collection("Users").document("TestUser")
+//                .delete()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        return;
+//                    }
+//                });
+//
+//    }
 }

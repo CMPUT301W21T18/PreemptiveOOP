@@ -39,6 +39,10 @@ import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+
+/**
+ * This test case is for Count, Measurement, NonNegative Experiment creation and operation
+ * */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RestExperimentTest {
 
@@ -51,37 +55,12 @@ public class RestExperimentTest {
     @Before
     public void setUp() throws Exception{
         solo = new Solo(InstrumentationRegistry.getInstrumentation(),rule.getActivity());
-    }
-
-    /**
-     * Gets the Activity
-     * @throws Exception
-     */
-    @Test
-    public void T0_start() throws Exception{
-        Activity activity = rule.getActivity();
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnButton("OK");
-        //solo.assertCurrentActivity("Wrong Activity", UserRegister.class);
-        solo.enterText((EditText) solo.getView(R.id.EditText_username), "TestUser2");
-        solo.enterText((EditText) solo.getView(R.id.EditText_contact), "TestUser2@mock.com");
-        solo.clickOnView(solo.getView(R.id.Button_register));
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-    }
-
-    @Test
-    public void T1_openActivity() throws InterruptedException {
-        solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
         solo.clickOnView(solo.getView(R.id.Button_login));
-        solo.assertCurrentActivity("Wrong Activity",MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_experiment));
-        solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
     }
 
     @Test
     public void T2_CountExpTrial() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.clickOnView(solo.getView(R.id.Button_addExp));
         solo.clickOnView(solo.getView(R.id.RadioButton_count));
@@ -93,29 +72,29 @@ public class RestExperimentTest {
         solo.clickOnView(solo.getView(R.id.Button_currLocation));
         solo.clickOnView(solo.getView(R.id.Button_finish));
         solo.clickOnView(solo.getView(R.id.Button_publish));
-        assertTrue(solo.waitForText("TestCountExp", 1, 2000));
+        assertTrue(solo.waitForText("TestCountExp", 1, 3000));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
 
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_participate));
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_doTrial));
         solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
         solo.clickOnView(solo.getView(R.id.Button_record));
         solo.clickOnView(solo.getView(R.id.Button_record));
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_stats));
         solo.waitForActivity(DisplayExpStats.class);
         TextView textView = (TextView) solo.getView(R.id.tv_mean);
+        assertTrue(solo.waitForText("1.00", 1, 2000));
         assertEquals("1.00", textView.getText().toString());
     }
 
     @Test
     public void T3_MeasExpTrial() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.clickOnView(solo.getView(R.id.Button_addExp));
         solo.clickOnView(solo.getView(R.id.RadioButton_measurement));
@@ -126,12 +105,12 @@ public class RestExperimentTest {
         solo.clickOnView(solo.getView(R.id.Button_currLocation));
         solo.clickOnView(solo.getView(R.id.Button_finish));
         solo.clickOnView(solo.getView(R.id.Button_publish));
-        assertTrue(solo.waitForText("TestMeasurementExp", 1, 2000));
+        assertTrue(solo.waitForText("TestMeasurementExp", 1, 3000));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
 
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_participate));
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_doTrial));
         solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
 
@@ -142,17 +121,16 @@ public class RestExperimentTest {
         solo.clickOnView(solo.getView(R.id.Button_record));
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_stats));
         solo.waitForActivity(DisplayExpStats.class);
         TextView textView = (TextView) solo.getView(R.id.tv_mean);
-        assertEquals("3.20", textView.getText().toString());
+        assertTrue(solo.waitForText("3.20", 1, 2000));
     }
 
     @Test
     public void T4_NonNExpTrial() throws InterruptedException {
         solo.assertCurrentActivity("Wrong Activity", MainActivity.class);
-        solo.clickOnView(solo.getView(R.id.Button_login));
         solo.clickOnView(solo.getView(R.id.Button_experiment));
         solo.clickOnView(solo.getView(R.id.Button_addExp));
         solo.clickOnView(solo.getView(R.id.RadioButton_nonnegative));
@@ -163,18 +141,18 @@ public class RestExperimentTest {
         solo.clickOnView(solo.getView(R.id.Button_currLocation));
         solo.clickOnView(solo.getView(R.id.Button_finish));
         solo.clickOnView(solo.getView(R.id.Button_publish));
-        assertTrue(solo.waitForText("TestNonNExp", 1, 2000));
+        assertTrue(solo.waitForText("TestNonNExp", 1, 3000));
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_participate));
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_doTrial));
         solo.assertCurrentActivity("Wrong Activity", ExecuteTrial.class);
 
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3");
         solo.clickOnView(solo.getView(R.id.Button_record));
         solo.clearEditText((EditText) solo.getView(R.id.EditText_result));
-        solo.enterText((EditText) solo.getView(R.id.EditText_result), "3.2");
+        solo.enterText((EditText) solo.getView(R.id.EditText_result), "3");
         solo.clickOnView(solo.getView(R.id.Button_record));
         assertTrue(solo.waitForText("Invalid Result", 1, 2000));
         solo.clickOnButton("OK");
@@ -183,7 +161,7 @@ public class RestExperimentTest {
         solo.clickOnView(solo.getView(R.id.Button_record));
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
-        solo.clickInList(1);
+        solo.clickInList(0);
         solo.clickOnView(solo.getView(R.id.Button_stats));
         solo.waitForActivity(DisplayExpStats.class);
         TextView textView = (TextView) solo.getView(R.id.tv_mean);
@@ -196,16 +174,16 @@ public class RestExperimentTest {
 
     }
 
-    @AfterClass
-    public static void deleteFireBase() throws Exception{
-        String deviceId = DeviceId.getDeviceId(getApplicationContext());
-        FirebaseFirestore.getInstance().collection("Users").document("TestUser2")
-                .delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        return;
-                    }
-                });
-    }
+//    @AfterClass
+//    public static void deleteFireBase() throws Exception{
+//        String deviceId = DeviceId.getDeviceId(getApplicationContext());
+//        FirebaseFirestore.getInstance().collection("Users").document("TestUser2")
+//                .delete()
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void aVoid) {
+//                        return;
+//                    }
+//                });
+//    }
 }
