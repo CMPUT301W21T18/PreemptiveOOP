@@ -108,6 +108,8 @@ public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCa
                     .addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
+                            if (location == null)
+                                return;
                             LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
 
                             mMap.addMarker(new MarkerOptions().position(latlng)
