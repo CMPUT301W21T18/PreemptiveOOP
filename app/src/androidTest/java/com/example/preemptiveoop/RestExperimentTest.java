@@ -129,7 +129,7 @@ public class RestExperimentTest {
         solo.clickOnView(solo.getView(R.id.Button_stats));
         solo.waitForActivity(DisplayExpStats.class);
         TextView textView = (TextView) solo.getView(R.id.tv_mean);
-        assertTrue(solo.waitForText("3.20", 1, 2000));
+        assertEquals("3.20", textView.getText().toString());
     }
 
     @Test
@@ -160,11 +160,10 @@ public class RestExperimentTest {
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3");
         solo.clickOnView(solo.getView(R.id.Button_record));
         solo.clickOnButton("OK");
-        assertTrue(solo.waitForText("Invalid Result", 1, 2000));
-        solo.clickOnButton("OK");
         solo.clearEditText((EditText) solo.getView(R.id.EditText_result));
         solo.enterText((EditText) solo.getView(R.id.EditText_result), "3");
         solo.clickOnView(solo.getView(R.id.Button_record));
+        solo.clickOnButton("OK");
         solo.goBack();
         solo.assertCurrentActivity("Wrong Activity", ExperimentList.class);
         solo.clickInList(0);
