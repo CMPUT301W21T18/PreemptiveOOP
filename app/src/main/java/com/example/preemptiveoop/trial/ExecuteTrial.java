@@ -3,6 +3,7 @@ package com.example.preemptiveoop.trial;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.preemptiveoop.R;
@@ -107,7 +109,7 @@ public class ExecuteTrial extends AppCompatActivity {
         pbStatus.setVisibility(View.GONE);
 
         if (experiment.isRequireLocation())
-            MyDialog.errorDialog(ExecuteTrial.this,
+            MyDialog.messageDialog(ExecuteTrial.this,
                     "Privacy Warning: Require Location",
                     "A location must be provided to all trials for this experiment.");
         else
@@ -125,6 +127,19 @@ public class ExecuteTrial extends AppCompatActivity {
             tvHint.setVisibility(View.GONE); etResult.setVisibility(View.GONE);
         }
     }
+
+    private final OnSuccessListener<Void> recordOnSuccessListener = new OnSuccessListener<Void>() {
+        @Override
+        public void onSuccess(Void aVoid) {
+            pbStatus.setVisibility(View.GONE);
+
+            AlertDialog dialog = MyDialog.messageDialog(ExecuteTrial.this, "Good Record", "The trial has been added to DB.");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() { if (dialog.isShowing()) dialog.dismiss(); }
+            }, 2000);
+        }
+    };
 
     private void binomialRecord(View v) {               // to be used by btOnClickForMultiple
         pbStatus.setVisibility(View.VISIBLE);
@@ -144,10 +159,7 @@ public class ExecuteTrial extends AppCompatActivity {
             ));
         }
 
-        task.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) { pbStatus.setVisibility(View.GONE);}
-        });
+        task.addOnSuccessListener(recordOnSuccessListener);
     }
 
     private void countRecord(View v) {                  // to be used by btOnClickForMultiple
@@ -158,10 +170,7 @@ public class ExecuteTrial extends AppCompatActivity {
 
         expDoc.update("trials", FieldValue.arrayUnion(
                 new CountTrial(user.getUsername(), new Date(), selectedLocation, 1, false)
-        )).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) { pbStatus.setVisibility(View.GONE);}
-        });
+        )).addOnSuccessListener(recordOnSuccessListener);
     }
 
     private void measurementRecord(View v) {            // to be used by btOnClickForMultiple
@@ -175,16 +184,13 @@ public class ExecuteTrial extends AppCompatActivity {
 
         try { result = Double.parseDouble(resultStr); }
         catch (NumberFormatException e) {
-            MyDialog.errorDialog(ExecuteTrial.this, "Invalid Result", "Please enter a decimal number.");
+            MyDialog.messageDialog(ExecuteTrial.this, "Invalid Result", "Please enter a decimal number.");
             return;
         }
 
         expDoc.update("trials", FieldValue.arrayUnion(
                 new MeasurementTrial(user.getUsername(), new Date(), selectedLocation, result, false)
-        )).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) { pbStatus.setVisibility(View.GONE);}
-        });
+        )).addOnSuccessListener(recordOnSuccessListener);
     }
 
     private void nonNegativeRecord(View v) {            // to be used by btOnClickForMultiple
@@ -198,26 +204,23 @@ public class ExecuteTrial extends AppCompatActivity {
 
         try { result = Integer.parseInt(resultStr); }
         catch (NumberFormatException e) {
-            MyDialog.errorDialog(ExecuteTrial.this, "Invalid Result", "Please enter an integer number.");
+            MyDialog.messageDialog(ExecuteTrial.this, "Invalid Result", "Please enter an integer number.");
             return;
         }
 
         if (result < 0) {
-            MyDialog.errorDialog(ExecuteTrial.this, "Invalid Result", "Result of non-negative trial must be >= 0.");
+            MyDialog.messageDialog(ExecuteTrial.this, "Invalid Result", "Result of non-negative trial must be >= 0.");
             return;
         }
 
         expDoc.update("trials", FieldValue.arrayUnion(
                 new NonNegativeTrial(user.getUsername(), new Date(), selectedLocation, result, false)
-        )).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) { pbStatus.setVisibility(View.GONE);}
-        });
+        )).addOnSuccessListener(recordOnSuccessListener);
     }
 
     public void btOnClickForMultiple(View v) {
         if (experiment.isRequireLocation() && selectedLocation == null) {
-            MyDialog.errorDialog(ExecuteTrial.this, "Require Location", "Please pick a location.");
+            MyDialog.messageDialog(ExecuteTrial.this, "Require Location", "Please pick a location.");
             return;
         }
 

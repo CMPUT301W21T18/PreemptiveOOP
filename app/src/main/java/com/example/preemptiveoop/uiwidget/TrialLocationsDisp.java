@@ -89,7 +89,7 @@ public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCa
         switch(requestCode) {
             case PERMISSION_REQUEST_ACCESS_FINE_LOCATION:
                 if (!(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    MyDialog.errorDialog(this, "Permission Denied", "Please grant this app location access.");
+                    MyDialog.messageDialog(this, "Permission Denied", "Please grant this app location access.");
                     finish();
                 }
                 break;
@@ -118,7 +118,7 @@ public class TrialLocationsDisp extends FragmentActivity implements OnMapReadyCa
                         }
                     });
         }
-        catch (SecurityException e) { MyDialog.errorDialog(this, "SecurityException", e.toString()); }
+        catch (SecurityException e) { MyDialog.messageDialog(this, "SecurityException", e.toString()); }
     }
 
     private void dispTrialLocations() {

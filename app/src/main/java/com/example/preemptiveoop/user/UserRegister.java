@@ -40,7 +40,7 @@ public class UserRegister extends AppCompatActivity {
 
         btRegister.setOnClickListener(this::btRegisterOnClick);
 
-        MyDialog.errorDialog(this,
+        MyDialog.messageDialog(this,
                 "New User",
                 "Your profile is not found on DB. Please register."
         );
@@ -51,7 +51,7 @@ public class UserRegister extends AppCompatActivity {
         String contact = etContact.getText().toString();
 
         if (username.isEmpty() || contact.isEmpty()) {
-            MyDialog.errorDialog(UserRegister.this,
+            MyDialog.messageDialog(UserRegister.this,
                     "Empty Fields",
                     "Please provide username and contact info."
             );
@@ -64,7 +64,7 @@ public class UserRegister extends AppCompatActivity {
                    @Override
                    public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
-                            MyDialog.errorDialog(UserRegister.this,
+                            MyDialog.messageDialog(UserRegister.this,
                                     "Invalid Username",
                                     "This username already exists in the DB. Please try another."
                             );
